@@ -1,0 +1,44 @@
+------------------------------------------------------------
+--        Script Postgre 
+------------------------------------------------------------
+
+
+CREATE TABLE public.utilisateur(
+	user_id SERIAL NOT NULL ,
+	pseudo  VARCHAR (2000)   ,
+	mdp     VARCHAR (2000)   ,
+	espece  INT   ,
+	bons    INT   ,
+	CONSTRAINT prk_constraint_utilisateur PRIMARY KEY (user_id)
+)WITHOUT OIDS;
+
+CREATE TABLE public.information(
+	id           SERIAL NOT NULL ,
+	inverse      VARCHAR (0) NOT NULL ,
+	question     VARCHAR (2000)   ,
+	echeance     DATE   ,
+	id_categorie INT   ,
+	CONSTRAINT prk_constraint_information PRIMARY KEY (id,inverse)
+)WITHOUT OIDS;
+
+CREATE TABLE public.categorie(
+	id_categorie SERIAL NOT NULL ,
+	libelle      VARCHAR (2000)   ,
+	CONSTRAINT prk_constraint_categorie PRIMARY KEY (id_categorie)
+)WITHOUT OIDS;
+
+CREATE TABLE public.ordre(
+	prix       INTEGER   ,
+	date_achat DATE   ,
+	id         INT  NOT NULL ,
+	inverse    VARCHAR (0) NOT NULL ,
+	user_id    INT  NOT NULL ,
+	CONSTRAINT prk_constraint_ordre PRIMARY KEY (id,inverse,user_id)
+)WITHOUT OIDS;
+
+
+
+ALTER TABLE public.information ADD CONSTRAINT FK_information_id_categorie FOREIGN KEY (id_categorie) REFERENCES public.categorie(id_categorie);
+ALTER TABLE public.ordre ADD CONSTRAINT FK_ordre_id FOREIGN KEY (id) REFERENCES public.information(id);
+ALTER TABLE public.ordre ADD CONSTRAINT FK_ordre_inverse FOREIGN KEY (inverse) REFERENCES public.information(inverse);
+ALTER TABLE public.ordre ADD CONSTRAINT FK_ordre_user_id FOREIGN KEY (user_id) REFERENCES public.utilisateur(user_id);
