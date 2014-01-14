@@ -50,7 +50,7 @@ DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
 Connection con = ds.getConnection();
 Statement stmt= con.createStatement();
 
-ResultSet testLecture = stmt.executeQuery("Select * from information");
+ResultSet testLecture = stmt.executeQuery("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY echeance DESC LIMIT 10;");
 
 
 
@@ -298,7 +298,7 @@ ResultSet testLecture = stmt.executeQuery("Select * from information");
 					<%
 							while(testLecture.next())
 							{
-								out.println("<tr><td>"+testLecture.getString("id")+"</td><td>"+testLecture.getString("question")+"<td>"+testLecture.getString("echeance")+"</td></tr>");
+								out.println("<tr><td>"+testLecture.getString("id")+"</td><td>"+testLecture.getString("question")+"</td><td>"+testLecture.getString("echeance")+"</td><td>"+testLecture.getString("libelle")+"</td></tr>");
 							}
 						%>
 					
