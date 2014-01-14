@@ -1,0 +1,9 @@
+<Context path="/lim" privileged="true" reloadable="true" >
+
+  <!-- Definition du pool -->
+  <Resource name="LIM_POOL" auth="Container" type="javax.sql.DataSource"
+  maxActive="8" maxIdle="4" maxWait="10000"
+  username="constantin" password="moi" driverClassName="org.postgresql.Driver"
+  url="jdbc:postgresql://localhost/LIM" />
+
+</Context>
