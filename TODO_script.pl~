@@ -3,6 +3,6 @@
 $message = $ARGV[0];
 
 open(TODO, ">>TODO.list");
-print TODO $message;
+print TODO "$message\n";
 
 
