@@ -82,10 +82,10 @@ ResultSet testLecture = stmt.executeQuery("Select * from information");
 					<li>
 						<a href="#panel-356429" data-toggle="tab">Nouvelles informations</a>
 					</li>
-					<li class="active">
+					<li>
 						<a href="#panel-216330" data-toggle="tab">Bientôt Terminées</a>
 					</li>
-					<li>
+					<li class="active">
 						<a href="#panel-000000" data-toggle="tab">Test Lecture.</a>
 					</li>
 				</ul>
@@ -182,7 +182,7 @@ ResultSet testLecture = stmt.executeQuery("Select * from information");
 				</tbody>
 			</table>
 					</div>
-					<div class="tab-pane active" id="panel-216330">
+					<div class="tab-pane" id="panel-216330">
 						<table class="table">
 				<thead>
 					<tr>
@@ -275,7 +275,7 @@ ResultSet testLecture = stmt.executeQuery("Select * from information");
 			</table>
 					</div>
 					
-					<div class="tab-pane" id="panel-000000">
+					<div class="tab-pane active" id="panel-000000">
 						<table class="table">
 				<thead><tr><th>#</th><th>Titre</th><th>Date de fin</th><th>Catégorie</th></tr>
 				</thead>
