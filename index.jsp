@@ -77,8 +77,8 @@ PreparedStatement preparedStatement = con.prepareStatement("Select * from inform
 					
 			<div class="masthead">
 			<ul class="nav nav-pills pull-right">
-				<li class="active"><a href="#">Accueil</a></li>
-				<li><a href="servlet/logout">Déconnexion</a></li>
+				<li class="active"><a href="index.jsp">Accueil</a></li>
+				<li><a href="logout.jsp">Déconnexion</a></li>
 			</ul>
 			<h1 class="muted">Lille Information Market</h1>
 			<hr>

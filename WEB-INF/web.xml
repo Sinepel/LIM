@@ -16,6 +16,7 @@
      <web-resource-collection>
        <web-resource-name>Administrateur</web-resource-name>
          <url-pattern>/index.jsp</url-pattern>
+         <url-pattern>/logout.jsp</url-pattern>
      </web-resource-collection>
       <auth-constraint>
          <role-name>admin</role-name>
@@ -24,10 +25,18 @@
 
     
     <!-- La maniere dont la page de login est affichee -->
-    <login-config>
+    <!--<login-config>
       <auth-method>BASIC</auth-method>
       <realm-name>Nom affiché sur le formulaire</realm-name>
-    </login-config>
+    </login-config>-->
+    
+    <login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.jsp</form-login-page>
+			<form-error-page>/login-failed.jsp</form-error-page>
+		</form-login-config>
+	</login-config>
 
     <!-- La liste des differents roles -->
     <security-role>
