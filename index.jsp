@@ -131,8 +131,7 @@ PreparedStatement preparedStatement = con.prepareStatement("Select * from inform
 					<div id="panel-element-807612" class="panel-collapse collapse">
 						<div class="panel-body">
 							<ul>
-								<li><a href="#">Votre profil</a></li>
-								<li><a href="#">Etc.</a></li>
+								<p><% if (user.getRole().equals("market-maker")){ out.print("<a href=\"NewMarket.jsp\">Nouveau Marché</a>");} %></p>
 							</ul>
 						</div>
 					</div>

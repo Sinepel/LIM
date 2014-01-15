@@ -4,6 +4,15 @@
   <Resource name="LIM_POOL" auth="Container" type="javax.sql.DataSource"
   maxActive="8" maxIdle="4" maxWait="10000"
   username="constantin" password="moi" driverClassName="org.postgresql.Driver"
-  url="jdbc:postgresql://localhost/LIM" />
+  url="jdbc:postgresql://localhost/lim" />
+  
+	<!-- DEFINITION DU REAL D'AUTHENTIFICATION -->
+	<Realm  className="org.apache.catalina.realm.DataSourceRealm" debug="99"
+	dataSourceName="LIM_POOL" localDataSource="true"
+	userTable="utilisateur" userNameCol="pseudo" userCredCol="mdp"
+	userRoleTable="utilisateur" roleNameCol="role"  />
 
 </Context>
+
+
+

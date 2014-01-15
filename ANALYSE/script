@@ -9,6 +9,7 @@ CREATE TABLE public.utilisateur(
 	mdp     VARCHAR (2000)   ,
 	espece  INT   ,
 	bons    INT   ,
+	role    VARCHAR (2000)   ,
 	CONSTRAINT prk_constraint_utilisateur PRIMARY KEY (user_id)
 )WITHOUT OIDS;
 
@@ -29,6 +30,7 @@ CREATE TABLE public.categorie(
 
 CREATE TABLE public.ordre(
 	prix       INTEGER   ,
+	nbBons     INT   ,
 	date_achat DATE   ,
 	id         INT  NOT NULL ,
 	inverse    VARCHAR (0) NOT NULL ,
