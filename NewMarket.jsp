@@ -60,7 +60,7 @@ Connection con = ds.getConnection();
 
 //Préparation de la requete
 Statement stmt= con.createStatement();
-PreparedStatement preparedStatement = con.prepareStatement("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY ? ? LIMIT 10;");
+//PreparedStatement preparedStatement = con.prepareStatement("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY ? ? LIMIT 10;");
 
 
 
@@ -101,7 +101,7 @@ PreparedStatement preparedStatement = con.prepareStatement("Select * from inform
     <label for="information">Entrez l'information</label>
     <input type="date" class="form-control" id="information">
   
-  
+  <br>
   <button type="submit" class="btn btn-default">Créer</button>
 </form>
 			
