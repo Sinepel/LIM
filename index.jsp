@@ -11,7 +11,13 @@
     
     <!-- JAVA BEAN POUR FAIRE LE TABLEAU D'INFORMATIONS -->
     <jsp:useBean id="tool" scope="application" class="tools.BDDTools" />
-
+    <jsp:useBean id="recupUser" scope="request" class="users.UserDataBean" />
+    <jsp:useBean id="user" scope="page" class="users.User" />
+    
+    <% 
+		user = recupUser.getUtilisateur(request.getRemoteUser());
+	%>	
+	
     
   <title>Lille Information Market</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -137,9 +143,10 @@ PreparedStatement preparedStatement = con.prepareStatement("Select * from inform
 					</div>
 					<div id="panel-element-603060" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Pseudo: <%=request.getRemoteUser()%></p>
-							<p>Vos bons: 1000</p>
-							<p>Votre argent: 234 $</p>
+							<p>Pseudo: <%= user.getPseudo()%></p>
+							<p>Vos bons: <%= user.getBons()%></p>
+							<p>Votre argent: <%= user.getEspece()%></p>
+							<p>Votre rôle: <%= user.getRole()%></p>
 							<p>Taux de réussite: 41%</p>
 						</div>
 						</div>
