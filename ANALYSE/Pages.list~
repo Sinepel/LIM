@@ -1,0 +1,17 @@
+Pages /:	Accueil (Tout le monde)
+		Liste des ordres (User)
+		Créer un marché (Market Maker)
+		Connexion (A faire pour le POOL)
+		Page INFORMATION (User)
+		Page INFORMATION Inverse (User)
+		Page Profil Joueur (User)
+		Page Liste des transactions du joueur (User)
+		
+Pages User Friendly:	Classement(Tout le monde)
+			
+
+Pages /admin/: 	Gestion des ordres / échéances
+		Gestion des users
+		Gestion des catégories
+		
+	

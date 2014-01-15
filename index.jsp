@@ -48,8 +48,8 @@ Context iniCtx = new InitialContext();
 Context envCtx = (Context) iniCtx.lookup("java:comp/env");
 DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
 Connection con = ds.getConnection();
+//Préparation de la requete
 Statement stmt= con.createStatement();
-
 ResultSet testLecture = stmt.executeQuery("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY echeance DESC LIMIT 10;");
 
 
