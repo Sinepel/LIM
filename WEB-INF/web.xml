@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+    "http://java.sun.com/j2ee/dtds/web-app_2.2.dtd">
+
+<web-app>
+
+
+    <session-config>
+        <session-timeout>1</session-timeout>
+    </session-config>
+
+    <!--  Lien entre les pages et les roles -->
+    <security-constraint>
+     <web-resource-collection>
+       <web-resource-name>Administrateur</web-resource-name>
+         <url-pattern>/index.jsp</url-pattern>
+     </web-resource-collection>
+      <auth-constraint>
+         <role-name>admin</role-name>
+      </auth-constraint>
+    </security-constraint>
+
+    
+    <!-- La maniere dont la page de login est affichee -->
+    <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>Nom affiché sur le formulaire</realm-name>
+    </login-config>
+
+    <!-- La liste des differents roles -->
+    <security-role>
+      <role-name>admin</role-name>
+    </security-role>
+     <security-role>
+      <role-name>market-maker</role-name>
+    </security-role>
+     <security-role>
+      <role-name>user</role-name>
+    </security-role>
+    
+
+</web-app>
