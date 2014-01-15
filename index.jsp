@@ -9,6 +9,9 @@
     <%@ page import="javax.naming.*" %>
     <%@ page import="javax.sql.*" %>
     
+    <!-- JAVA BEAN POUR FAIRE LE TABLEAU D'INFORMATIONS -->
+    <jsp:useBean id="tool" scope="application" class="tools.BDDTools" />
+
     
   <title>Lille Information Market</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,9 +51,13 @@ Context iniCtx = new InitialContext();
 Context envCtx = (Context) iniCtx.lookup("java:comp/env");
 DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
 Connection con = ds.getConnection();
+
 //Préparation de la requete
 Statement stmt= con.createStatement();
-ResultSet testLecture = stmt.executeQuery("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY echeance DESC LIMIT 10;");
+PreparedStatement preparedStatement = con.prepareStatement("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY ? ? LIMIT 10;");
+
+
+
 
 
 
@@ -79,236 +86,29 @@ ResultSet testLecture = stmt.executeQuery("Select * from information INNER JOIN 
 			<h2>Le marché d'information</h2>
 			<div class="tabbable" id="tabs-919597">
 				<ul class="nav nav-tabs">
-					<li>
+					<li class="active">
 						<a href="#panel-356429" data-toggle="tab">Nouvelles informations</a>
 					</li>
 					<li>
 						<a href="#panel-216330" data-toggle="tab">Bientôt Terminées</a>
 					</li>
-					<li class="active">
-						<a href="#panel-000000" data-toggle="tab">Test Lecture.</a>
-					</li>
+					
 				</ul>
 				<div class="tab-content">
-					<div class="tab-pane" id="panel-356429">
-						<table class="table">
-				<thead>
-					<tr>
-						<th>
-							#
-						</th>
-						<th>
-							Titre
-						</th>
-						<th>
-							Date de fin
-						</th>
-						<th>
-							Catégorie
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Default
-						</td>
-					</tr>
-					<tr class="active">
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Approved
-						</td>
-					</tr>
-					<tr class="success">
-						<td>
-							2
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							02/04/2012
-						</td>
-						<td>
-							Declined
-						</td>
-					</tr>
-					<tr class="warning">
-						<td>
-							3
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							03/04/2012
-						</td>
-						<td>
-							Pending
-						</td>
-					</tr>
-					<tr class="danger">
-						<td>
-							4
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							04/04/2012
-						</td>
-						<td>
-							Call in to confirm
-						</td>
-					</tr>
-				</tbody>
-			</table>
+					<div class="tab-pane active" id="panel-356429">
+						<%
+							ResultSet rs=stmt.executeQuery("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY id ASC LIMIT 10;");
+							out.println(tool.getHTMLSimpleTable(rs,true,true,false));
+					%>
 					</div>
 					<div class="tab-pane" id="panel-216330">
-						<table class="table">
-				<thead>
-					<tr>
-						<th>
-							#
-						</th>
-						<th>
-							Titre
-						</th>
-						<th>
-							Date de fin
-						</th>
-						<th>
-							Catégorie
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Default
-						</td>
-					</tr>
-					<tr class="active">
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Approved
-						</td>
-					</tr>
-					<tr class="success">
-						<td>
-							2
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							02/04/2012
-						</td>
-						<td>
-							Declined
-						</td>
-					</tr>
-					<tr class="warning">
-						<td>
-							3
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							03/04/2012
-						</td>
-						<td>
-							Pending
-						</td>
-					</tr>
-					<tr class="danger">
-						<td>
-							4
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							04/04/2012
-						</td>
-						<td>
-							Call in to confirm
-						</td>
-					</tr>
-				</tbody>
-			</table>
-					</div>
-					
-					<div class="tab-pane active" id="panel-000000">
-						<table class="table">
-				<thead><tr><th>#</th><th>Titre</th><th>Date de fin</th><th>Catégorie</th></tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Default
-						</td>
-					</tr>
-					
-					<%
-							while(testLecture.next())
-							{
-								out.println("<tr><td>"+testLecture.getString("id")+"</td><td>"+testLecture.getString("question")+"</td><td>"+testLecture.getString("echeance")+"</td><td>"+testLecture.getString("libelle")+"</td></tr>");
-							}
+						<%
+							rs=stmt.executeQuery("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY echeance ASC LIMIT 10;");
+							out.println(tool.getHTMLSimpleTable(rs,true,true,false));
 						%>
-					
-					
-				</tbody>
-			</table>
-						
-						
-						
 					</div>
+					
+					
 					
 					
 				</div>
@@ -337,6 +137,7 @@ ResultSet testLecture = stmt.executeQuery("Select * from information INNER JOIN 
 					</div>
 					<div id="panel-element-603060" class="panel-collapse collapse">
 						<div class="panel-body">
+							<p>Pseudo: <%=request.getRemoteUser()%></p>
 							<p>Vos bons: 1000</p>
 							<p>Votre argent: 234 $</p>
 							<p>Taux de réussite: 41%</p>
