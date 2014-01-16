@@ -84,7 +84,9 @@ public class CreateNewMarket extends HttpServlet
 			
 			//Gestion de la redirection vers la page d'origine
 			
-			res.sendRedirect(req.getContextPath()+"?add=ok");		
+			res.sendRedirect(req.getContextPath()+"?add=ok");
+			
+			rs.close(); preparedStatement.close(); con.close();	preparedStatementInverse.close(); prepatedStatementUpdate.close();	
 			
 		}
 
