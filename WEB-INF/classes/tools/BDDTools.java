@@ -21,6 +21,7 @@ public class BDDTools
 @param colname indique si les noms des cols seront affichés
 @param ligNb   indique si le nombre de lignes est affiché en fin de table
 @param link    indique si on fait un lien sur la premiere colonne (id)
+@param pagination	indique si on veut la pagination du tableau
     **/
     public String getHTMLSimpleTable(ResultSet rs,boolean colname,boolean ligNb, boolean link)
     throws Exception
@@ -45,6 +46,8 @@ public class BDDTools
 	sb.append("</tobdy></table>\n");
 	if (ligNb) 
 	   sb.append("<p>La table contient "+(nblig-1)+" lignes\n");
+	   
+	
 	
 	return sb.toString();
     }
@@ -56,7 +59,7 @@ public class BDDTools
        ligne sur laquelle est positionné le resultSet. Attention à ne
        pas oublier de faire appel à next() avant l'appel de cette
        méthode.
-    **/
+    **//*
     public String getHTMLSimpleFiche(ResultSet rs)
     throws Exception
     {
@@ -80,5 +83,5 @@ public class BDDTools
 	    }
 	sb.append("</table></center>");
 	return sb.toString();
-    }
+    }*/
 }
