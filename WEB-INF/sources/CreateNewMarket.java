@@ -13,32 +13,55 @@ import javax.naming.*;
 @WebServlet("/servlet/CreateNewMarket")
 public class CreateNewMarket extends HttpServlet
 {
-	public void service( HttpServletRequest req, HttpServletResponse res ) 
+	public void doPost( HttpServletRequest req, HttpServletResponse res ) 
 		throws ServletException, IOException
 	{
 		PrintWriter out = res.getWriter();
+		PreparedStatement preparedStatement;
+		Connection con;
+		DataSource ds ;
 		
 		try {
 		//Récupération du POOL (LIM_POOL)
 		Context initCtx = new InitialContext();
 		Context envCtx = (Context) initCtx.lookup("java:comp/env");
-		DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
-		Connection con = ds.getConnection();
+		ds = (DataSource) envCtx.lookup("LIM_POOL");
+		con = ds.getConnection();
 
 		//Préparation de la requete
-		Statement stmt= con.createStatement();
-		//PreparedStatement preparedStatement = con.prepareStatement("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY ? ? LIMIT 10;");
-
-		}
-
-		catch (NamingException e) {} 
-		catch (SQLException e) {}	
+		//Statement stmt= con.createStatement();
+		String sql = "INSERT INTO information (question,echeance) VALUES (?,?);";
+		preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		
 		String information = req.getParameter("information");
 		String inverse = req.getParameter("inverse");
-		String date = req.getParameter("date");
+		String dateString = req.getParameter("date");
 		
-		out.println(information + inverse + date);
+		out.println(information + inverse + dateString);
+		out.println("COUCOU");
+		
+		
+		preparedStatement.setString(1, information);
+		java.sql.Date date = java.sql.Date.valueOf(dateString);
+		preparedStatement.setDate(2, date);
+		
+		out.println(preparedStatement.toString());
+		preparedStatement.executeUpdate();
+		
+		ResultSet rs = preparedStatement.getGeneratedKeys();
+		if (rs.next())
+		{
+		int key2 = rs.getInt(1);
+		out.println("La clé: "+key2);
+		}
+
+		}
+
+		catch (NamingException e) {out.println(e.toString());} 
+		catch (SQLException e) {out.println(e.toString());}	
+		
+		
+	
 	}
 		
 	
