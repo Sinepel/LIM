@@ -12,11 +12,14 @@ import javax.sql.DataSource;
 public class UserDataBean{
 	private Connection con;
 	private PreparedStatement getUser;
+	private PreparedStatement setBonUser;
+	private User monUser;
 	
 	public UserDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
-		getUser = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		getUser = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
+		setBonUser = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 	}
 	
 	public User getUtilisateur(String pseudo) throws SQLException{
@@ -31,7 +34,16 @@ public class UserDataBean{
 			monUtilisateur.setEspece(rs.getInt("espece"));
 			monUtilisateur.setBons(rs.getInt("bons"));
 		}
+		monUser = monUtilisateur;
 		return monUtilisateur;
+	}
+	
+	public void ajouterBons(int nbBons) throws SQLException{
+		String pseudo = monUser.getPseudo();
+		setBonUser.setInt(1, nbBons);
+		setBonUser.setString(2, pseudo);
+		setBonUser.executeUpdate();
+		
 	}
 	
 	protected void finalize() {
@@ -47,6 +59,9 @@ public class UserDataBean{
 		}	
 	}
 	
+	public void fermerConnexion() {
+		this.finalize();
+	}
 
 	
 	

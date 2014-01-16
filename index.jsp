@@ -16,6 +16,8 @@
     
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());
+		recupUser.ajouterBons(2);
+		recupUser.fermerConnexion();
 	%>	
 	
     
