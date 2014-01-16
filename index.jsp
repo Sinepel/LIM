@@ -92,6 +92,11 @@ Statement stmt= con.createStatement();
 	<div class="row clearfix">
 		<div class="col-md-8 column">
 			<h2>Le marché d'information</h2>
+			<% if (request.getParameterMap().containsKey("add"))
+			{				
+				out.println("<div class=\"alert alert-success\">L'ajout a été effectué</div>");
+			}
+			%>
 			<div class="tabbable" id="tabs-919597">
 				<ul class="nav nav-tabs">
 					<li class="active">

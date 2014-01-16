@@ -6,7 +6,7 @@
 	<%@ page import="java.sql.*" %>
     <%@ page import="javax.servlet.http.*" %>
     <%@ page import="java.net.*" %>    
-    <%@ page import="javax.naming.*" %>
+    <%@ page import="javax.naming.*" %> 
     <%@ page import="javax.sql.*" %>
     
     <!-- JAVA BEAN POUR FAIRE LE TABLEAU D'INFORMATIONS -->
@@ -14,8 +14,15 @@
     <jsp:useBean id="recupUser" scope="request" class="users.UserDataBean" />
     <jsp:useBean id="user" scope="page" class="users.User" />
     
+    
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());
+		//session.setAttribute("referer",request.getHeader("Referer")); 
+		//out.println((String)session.getAttribute("referer"));
+		
+					
+
+		
 	%>	
 	
     
@@ -90,16 +97,18 @@ Statement stmt= con.createStatement();
 	<div class="row clearfix">
 		<div class="col-md-8 column">
 			<h2>Le marché d'information</h2>
-			<form action="sevlet/CreateNewMarket" method="POST">
+			
+			
+			<form action="servlet/CreateNewMarket" method="POST">
   
     <label for="information">Entrez l'information</label>
-    <input type="text" class="form-control" id="information" placeholder="Entrez l'information que vous souhaitez">
+    <input type="text" class="form-control" id="information" name="information" placeholder="Entrez l'information que vous souhaitez">
     
     <label for="inverse">Entrez l'inverse</label>
-    <input type="text" class="form-control" id="inverse" placeholder="Entrez l'inverse">
+    <input type="text" class="form-control" id="inverse" name="inverse" placeholder="Entrez l'inverse">
     
-    <label for="information">Entrez l'information</label>
-    <input type="date" class="form-control" id="information">
+    <label for="date">Entrez l'information</label>
+    <input type="date" class="form-control" name="date" id="date">
   
   <br>
   <button type="submit" class="btn btn-default">Créer</button>
