@@ -17,7 +17,7 @@ public class UserDataBean{
 	
 	public UserDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
 		getUser = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
 		setBonUser = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 	}
