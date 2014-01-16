@@ -119,9 +119,11 @@ Statement stmt= con.createStatement();
 						<%
 							rs=stmt.executeQuery("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY echeance ASC LIMIT 10;");
 							out.println(tool.getHTMLSimpleTable(rs,true,true,false));
-							rs = null;
 							
-							rs.close(); stmt.close(); con.close();
+							
+							rs.close(); 
+							stmt.close(); 
+							con.close();
 						%>
 					</div>
 					
