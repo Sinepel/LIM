@@ -12,14 +12,20 @@ import javax.sql.DataSource;
 public class UserDataBean{
 	private Connection con;
 	private PreparedStatement getUser;
-	private PreparedStatement setBonUser;
+	private PreparedStatement setAjouterBon;
+	private PreparedStatement setEnleverBon;
+	private PreparedStatement setAjouterEspece;
+	private PreparedStatement setEnleverEspece;
 	private User monUser;
 	
 	public UserDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getUser = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
-		setBonUser = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
+		setAjouterBon = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
+		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
+		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
+		setEnleverEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece - ? WHERE pseudo = ?;");
 	}
 	
 	public User getUtilisateur(String pseudo) throws SQLException{
@@ -38,12 +44,32 @@ public class UserDataBean{
 		return monUtilisateur;
 	}
 	
-	public void ajouterBons(int nbBons) throws SQLException{
+	public void ajouterBons(int nombre) throws SQLException{
 		String pseudo = monUser.getPseudo();
-		setBonUser.setInt(1, nbBons);
-		setBonUser.setString(2, pseudo);
-		setBonUser.executeUpdate();
-		
+		setAjouterBon.setInt(1, nombre);
+		setAjouterBon.setString(2, pseudo);
+		setAjouterBon.executeUpdate();
+	}
+	
+	public void enleverBons(int nombre) throws SQLException{
+		String pseudo = monUser.getPseudo();
+		setEnleverBon.setInt(1, nombre);
+		setEnleverBon.setString(2, pseudo);
+		setEnleverBon.executeUpdate();
+	}
+	
+	public void ajouterEspece(int nombre) throws SQLException {
+		String pseudo = monUser.getPseudo();
+		setAjouterEspece.setInt(1, nombre);
+		setAjouterEspece.setString(2, pseudo);
+		setAjouterEspece.executeUpdate();
+	}
+	
+	public void enleverEspece(int nombre) throws SQLException{
+		String pseudo = monUser.getPseudo();
+		setEnleverEspece.setInt(1, nombre);
+		setEnleverEspece.setString(2, pseudo);
+		setEnleverEspece.executeUpdate();
 	}
 	
 	protected void finalize() {
