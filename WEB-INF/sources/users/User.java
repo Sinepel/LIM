@@ -12,7 +12,7 @@ public class User{
 	public int getId(){
 		return id_utilisateur;
 	}
-	public setId(int id_user){
+	public void setId(int id_user){
 		this.id_utilisateur = id_user;
 	}
 	public String getPseudo(){
