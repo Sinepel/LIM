@@ -18,7 +18,7 @@
 		user = recupUser.getUtilisateur(request.getRemoteUser());
 		//recupUser.ajouterBons(2);
 		recupUser.fermerConnexion();
-		//int id = user.getID();
+		int id = user.getId();
 	%>	
 	
     
@@ -63,7 +63,7 @@ Connection con = ds.getConnection();
 
 //Préparation de la requete
 Statement stmt= con.createStatement();
-//PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNER JOIN utilisateur ON ordre.user_id = utilisateur.user_id where utilisateur.user_id="+id+";");
+PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNER JOIN utilisateur ON ordre.user_id = utilisateur.user_id where utilisateur.user_id="+id+";");
 
 
 
@@ -112,7 +112,7 @@ Statement stmt= con.createStatement();
 				<div class="tab-content">
 					<div class="tab-pane active" id="panel-356429">
 						
-						
+						<%= tableauOrdres.toString() %>
 						<p>Pseudo: <%= user.getPseudo()%></p>
 						<p>Vos bons: <%= user.getBons()%></p>
 						<p>Votre argent: <%= user.getEspece()%></p>
@@ -174,8 +174,8 @@ Statement stmt= con.createStatement();
 				<div class="tab-pane" id="panel-123456">
 					
 					<%
-						//ResultSet rs= tableauOrdres.executeQuery();
-						//out.println(tool.getHTMLSimpleTableOrdres(rs,true,true,false));
+						ResultSet rs= tableauOrdres.executeQuery();
+						out.println(tool.getHTMLSimpleTableOrdres(rs,true,true,false));
 					%>
 				</div>
 					
