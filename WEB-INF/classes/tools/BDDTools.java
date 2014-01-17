@@ -21,32 +21,35 @@ public class BDDTools
 @param colname indique si les noms des cols seront affichés
 @param ligNb   indique si le nombre de lignes est affiché en fin de table
 @param link    indique si on fait un lien sur la premiere colonne (id)
+@param pagination	indique si on veut la pagination du tableau
     **/
     public String getHTMLSimpleTable(ResultSet rs,boolean colname,boolean ligNb, boolean link)
     throws Exception
     {
-	StringBuffer sb = new StringBuffer();
-	ResultSetMetaData rsmd= rs.getMetaData();
-	int nbCols=rsmd.getColumnCount();
-	sb.append("<table class=\"table\">\n");
-	// entete des colonnes
-	if (colname)
-	{
-		sb.append("<thead><tr><th>#</th><th>Titre</th><th>Date de fin</th><th>Catégorie</th></tr></thead><tbody>");
-		
-	}
-	// valeurs des colonnes
-	int nblig=1;
-	while(rs.next())
+		StringBuffer sb = new StringBuffer();
+		ResultSetMetaData rsmd= rs.getMetaData();
+		int nbCols=rsmd.getColumnCount();
+		sb.append("<table class=\"table\">\n");
+		// entete des colonnes
+		if (colname)
 		{
-			sb.append("<tr><td>"+rs.getString("id")+"</td><td>"+rs.getString("question")+"</td><td>"+rs.getString("echeance")+"</td><td>"+rs.getString("libelle")+"</td></tr>");
-			nblig++;
+			sb.append("<thead><tr><th>#</th><th>Titre</th><th>Date de fin</th><th>Catégorie</th></tr></thead><tbody>");
+			
 		}
-	sb.append("</tobdy></table>\n");
-	if (ligNb) 
-	   sb.append("<p>La table contient "+(nblig-1)+" lignes\n");
-	
-	return sb.toString();
+		// valeurs des colonnes
+		int nblig=1;
+		while(rs.next())
+			{
+				sb.append("<tr><td>"+rs.getString("id")+"</td><td>"+rs.getString("question")+"</td><td>"+rs.getString("echeance")+"</td><td>"+rs.getString("libelle")+"</td></tr>");
+				nblig++;
+			}
+		sb.append("</tobdy></table>\n");
+		if (ligNb) 
+		   sb.append("<p>La table contient "+(nblig-1)+" lignes\n");
+		   
+		
+		
+		return sb.toString();
     }
 
     /*-----------------------------------------------------------*/
@@ -56,11 +59,11 @@ public class BDDTools
        ligne sur laquelle est positionné le resultSet. Attention à ne
        pas oublier de faire appel à next() avant l'appel de cette
        méthode.
-    **/
+    **//*
     public String getHTMLSimpleFiche(ResultSet rs)
     throws Exception
     {
-	StringBuffer sb = new StringBuffer();
+	StringBufferx sb = new StringBuffer();
 	ResultSetMetaData rsmd= rs.getMetaData();
 	int nbCols=rsmd.getColumnCount();
 	sb.append("<center><table>\n");
@@ -80,5 +83,35 @@ public class BDDTools
 	    }
 	sb.append("</table></center>");
 	return sb.toString();
-    }
+    }*/
+    
+    public String getHTMLSimpleTableOrdres(ResultSet rs,boolean colname,boolean ligNb, boolean link)
+    throws Exception
+    {
+		StringBuffer sb = new StringBuffer();
+		ResultSetMetaData rsmd= rs.getMetaData();
+		int nbCols=rsmd.getColumnCount();
+		sb.append("<table class=\"table\">\n");
+		// entete des colonnes
+		if (colname)
+		{
+			sb.append("<thead><tr><th>#</th><th>Titre</th><th>Date de fin</th><th>Catégorie</th></tr></thead><tbody>");
+			
+		}
+		// valeurs des colonnes
+		int nblig=1;
+		while(rs.next())
+			{
+				sb.append("<tr><td>"+rs.getString("prix")+"</td><td>"+rs.getString("question")+"</td><td>"+rs.getString("echeance")+"</td><td>"+rs.getString("libelle")+"</td></tr>");
+				nblig++;
+			}
+		sb.append("</tobdy></table>\n");
+		if (ligNb) 
+		   sb.append("<p>La table contient "+(nblig-1)+" lignes\n");
+		   
+		
+		
+		return sb.toString();
+
+	}
 }

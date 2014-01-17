@@ -117,8 +117,12 @@ Statement stmt= con.createStatement();
 					</div>
 					<div class="tab-pane" id="panel-216330">
 						<%
-							rs=stmt.executeQuery("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY echeance ASC LIMIT 10;");
+							rs=stmt.executeQuery("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY echeance ASC;");
+							
 							out.println(tool.getHTMLSimpleTable(rs,true,true,false));
+							
+							
+							
 							
 							
 							rs.close(); 
@@ -136,19 +140,25 @@ Statement stmt= con.createStatement();
 			
 		</div>
 		<div class="col-md-4 column">
+			
+			<ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="index.jsp"><i class="fa fa-home fa-fw"></i>Accueil</a></li>
+                <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-list-alt fa-fw"></i>Widgets</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-file-o fa-fw"></i>Pages</a></li>-->
+                <li><a href="all.jsp"><i class="fa fa-bar-chart-o fa-fw"></i>Tous les marchés</a></li>
+                <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-table fa-fw"></i>Table</a></li>-->
+                <li><% if (user.getRole().equals("market-maker") || user.getRole().equals("admin")){ out.print("<li><a href=\"NewMarket.jsp\"><i class=\"fa fa-tasks fa-fw\"></i>Créer un marché</a></li>");} %></li>
+                <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-tasks fa-fw"></i>Créer un marché</a></li>-->
+                <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-calendar fa-fw"></i>Calender</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-book fa-fw"></i>Library</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-pencil fa-fw"></i>Applications</a></li>-->
+                <li><a href="profil.jsp"><i class="fa fa-cogs fa-fw"></i>Votre Profil</a></li>
+				<li><% if (user.getRole().equals("admin")){ out.print("<li><a href=\"/admin\"><i class=\"fa fa-tasks fa-fw\"></i>Administration</a></li>");} %></li>
+
+            </ul>
+			
 			<div class="panel-group" id="panel-404098">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-807612">Menu Utilisateur</a>
-					</div>
-					<div id="panel-element-807612" class="panel-collapse collapse">
-						<div class="panel-body">
-							<ul>
-								<p><% if (user.getRole().equals("market-maker")){ out.print("<a href=\"NewMarket.jsp\">Nouveau Marché</a>");} %></p>
-							</ul>
-						</div>
-					</div>
-				</div>
+				
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-603060">Vos Informations</a>

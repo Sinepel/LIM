@@ -3,7 +3,7 @@
 <head>
 	<%@ page pageEncoding="UTF-8" %>
 	<%@ page session="true"%>
-  <title>Lille Information Market</title>
+  <title>Déconnexion</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Le marché d'information par la DA2I">
   <meta name="author" content="Constantin Boulanger - Florent Pulcian">

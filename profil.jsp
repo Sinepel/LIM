@@ -6,7 +6,7 @@
 	<%@ page import="java.sql.*" %>
     <%@ page import="javax.servlet.http.*" %>
     <%@ page import="java.net.*" %>    
-    <%@ page import="javax.naming.*" %> 
+    <%@ page import="javax.naming.*" %>
     <%@ page import="javax.sql.*" %>
     
     <!-- JAVA BEAN POUR FAIRE LE TABLEAU D'INFORMATIONS -->
@@ -14,15 +14,11 @@
     <jsp:useBean id="recupUser" scope="request" class="users.UserDataBean" />
     <jsp:useBean id="user" scope="page" class="users.User" />
     
-    
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());
-		//session.setAttribute("referer",request.getHeader("Referer")); 
-		//out.println((String)session.getAttribute("referer"));
-		
-					
-
-		
+		//recupUser.ajouterBons(2);
+		recupUser.fermerConnexion();
+		//int id = user.getID();
 	%>	
 	
     
@@ -67,7 +63,7 @@ Connection con = ds.getConnection();
 
 //Préparation de la requete
 Statement stmt= con.createStatement();
-//PreparedStatement preparedStatement = con.prepareStatement("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY ? ? LIMIT 10;");
+//PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNER JOIN utilisateur ON ordre.user_id = utilisateur.user_id where utilisateur.user_id="+id+";");
 
 
 
@@ -96,27 +92,105 @@ Statement stmt= con.createStatement();
 	</div>
 	<div class="row clearfix">
 		<div class="col-md-8 column">
-			<h2>Le marché d'information</h2>
+			<h2>Votre profil</h2>
+			
+			<!-- MET TON CODE ICI BIATCH -->
+			
+			<div class="tabbable" id="tabs-919597">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#panel-356429" data-toggle="tab">Vos informations</a>
+					</li>
+					<li>
+						<a href="#panel-216330" data-toggle="tab">Modifier votre profil</a>
+					</li>
+					<li>
+						<a href="#panel-123456" data-toggle="tab">Vos achats</a>
+					</li>
+					
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="panel-356429">
+						
+						
+						<p>Pseudo: <%= user.getPseudo()%></p>
+						<p>Vos bons: <%= user.getBons()%></p>
+						<p>Votre argent: <%= user.getEspece()%></p>
+						<p>Votre rôle: <%= user.getRole()%></p>
+						<p>Taux de réussite: 41%</p>
+						
+				</div>
+				
+				<div class="tab-pane" id="panel-216330">						
+						<form class="form-horizontal" action='' method="POST">
+						  <fieldset disabled>
+							 <div class="control-group">
+							  <!-- Username -->
+							  <label class="control-label"  for="username">Pseudo</label>
+							  <div class="controls">
+								<input type="text" id="username" name="username" placeholder="" class="input-xlarge">
+							  </div>
+							</div>
+							</fieldset>
+						 <fieldset>
+							<div class="control-group">
+							  <!-- E-mail -->
+							  <label class="control-label" for="email">E-mail</label>
+							  <div class="controls">
+								<input type="text" id="email" name="email" placeholder="" class="input-xlarge">
+								<p class="help-block">Veuillez mettre votre mail pour être prévenu de la finalité de vos actions</p>
+							  </div>
+							</div>
+						 
+							<div class="control-group">
+							  <!-- Password-->
+							  <label class="control-label" for="password">Mot de passe</label>
+							  <div class="controls">
+								<input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+								
+							  </div>
+							</div>
+						 
+							<div class="control-group">
+							  <!-- Password -->
+							  <label class="control-label"  for="password_confirm">Mot de passe (Confirmation)</label>
+							  <div class="controls">
+								<input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
+								<p class="help-block">Veuillez retaper le mot de passe</p>
+							  </div>
+							</div>
+						 
+							<div class="control-group">
+							  <!-- Button -->
+							  <div class="controls">
+								<button class="btn btn-success">Modifier votre profil</button>
+							  </div>
+							</div>
+						  </fieldset>
+						</form>						
+					</div>
+					
+					
+				<div class="tab-pane" id="panel-123456">
+					
+					<%
+						//ResultSet rs= tableauOrdres.executeQuery();
+						//out.println(tool.getHTMLSimpleTableOrdres(rs,true,true,false));
+					%>
+				</div>
+					
+					
+					
+					
+				</div>
+			</div>
 			
 			
-			<form action="servlet/CreateNewMarket" method="POST">
-  
-    <label for="information">Entrez l'information</label>
-    <input type="text" class="form-control" id="information" name="information" placeholder="Entrez l'information que vous souhaitez">
-    
-    <label for="inverse">Entrez l'inverse</label>
-    <input type="text" class="form-control" id="inverse" name="inverse" placeholder="Entrez l'inverse">
-    
-    <label for="date">Entrez l'information</label>
-    <input type="date" class="form-control" name="date" id="date">
-  
-  <br>
-  <button type="submit" class="btn btn-default">Créer</button>
-</form>
 			
 			
 		</div>
 		<div class="col-md-4 column">
+			
 			<ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="index.jsp"><i class="fa fa-home fa-fw"></i>Accueil</a></li>
                 <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-list-alt fa-fw"></i>Widgets</a></li>
@@ -132,22 +206,8 @@ Statement stmt= con.createStatement();
 				<li><% if (user.getRole().equals("admin")){ out.print("<li><a href=\"/admin\"><i class=\"fa fa-tasks fa-fw\"></i>Administration</a></li>");} %></li>
 
             </ul>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-603060">Vos Informations</a>
-					</div>
-					<div id="panel-element-603060" class="panel-collapse collapse">
-						<div class="panel-body">
-							<p>Pseudo: <%= user.getPseudo()%></p>
-							<p>Vos bons: <%= user.getBons()%></p>
-							<p>Votre argent: <%= user.getEspece()%></p>
-							<p>Votre rôle: <%= user.getRole()%></p>
-							<p>Taux de réussite: 41%</p>
-						</div>	
-						</div>
-					</div>
-				</div>
-			</div>
+			
+			
 		</div>
 	</div>
 </div>
