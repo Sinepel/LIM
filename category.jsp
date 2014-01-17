@@ -139,7 +139,7 @@ String catID = request.getParameter("id");
 			</div>
             
 			
-					
+			<% rs.close(); stmt.close(); con.close(); %>		
 							
 				
 			

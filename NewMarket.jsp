@@ -167,3 +167,4 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 </div>
 </body>
 </html>
+<% rs.close(); stmt.close(); con.close(); %>		
