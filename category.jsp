@@ -6,7 +6,7 @@
 	<%@ page import="java.sql.*" %>
     <%@ page import="javax.servlet.http.*" %>
     <%@ page import="java.net.*" %>    
-    <%@ page import="javax.naming.*" %> 
+    <%@ page import="javax.naming.*" %>
     <%@ page import="javax.sql.*" %>
     
     <!-- JAVA BEAN POUR FAIRE LE TABLEAU D'INFORMATIONS -->
@@ -14,15 +14,15 @@
     <jsp:useBean id="recupUser" scope="request" class="users.UserDataBean" />
     <jsp:useBean id="user" scope="page" class="users.User" />
     
-    
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());
-		//session.setAttribute("referer",request.getHeader("Referer")); 
-		//out.println((String)session.getAttribute("referer"));
-		
-					
-
-		
+		//recupUser.ajouterBons(2);
+		recupUser.fermerConnexion();
+		int id = user.getId();
+		String pseudo = user.getPseudo();
+		int bons = user.getBons();
+		int espece = user.getEspece();
+		String role = user.getRole();
 	%>	
 	
     
@@ -67,14 +67,10 @@ Connection con = ds.getConnection();
 
 //Préparation de la requete
 Statement stmt= con.createStatement();
-PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle FROM categorie;");
+//PreparedStatement preparedStatement = con.prepareStatement("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY ? ? LIMIT 10;");
 
 
-
-
-
-
-
+String catID = request.getParameter("id");
 %>
 
 
@@ -98,37 +94,12 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 		<div class="col-md-8 column">
 			<h2>Le marché d'information</h2>
 			
-			
-			<form action="servlet/CreateNewMarket" method="POST">
-  
-				<label for="information">Entrez l'information</label>
-				<input type="text" class="form-control" id="information" name="information" placeholder="Entrez l'information que vous souhaitez">
-				
-				<label for="inverse">Entrez l'inverse</label>
-				 <input type="text" class="form-control" id="inverse" name="inverse" placeholder="Entrez l'inverse">
-				
-				<label for="date">Entrez la date</label>
-				<input type="date" class="form-control" name="date" id="date">
-				
-				<label>Catégorie</label>
-				<select class="form-control" name="categorie">
+			<%
+					ResultSet rs=stmt.executeQuery("Select * from information WHERE id_categorie = "+catID+";");
+					out.println(tool.getHTMLSimpleTableCategory(rs,true,true,false));
 					
-					<% 
-						ResultSet rs = categories.executeQuery();
-						while (rs.next())
-						{
-							out.println("<option value="+rs.getString("id_categorie")+">"+rs.getString("libelle")+"</option>");
-						}
-					
-					
-					%>
-				</select>
-			  
-			  <br>
-			  <button type="submit" class="btn btn-default">Créer</button>
-			</form>
-			
-			
+			%>
+
 		</div>
 		<div class="col-md-4 column">
 			<ul class="nav nav-pills nav-stacked">
@@ -137,15 +108,43 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-file-o fa-fw"></i>Pages</a></li>-->
                 <li><a href="all.jsp"><i class="fa fa-bar-chart-o fa-fw"></i>Tous les marchés</a></li>
                 <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-table fa-fw"></i>Table</a></li>-->
-                <li><% if (user.getRole().equals("market-maker") || user.getRole().equals("admin")){ out.print("<li><a href=\"NewMarket.jsp\"><i class=\"fa fa-tasks fa-fw\"></i>Créer un marché</a></li>");} %></li>
+                <li><% if (role.equals("market-maker") || role.equals("admin")){ out.print("<li><a href=\"NewMarket.jsp\"><i class=\"fa fa-tasks fa-fw\"></i>Créer un marché</a></li>");} %></li>
                 <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-tasks fa-fw"></i>Créer un marché</a></li>-->
                 <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-calendar fa-fw"></i>Calender</a></li>
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-book fa-fw"></i>Library</a></li>
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-pencil fa-fw"></i>Applications</a></li>-->
                 <li><a href="profil.jsp"><i class="fa fa-cogs fa-fw"></i>Votre Profil</a></li>
-				<li><% if (user.getRole().equals("admin")){ out.print("<li><a href=\"/admin\"><i class=\"fa fa-tasks fa-fw\"></i>Administration</a></li>");} %></li>
+				<li><% if (role.equals("admin")){ out.print("<li><a href=\"/admin\"><i class=\"fa fa-tasks fa-fw\"></i>Administration</a></li>");} %></li>
 
             </ul>
+            <div class="panel-group" id="panel-404098">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-807612">Liste des catégories</a>
+					</div>
+					<div id="panel-element-807612" class="panel-collapse collapse">
+						<div class="panel-body">
+							<%
+								rs = stmt.executeQuery("Select id_categorie,libelle from categorie;");
+								while (rs.next())
+								{
+									out.println("<p><a href=\"category.jsp?id="+rs.getString("id_categorie")+"\">"+rs.getString("libelle")+"</a></p>");
+								}
+							
+							%>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+            
+			
+			<% rs.close(); stmt.close(); con.close(); %>		
+							
+				
+			
+			<div class="panel-group" id="panel-404098">
+				
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-603060">Vos Informations</a>
@@ -157,7 +156,7 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 							<p>Votre argent: <%= user.getEspece()%></p>
 							<p>Votre rôle: <%= user.getRole()%></p>
 							<p>Taux de réussite: 41%</p>
-						</div>	
+						</div>
 						</div>
 					</div>
 				</div>
@@ -167,4 +166,3 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 </div>
 </body>
 </html>
-<% rs.close(); stmt.close(); con.close(); %>		
