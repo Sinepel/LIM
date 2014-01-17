@@ -41,6 +41,7 @@ public class Information{
 	public void setIdInfoInverse(int id_question_inverse){
 		this.id_question_inverse = id_question_inverse;
 	}
+	
 	public String getDateCreation(){
 		return this.dateCreation;
 	}

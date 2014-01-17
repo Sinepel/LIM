@@ -28,47 +28,15 @@ public class InformationDataBean{
 		ResultSet rs = getUser.executeQuery(); 
 		
 		while(rs.next()){
-			monUtilisateur.setId(rs.getInt("user_id"));
-			monUtilisateur.setPseudo(rs.getString("pseudo"));
-			monUtilisateur.setRole(rs.getString("role"));
-			monUtilisateur.setEspece(rs.getInt("espece"));
-			monUtilisateur.setBons(rs.getInt("bons"));
+			monInformation.setIdInformation(rs.getInt("id"));
+			monInformation.setQuestion(rs.getString("question"));
+			monInformation.setEcheance(rs.getString("echeance"));
+			monInformation.setCategorie(rs.getInt("id_categorie"));
+			monInformation.setIdInfoInverse(rs.getInt("id_1"));
 		}
-		monUser = monUtilisateur;
-		return monUser;
+		return monInformation;
 	}
-	
-	public void ajouterBons(int nombre) throws SQLException{
-		String pseudo = monUser.getPseudo();
-		setAjouterBon.setInt(1, nombre);
-		setAjouterBon.setString(2, pseudo);
-		setAjouterBon.executeUpdate();
-		monUser.setBons(monUser.getBons()+nombre);
-	}
-	
-	public void enleverBons(int nombre) throws SQLException{
-		String pseudo = monUser.getPseudo();
-		setEnleverBon.setInt(1, nombre);
-		setEnleverBon.setString(2, pseudo);
-		setEnleverBon.executeUpdate();
-		monUser.setBons(monUser.getBons()-nombre);
-	}
-	
-	public void ajouterEspece(int nombre) throws SQLException {
-		String pseudo = monUser.getPseudo();
-		setAjouterEspece.setInt(1, nombre);
-		setAjouterEspece.setString(2, pseudo);
-		setAjouterEspece.executeUpdate();
-		monUser.setEspece(monUser.getEspece()+nombre);
-	}
-	
-	public void enleverEspece(int nombre) throws SQLException{
-		String pseudo = monUser.getPseudo();
-		setEnleverEspece.setInt(1, nombre);
-		setEnleverEspece.setString(2, pseudo);
-		setEnleverEspece.executeUpdate();
-		monUser.setEspece(monUser.getEspece()-nombre);
-	}
+
 	
 	protected void finalize() {
 	// attempt to close database connection
