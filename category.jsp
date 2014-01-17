@@ -94,23 +94,12 @@ String catID = request.getParameter("id");
 		<div class="col-md-8 column">
 			<h2>Le marché d'information</h2>
 			
-			
-			
-			
-			
-				<%
+			<%
 					ResultSet rs=stmt.executeQuery("Select * from information WHERE id_categorie = "+catID+";");
 					out.println(tool.getHTMLSimpleTableCategory(rs,true,true,false));
-					rs = null;
+					
 			%>
-			
-					
-					
-					
-					
 
-			
-			
 		</div>
 		<div class="col-md-4 column">
 			<ul class="nav nav-pills nav-stacked">
@@ -128,6 +117,31 @@ String catID = request.getParameter("id");
 				<li><% if (role.equals("admin")){ out.print("<li><a href=\"/admin\"><i class=\"fa fa-tasks fa-fw\"></i>Administration</a></li>");} %></li>
 
             </ul>
+            <div class="panel-group" id="panel-404098">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-807612">Liste des catégories</a>
+					</div>
+					<div id="panel-element-807612" class="panel-collapse collapse">
+						<div class="panel-body">
+							<%
+								rs = stmt.executeQuery("Select id_categorie,libelle from categorie;");
+								while (rs.next())
+								{
+									out.println("<p><a href=\"category.jsp?id="+rs.getString("id_categorie")+"\">"+rs.getString("libelle")+"</a></p>");
+								}
+							
+							%>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+            
+			
+					
+							
+				
 			
 			<div class="panel-group" id="panel-404098">
 				
