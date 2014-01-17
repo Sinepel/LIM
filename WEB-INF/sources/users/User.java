@@ -1,6 +1,7 @@
 package users;
 
 public class User{
+	private int id_utilisateur;
 	private String pseudo;
 	private String role;
 	private int espece;
@@ -8,6 +9,9 @@ public class User{
 	
 	public User(){}
 	
+	public int getId(){
+		return id_utilisateur;
+	}
 	public String getPseudo(){
 		return pseudo;
 	}
@@ -32,6 +36,4 @@ public class User{
 	public void setBons(int bons){
 		this.bons = bons;
 	}
-	
-		
 }

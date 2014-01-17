@@ -21,7 +21,7 @@ public class UserDataBean{
 	public UserDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
 		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
-		getUser = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
+		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
 		setAjouterBon = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
 		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
@@ -35,13 +35,14 @@ public class UserDataBean{
 		ResultSet rs = getUser.executeQuery(); 
 		
 		while(rs.next()){
+			monUtilisateur.setId(rs.getInt("user_id"));
 			monUtilisateur.setPseudo(rs.getString("pseudo"));
 			monUtilisateur.setRole(rs.getString("role"));
 			monUtilisateur.setEspece(rs.getInt("espece"));
 			monUtilisateur.setBons(rs.getInt("bons"));
 		}
 		monUser = monUtilisateur;
-		return monUtilisateur;
+		return monUser;
 	}
 	
 	public void ajouterBons(int nombre) throws SQLException{
@@ -49,6 +50,7 @@ public class UserDataBean{
 		setAjouterBon.setInt(1, nombre);
 		setAjouterBon.setString(2, pseudo);
 		setAjouterBon.executeUpdate();
+		monUser.setBons(monUser.getBons()+nombre);
 	}
 	
 	public void enleverBons(int nombre) throws SQLException{
@@ -56,6 +58,7 @@ public class UserDataBean{
 		setEnleverBon.setInt(1, nombre);
 		setEnleverBon.setString(2, pseudo);
 		setEnleverBon.executeUpdate();
+		monUser.setBons(monUser.getBons()-nombre);
 	}
 	
 	public void ajouterEspece(int nombre) throws SQLException {
@@ -63,6 +66,7 @@ public class UserDataBean{
 		setAjouterEspece.setInt(1, nombre);
 		setAjouterEspece.setString(2, pseudo);
 		setAjouterEspece.executeUpdate();
+		monUser.setEspece(monUser.getEspece()+nombre);
 	}
 	
 	public void enleverEspece(int nombre) throws SQLException{
@@ -70,6 +74,7 @@ public class UserDataBean{
 		setEnleverEspece.setInt(1, nombre);
 		setEnleverEspece.setString(2, pseudo);
 		setEnleverEspece.executeUpdate();
+		monUser.setEspece(monUser.getEspece()-nombre);
 	}
 	
 	protected void finalize() {
