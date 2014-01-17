@@ -8,8 +8,13 @@
 
 
     <session-config>
-        <session-timeout>1</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
+    
+    <error-page>
+  <error-code>404</error-code>
+  <location>/error/404.jsp</location>
+</error-page>   
 
     <!--  Lien entre les pages et les roles -->
     <security-constraint>
@@ -17,6 +22,9 @@
        <web-resource-name>Administrateur</web-resource-name>
          <url-pattern>/index.jsp</url-pattern>
          <url-pattern>/logout.jsp</url-pattern>
+         <url-pattern>/NewMarket.jsp</url-pattern>
+         <url-pattern>/profil.jsp</url-pattern>
+         <url-pattern>/market.jsp</url-pattern>
      </web-resource-collection>
       <auth-constraint>
          <role-name>user</role-name>
