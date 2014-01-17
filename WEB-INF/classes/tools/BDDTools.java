@@ -23,6 +23,40 @@ public class BDDTools
 @param link    indique si on fait un lien sur la premiere colonne (id)
 @param pagination	indique si on veut la pagination du tableau
     **/
+    public String getHTMLSimpleTableCategory(ResultSet rs,boolean colname,boolean ligNb, boolean link)
+    throws Exception
+    {
+		StringBuffer sb = new StringBuffer();
+		ResultSetMetaData rsmd= rs.getMetaData();
+		int nbCols=rsmd.getColumnCount();
+		sb.append("<table class=\"table\">\n");
+		// entete des colonnes
+		if (colname)
+		{
+			sb.append("<thead><tr><th>#</th><th>Titre</th><th>Date de fin</th></thead><tbody>");
+			
+		}
+		// valeurs des colonnes
+		int nblig=1;
+		String id = null;
+		String catID = null;
+		while(rs.next())
+			{
+				id = rs.getString("id");
+				catID = rs.getString("id_categorie");
+				
+				sb.append("<tr><td>"+id+"</td><td><a href=\"market.jsp?id="+id+"\">"+rs.getString("question")+"</a></td><td>"+rs.getString("echeance")+"</td></tr>");
+				nblig++;
+			}
+		sb.append("</tobdy></table>\n");
+		if (ligNb) 
+		   sb.append("<div class=\"alert alert-info\">Il y a "+(nblig-1)+" lignes</div>");
+		   
+		
+		
+		return sb.toString();
+    }
+    
     public String getHTMLSimpleTable(ResultSet rs,boolean colname,boolean ligNb, boolean link)
     throws Exception
     {
@@ -38,14 +72,19 @@ public class BDDTools
 		}
 		// valeurs des colonnes
 		int nblig=1;
+		String id = null;
+		String catID = null;
 		while(rs.next())
 			{
-				sb.append("<tr><td>"+rs.getString("id")+"</td><td>"+rs.getString("question")+"</td><td>"+rs.getString("echeance")+"</td><td>"+rs.getString("libelle")+"</td></tr>");
+				id = rs.getString("id");
+				catID = rs.getString("id_categorie");
+				
+				sb.append("<tr><td>"+id+"</td><td><a href=\"market.jsp?id="+id+"\">"+rs.getString("question")+"</a></td><td>"+rs.getString("echeance")+"</td><td><a href=\"category.jsp?id="+catID+"\">"+rs.getString("libelle")+"</a></td></tr>");
 				nblig++;
 			}
 		sb.append("</tobdy></table>\n");
 		if (ligNb) 
-		   sb.append("<p>La table contient "+(nblig-1)+" lignes\n");
+		   sb.append("<div class=\"alert alert-info\">Il y a "+(nblig-1)+" lignes</div>");
 		   
 		
 		

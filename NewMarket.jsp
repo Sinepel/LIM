@@ -67,7 +67,7 @@ Connection con = ds.getConnection();
 
 //Préparation de la requete
 Statement stmt= con.createStatement();
-//PreparedStatement preparedStatement = con.prepareStatement("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY ? ? LIMIT 10;");
+PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle FROM categorie;");
 
 
 
@@ -101,18 +101,32 @@ Statement stmt= con.createStatement();
 			
 			<form action="servlet/CreateNewMarket" method="POST">
   
-    <label for="information">Entrez l'information</label>
-    <input type="text" class="form-control" id="information" name="information" placeholder="Entrez l'information que vous souhaitez">
-    
-    <label for="inverse">Entrez l'inverse</label>
-    <input type="text" class="form-control" id="inverse" name="inverse" placeholder="Entrez l'inverse">
-    
-    <label for="date">Entrez l'information</label>
-    <input type="date" class="form-control" name="date" id="date">
-  
-  <br>
-  <button type="submit" class="btn btn-default">Créer</button>
-</form>
+				<label for="information">Entrez l'information</label>
+				<input type="text" class="form-control" id="information" name="information" placeholder="Entrez l'information que vous souhaitez">
+				
+				<label for="inverse">Entrez l'inverse</label>
+				 <input type="text" class="form-control" id="inverse" name="inverse" placeholder="Entrez l'inverse">
+				
+				<label for="date">Entrez la date</label>
+				<input type="date" class="form-control" name="date" id="date">
+				
+				<label>Catégorie</label>
+				<select class="form-control" name="categorie">
+					
+					<% 
+						ResultSet rs = categories.executeQuery();
+						while (rs.next())
+						{
+							out.println("<option value="+rs.getString("id_categorie")+">"+rs.getString("libelle")+"</option>");
+						}
+					
+					
+					%>
+				</select>
+			  
+			  <br>
+			  <button type="submit" class="btn btn-default">Créer</button>
+			</form>
 			
 			
 		</div>
