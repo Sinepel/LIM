@@ -102,7 +102,7 @@ public class BDDTools
 		int nblig=1;
 		while(rs.next())
 			{
-				sb.append("<tr><td>"+rs.getString("prix")+"</td><td>"+rs.getString("question")+"</td><td>"+rs.getString("echeance")+"</td><td>"+rs.getString("libelle")+"</td></tr>");
+				sb.append("<tr><td>"+rs.getString("prix")+"</td><td>"+rs.getString("bons")+"</td><td>"+rs.getString("date_achat")+"</td></tr>");
 				nblig++;
 			}
 		sb.append("</tobdy></table>\n");
