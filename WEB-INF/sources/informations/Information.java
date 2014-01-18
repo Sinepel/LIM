@@ -8,6 +8,7 @@ public class Information{
 	private String question;
 	private String echeance;
 	private String dateCreation;
+	private String categorieLibelle;
 	
 	public Information(){}
 	
@@ -41,7 +42,12 @@ public class Information{
 	public void setIdInfoInverse(int id_question_inverse){
 		this.id_question_inverse = id_question_inverse;
 	}
-	
+	public String getCategorieLibelle(){
+		return this.categorieLibelle;
+	}
+	public void setCategorieLibellle(String categorieLibelle){
+		this.categorieLibelle = categorieLibelle;
+	}
 	public String getDateCreation(){
 		return this.dateCreation;
 	}
