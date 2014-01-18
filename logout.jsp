@@ -54,7 +54,9 @@
 		<div class="col-md-8 column">
 			<h2>Le marché d'information</h2>
 			Utilisateur <%= request.getRemoteUser() %> a été déconnecté.
-			<% session.invalidate(); %>
+			<% session.invalidate(); 
+			response.sendRedirect(request.getContextPath()+"?logout=ok");%>
+			
 			
 		</div>
 		<div class="col-md-4 column">

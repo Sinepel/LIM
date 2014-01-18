@@ -15,13 +15,13 @@
     <jsp:useBean id="user" scope="page" class="users.User" />
     
     <% 
+		String idMarche = request.getParameter("id");
 		user = recupUser.getUtilisateur(request.getRemoteUser());
-		recupUser.ajouterBons(2);
 		recupUser.fermerConnexion();
 	%>	
 	
     
-  <title>Lille Information Market</title>
+  <title>L'information - Lille Information Market</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Le marché d'information par la DA2I">
   <meta name="author" content="Constantin Boulanger - Florent Pulcian">
@@ -61,7 +61,7 @@ DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
 Connection con = ds.getConnection();
 
 //Préparation de la requete
-Statement stmt= con.createStatement();
+//Statement stmt= con.createStatement();
 //PreparedStatement preparedStatement = con.prepareStatement("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY ? ? LIMIT 10;");
 
 
@@ -92,51 +92,15 @@ Statement stmt= con.createStatement();
 	<div class="row clearfix">
 		<div class="col-md-8 column">
 			<h2>Le marché d'information</h2>
-			<% if (request.getParameterMap().containsKey("add"))
-			{				
-				out.println("<div class=\"alert alert-success\">L'ajout a été effectué</div>");
-			}
 			
-			%>
-			<div class="tabbable" id="tabs-919597">
-				<ul class="nav nav-tabs">
-					<li class="active">
-						<a href="#panel-356429" data-toggle="tab">Nouvelles informations</a>
-					</li>
-					<li>
-						<a href="#panel-216330" data-toggle="tab">Bientôt Terminées</a>
-					</li>
-					
-				</ul>
-				<div class="tab-content">
-					<div class="tab-pane active" id="panel-356429">
-						<%
-							ResultSet rs=stmt.executeQuery("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY id ASC LIMIT 10;");
-							out.println(tool.getHTMLSimpleTable(rs,true,true,false));
-							rs = null;
-					%>
-					</div>
-					<div class="tab-pane" id="panel-216330">
-						<%
-							rs=stmt.executeQuery("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY echeance ASC;");
-							
-							out.println(tool.getHTMLSimpleTable(rs,true,true,false));
-							
-							
-							
-							
-							
-							rs.close(); 
-							stmt.close(); 
-							con.close();
-						%>
-					</div>
+			
+			<p>Je veux l'information <%= idMarche %></p>
+			
 					
 					
 					
-					
-				</div>
-			</div>
+				
+			
 			
 			
 		</div>
