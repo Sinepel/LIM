@@ -20,11 +20,11 @@
 		String idMarche = request.getParameter("id");
 		int idMarcheInt = Integer.parseInt(idMarche);
 		user = recupUser.getUtilisateur(request.getRemoteUser());
-		recupUser.fermerConnexion();
 		info = recupInformation.getInformationClick(idMarcheInt);
+		recupInformation.fermerConnexion();
+		recupUser.fermerConnexion();
 		
 	%>	
-	<%= info.getQuestion()%> 
     
   <title>L'information - Lille Information Market</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -96,7 +96,7 @@ Connection con = ds.getConnection();
 	</div>
 	<div class="row clearfix">
 		<div class="col-md-8 column">
-			<h2>Le marché d'information</h2>
+			<h2><%= info.getQuestion()%> </h2>
 			
 			
 			<p>Je veux l'information <%= idMarche %></p>
