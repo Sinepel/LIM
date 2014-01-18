@@ -11,15 +11,20 @@
     
     <!-- JAVA BEAN POUR FAIRE LE TABLEAU D'INFORMATIONS -->
     <jsp:useBean id="tool" scope="application" class="tools.BDDTools" />
-    <jsp:useBean id="recupUser" scope="session" class="users.UserDataBean" />
+    <jsp:useBean id="recupUser" scope="request" class="users.UserDataBean" />
+    <jsp:useBean id="recupInformation" scope="page" class="informations.InformationDataBean" />
     <jsp:useBean id="user" scope="page" class="users.User" />
+    <jsp:useBean id="info" scope="page" class="informations.Information" />
     
     <% 
 		String idMarche = request.getParameter("id");
+		int idMarcheInt = Integer.parseInt(idMarche);
 		user = recupUser.getUtilisateur(request.getRemoteUser());
 		recupUser.fermerConnexion();
+		info = recupInformation.getInformationClick(idMarcheInt);
+		
 	%>	
-	
+	<%= info.getQuestion()%> 
     
   <title>L'information - Lille Information Market</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

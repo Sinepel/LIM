@@ -11,7 +11,7 @@
     
     <!-- JAVA BEAN POUR FAIRE LE TABLEAU D'INFORMATIONS -->
     <jsp:useBean id="tool" scope="application" class="tools.BDDTools" />
-    <jsp:useBean id="recupUser" scope="session" class="users.UserDataBean" />
+    <jsp:useBean id="recupUser" scope="request" class="users.UserDataBean" />
     <jsp:useBean id="user" scope="page" class="users.User" />
     
     <% 
