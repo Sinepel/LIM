@@ -96,18 +96,8 @@ Connection con = ds.getConnection();
 	</div>
 	<div class="row clearfix">
 		<div class="col-md-8 column">
-			<h2><%= info.getQuestion()%> </h2>
-			
-			
-			<p>Je veux l'information <%= idMarche %></p>
-			
-					
-					
-					
-				
-			
-			
-			
+			<h2><%= info.getQuestion()%></h2>
+			<p>Je veux <a href="market.jsp?id=<%=info.getIdInfoInverse()%>">l'information inverse</a></p>
 		</div>
 		<div class="col-md-4 column">
 			
