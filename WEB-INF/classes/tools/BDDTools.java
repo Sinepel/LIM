@@ -153,4 +153,12 @@ public class BDDTools
 		return sb.toString();
 
 	}
+	public String getDateFormat(String dateBadFormat)
+	{
+		String date = "";
+		String str[]=dateBadFormat.split("-");
+		date = str[2]+"/"+str[1]+"/"+str[0];
+		
+		return (date);
+	}
 }
