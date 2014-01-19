@@ -92,7 +92,7 @@ String catID = request.getParameter("id");
 	</div>
 	<div class="row clearfix">
 		<div class="col-md-8 column">
-			<h2>Le marché d'information</h2>
+			<h2>Le marché de l'information</h2>
 			
 			<%
 					ResultSet rs=stmt.executeQuery("Select * from information WHERE id_categorie = "+catID+";");
