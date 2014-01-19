@@ -174,7 +174,7 @@ public class BDDTools
 		// entete des colonnes
 		if (colname)
 		{
-			sb.append("<thead><tr><th>#</th><th>Titre</th><th>Date de fin</th><th>Catégorie</th></tr></thead><tbody>");
+			sb.append("<thead><tr><th>#</th><th>Titre</th><th>Date de fin</th><th>Prix</th><th>Nombre de bons</th></tr></thead><tbody>");
 			
 		}
 		// valeurs des colonnes
