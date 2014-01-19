@@ -99,7 +99,7 @@ Connection con = ds.getConnection();
 			<h2><%= info.getQuestion()%></h2>
 			<p>Je veux <a href="market.jsp?id=<%=info.getIdInfoInverse()%>">l'information inverse</a></p>
 			<p>Le marché se termine le: <%= tool.getDateFormat(info.getEcheance()) %></p>
-			<p>Catégorie : <%= info.getCategorie() %></p>
+			<p>Catégorie : <a href="category.jsp?id=<%=info.getCategorie() %>"><%= info.getCategorieLibelle() %></a></p>
 		</div>
 		<div class="col-md-4 column">
 			
