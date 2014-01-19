@@ -104,10 +104,10 @@ Connection con = ds.getConnection();
 		<div class="col-md-4 column">
 			
 			<ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="index.jsp"><i class="fa fa-home fa-fw"></i>Accueil</a></li>
+                <li><a href="index.jsp"><i class="fa fa-home fa-fw"></i>Accueil</a></li>
                 <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-list-alt fa-fw"></i>Widgets</a></li>
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-file-o fa-fw"></i>Pages</a></li>-->
-                <li><a href="all.jsp"><i class="fa fa-bar-chart-o fa-fw"></i>Tous les marchés</a></li>
+                <li class="active"><a href="all.jsp"><i class="fa fa-bar-chart-o fa-fw"></i>Tous les marchés</a></li>
                 <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-table fa-fw"></i>Table</a></li>-->
                 <li><% if (user.getRole().equals("market-maker") || user.getRole().equals("admin")){ out.print("<li><a href=\"NewMarket.jsp\"><i class=\"fa fa-tasks fa-fw\"></i>Créer un marché</a></li>");} %></li>
                 <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-tasks fa-fw"></i>Créer un marché</a></li>-->
