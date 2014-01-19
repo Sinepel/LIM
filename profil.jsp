@@ -103,7 +103,7 @@ PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNE
 			<div class="tabbable" id="tabs-919597">
 				<ul class="nav nav-tabs">
 					<li class="active">
-						<a href="#panel-356429" data-toggle="tab">Vos informations</a>
+						<a href="#panel-356429" data-toggle="tab">Vos statistiques</a>
 					</li>
 					<li>
 						<a href="#panel-216330" data-toggle="tab">Modifier votre profil</a>
@@ -116,12 +116,16 @@ PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNE
 				<div class="tab-content">
 					<div class="tab-pane active" id="panel-356429">
 						
-						<p>Pseudo: <%= pseudo%></p>
-						<p>Vos bons: <%= bons%></p>
-						<p>Votre argent: <%= espece%></p>
-						<p>Votre rôle: <%= role%></p>
-						<p>Taux de réussite: 41%</p>
 						
+						
+						
+						<ul class="list-group">
+						  <li class="list-group-item">Pseudo: <%= pseudo%></li>
+						  <li class="list-group-item">Vos bons: <%= bons%></li>
+						  <li class="list-group-item">Votre argent: <%= espece%></li>
+						  <li class="list-group-item">Votre rôle: <%= role%></li>
+						  <li class="list-group-item">Taux de réussite: 41%</li>
+						</ul>
 				</div>
 				
 				<div class="tab-pane" id="panel-216330">						
