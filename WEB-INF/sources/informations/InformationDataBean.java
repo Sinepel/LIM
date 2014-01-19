@@ -18,7 +18,7 @@ public class InformationDataBean{
 	public InformationDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
 		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
-		getInformation = con.prepareStatement("SELECT id, question, echeance, id_categorie, id_1, categorie.libelle FROM information,categorie WHERE information.categorie = categorie.id_categorie AND id = ?");
+		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?");
 	}
 	
 	public Information getInformationClick(int idInfo) throws SQLException{
@@ -33,7 +33,7 @@ public class InformationDataBean{
 			monInformation.setEcheance(rs.getString("echeance"));
 			monInformation.setCategorie(rs.getInt("id_categorie"));
 			monInformation.setIdInfoInverse(rs.getInt("id_1"));
-			monInformation.setCategorieLibellle(rs.getString("categorie.libelle"));
+			monInformation.setCategorieLibellle(rs.getString("libelle"));
 		}
 		return monInformation;
 	}
