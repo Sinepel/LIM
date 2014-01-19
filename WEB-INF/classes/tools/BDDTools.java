@@ -79,7 +79,7 @@ public class BDDTools
 				id = rs.getString("id");
 				catID = rs.getString("id_categorie");
 				
-				sb.append("<tr><td>"+id+"</td><td><a href=\"market.jsp?id="+id+"\">"+rs.getString("question")+"</a></td><td>"+rs.getString("echeance")+"</td><td><a href=\"category.jsp?id="+catID+"\">"+rs.getString("libelle")+"</a></td></tr>");
+				sb.append("<tr><td>"+id+"</td><td><a href=\"market.jsp?id="+id+"\">"+rs.getString("question")+"</a></td><td>"+this.getDateFormat(rs.getString("echeance"))+"</td><td><a href=\"category.jsp?id="+catID+"\">"+rs.getString("libelle")+"</a></td></tr>");
 				nblig++;
 			}
 		sb.append("</tobdy></table>\n");
