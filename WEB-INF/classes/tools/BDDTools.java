@@ -40,12 +40,50 @@ public class BDDTools
 		int nblig=1;
 		String id = null;
 		String catID = null;
+		
 		while(rs.next())
 			{
 				id = rs.getString("id");
-				catID = rs.getString("id_categorie");
-				
+				catID = rs.getString("id_categorie");				
 				sb.append("<tr><td>"+id+"</td><td><a href=\"market.jsp?id="+id+"\">"+rs.getString("question")+"</a></td><td>"+rs.getString("echeance")+"</td></tr>");
+				nblig++;
+			}
+		sb.append("</tobdy></table>\n");
+		if (ligNb) 
+		   sb.append("<div class=\"alert alert-info\">Il y a "+(nblig-1)+" lignes</div>");
+		   
+		
+		
+		return sb.toString();
+    }
+    
+    
+    
+    
+    public String getHTMLSimpleTableDate(ResultSet rs,boolean colname,boolean ligNb, boolean link)
+    throws Exception
+    {
+		StringBuffer sb = new StringBuffer();
+		ResultSetMetaData rsmd= rs.getMetaData();
+		int nbCols=rsmd.getColumnCount();
+		sb.append("<table class=\"table\">\n");
+		// entete des colonnes
+		if (colname)
+		{
+			sb.append("<thead><tr><th>#</th><th>Titre</th></thead><tbody>");
+			
+		}
+		// valeurs des colonnes
+		int nblig=1;
+		String id = null;
+		String date = null; 
+		while(rs.next())
+			{
+				id = rs.getString("id");
+				
+				date = rs.getString("echeance");
+				
+				sb.append("<tr><td>"+id+"</td><td><a href=\"market.jsp?id="+id+"\">"+rs.getString("question")+"</a></td></tr>");
 				nblig++;
 			}
 		sb.append("</tobdy></table>\n");
@@ -74,12 +112,14 @@ public class BDDTools
 		int nblig=1;
 		String id = null;
 		String catID = null;
+		String date = null; 
 		while(rs.next())
 			{
 				id = rs.getString("id");
 				catID = rs.getString("id_categorie");
+				date = this.getDateFormat(rs.getString("echeance"));
 				
-				sb.append("<tr><td>"+id+"</td><td><a href=\"market.jsp?id="+id+"\">"+rs.getString("question")+"</a></td><td>"+this.getDateFormat(rs.getString("echeance"))+"</td><td><a href=\"category.jsp?id="+catID+"\">"+rs.getString("libelle")+"</a></td></tr>");
+				sb.append("<tr><td>"+id+"</td><td><a href=\"market.jsp?id="+id+"\">"+rs.getString("question")+"</a></td><td><a href=\"date.jsp?date="+date+"\">"+this.getDateFormat(rs.getString("echeance"))+"</a></td><td><a href=\"category.jsp?id="+catID+"\">"+rs.getString("libelle")+"</a></td></tr>");
 				nblig++;
 			}
 		sb.append("</tobdy></table>\n");
