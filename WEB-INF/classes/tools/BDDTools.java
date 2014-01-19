@@ -17,11 +17,11 @@ public class BDDTools
        noms des colonnes peuvent être mis ou pas. la
        premiere colonne doit etre l'id qui sera utilisé pour faire un
        lien http.
-@param rs le resulset à transformer en table html
-@param colname indique si les noms des cols seront affichés
-@param ligNb   indique si le nombre de lignes est affiché en fin de table
-@param link    indique si on fait un lien sur la premiere colonne (id)
-@param pagination	indique si on veut la pagination du tableau
+		@param rs le resulset à transformer en table html
+		@param colname indique si les noms des cols seront affichés
+		@param ligNb   indique si le nombre de lignes est affiché en fin de table
+		@param link    indique si on fait un lien sur la premiere colonne (id)
+		@param pagination	indique si on veut la pagination du tableau
     **/
     public String getHTMLSimpleTableCategory(ResultSet rs,boolean colname,boolean ligNb, boolean link)
     throws Exception
