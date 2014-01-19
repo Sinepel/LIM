@@ -1,5 +1,7 @@
 package informations;
 
+//BEAN BDD TOOLS à utiliser pour créer le tableau des ordres
+import tools.BDDTools;
 import java.sql.*;
 import java.util.*;
 import java.net.*;
@@ -23,6 +25,7 @@ public class InformationDataBean{
 	
 	public Information getInformationClick(int idInfo) throws SQLException{
 		Information monInformation = new Information();
+		BDDTools tool = new BDDTools();
 		
 		getInformation.setInt(1,idInfo);
 		ResultSet rs = getInformation.executeQuery(); 

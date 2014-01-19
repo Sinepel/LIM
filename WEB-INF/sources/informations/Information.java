@@ -1,4 +1,5 @@
 package informations;
+import java.sql.*;
 
 public class Information{
 	private int id_information;
@@ -59,5 +60,9 @@ public class Information{
 	}
 	public void setUserCreation(int idUserCrea){
 		this.id_userCreation = idUserCrea;
+	}
+	public String getTableauOrdres(ResultSet rs)
+	{
+		return "";
 	}
 }
