@@ -96,7 +96,7 @@ public int nullIntconv(String str)
 	</div>
 	<div class="row clearfix">
 		<div class="col-md-8 column">
-			<h2>Le marché d'information</h2>
+			<h2>Toutes les informations</h2>
 
 <%
 
@@ -112,7 +112,7 @@ Connection conn = ds.getConnection();
     PreparedStatement psPagination=null;
     PreparedStatement psRowCnt=null;
     
-    int iShowRows=10;  // Number of records show on per page
+    int iShowRows=5;  // Number of records show on per page
     int iTotalSearchRecords=10;  // Number of pages index shown
     
     int iTotalRows=nullIntconv(request.getParameter("iTotalRows"));
@@ -184,7 +184,8 @@ Connection conn = ds.getConnection();
 %>
 <tr>
 <td colspan="3">
-<div>
+<div align="center">
+	<ul class="pagination">
 <%
         //// index of pages 
         
@@ -192,41 +193,42 @@ Connection conn = ds.getConnection();
         int cPage=0;
         if(iTotalRows!=0)
         {
-        cPage=((int)(Math.ceil((double)iEndResultNo/(iTotalSearchRecords*iShowRows))));
+			cPage=((int)(Math.ceil((double)iEndResultNo/(iTotalSearchRecords*iShowRows))));
         
-        int prePageNo=(cPage*iTotalSearchRecords)-((iTotalSearchRecords-1)+iTotalSearchRecords);
-        if((cPage*iTotalSearchRecords)-(iTotalSearchRecords)>0)
-        {
-         %>
-          <a href="all.jsp?iPageNo=<%=prePageNo%>&cPageNo=<%=prePageNo%>"> << Previous</a>
-         <%
-        }
+			int prePageNo=(cPage*iTotalSearchRecords)-((iTotalSearchRecords-1)+iTotalSearchRecords);
+			if((cPage*iTotalSearchRecords)-(iTotalSearchRecords)>0)
+			{
+				%>
+				<li><a href="all.jsp?iPageNo=<%=prePageNo%>&cPageNo=<%=prePageNo%>"> << Précédent</a></li>
+				<%
+			}
         
-        for(i=((cPage*iTotalSearchRecords)-(iTotalSearchRecords-1));i<=(cPage*iTotalSearchRecords);i++)
-        {
-          if(i==((iPageNo/iShowRows)+1))
-          {
-          %>
-           <a href="all.jsp?iPageNo=<%=i%>" style="cursor:pointer;color: red"><b><%=i%></b></a>
-          <%
-          }
-          else if(i<=iTotalPages)
-          {
-          %>
-           <a href="all.jsp?iPageNo=<%=i%>"><%=i%></a>
-          <% 
-          }
-        }
-        if(iTotalPages>iTotalSearchRecords && i<iTotalPages)
-        {
-         %>
-         <a href="all.jsp?iPageNo=<%=i%>&cPageNo=<%=i%>"> >> Next</a> 
-         <%
-        }
-        }
-      %>
-		<b>Information <%=iStartResultNo%> à <%=iEndResultNo%>   sur <%=iTotalRows%> </b>
-
+			for(i=((cPage*iTotalSearchRecords)-(iTotalSearchRecords-1));i<=(cPage*iTotalSearchRecords);i++)
+			{
+			  if(i==((iPageNo/iShowRows)+1))
+			  {
+				  %>
+				   <li class="active"><a href="all.jsp?iPageNo=<%=i%>"><b><%=i%></b></a></li>
+				  <%
+				  }
+			  else if(i<=iTotalPages)
+			  {
+				  %>
+				   <li><a href="all.jsp?iPageNo=<%=i%>"><%=i%></a></li>
+				  <% 
+			  }
+			}
+			if(iTotalPages>iTotalSearchRecords && i<iTotalPages)
+			{
+				 %>
+				 <li><a href="all.jsp?iPageNo=<%=i%>&cPageNo=<%=i%>"> >> Suivant</a></li>
+				 <%
+			}
+		}
+		  %>
+		</ul>
+		
+			<p>Information <%=iStartResultNo%> à <%=iEndResultNo%>   sur <%=iTotalRows%> </p>
 </form>
 </body>
 </html>
