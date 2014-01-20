@@ -67,7 +67,7 @@ Connection con = ds.getConnection();
 
 //Préparation de la requete
 Statement stmt= con.createStatement();
-PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNER JOIN utilisateur ON ordre.user_id = utilisateur.user_id where utilisateur.user_id="+id+";");
+PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNER JOIN utilisateur ON ordre.user_id = utilisateur.user_id INNER JOIN information ON information.id = ordre.id where utilisateur.user_id="+id+";");
 
 
 
