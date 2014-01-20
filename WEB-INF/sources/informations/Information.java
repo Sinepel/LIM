@@ -10,6 +10,7 @@ public class Information{
 	private String echeance;
 	private String dateCreation;
 	private String categorieLibelle;
+	private String mesOrdres;
 	
 	public Information(){}
 	
@@ -61,8 +62,11 @@ public class Information{
 	public void setUserCreation(int idUserCrea){
 		this.id_userCreation = idUserCrea;
 	}
-	public String getTableauOrdres(ResultSet rs)
-	{
-		return "";
+	
+	public void setTableauOrdres(String mesOrdres){
+		this.mesOrdres = mesOrdres;
+	}
+	public String getTableauOrdres(){
+		return this.mesOrdres;
 	}
 }
