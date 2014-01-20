@@ -17,18 +17,20 @@ public class InformationDataBean{
 	private PreparedStatement getInformation;
 	private PreparedStatement getOrdresSql;
 	private Information monInformation;
+	BDDTools tool = new BDDTools();
 	
 	
 	public InformationDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
+		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?");
-		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ?");
+		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix DESC");
 	}
 	
 	public Information getInformationClick(int idInfo) throws SQLException{
 		Information monInformation = new Information();
-		BDDTools tool = new BDDTools();
+		
 		
 		getInformation.setInt(1,idInfo);
 		ResultSet rs = getInformation.executeQuery(); 
@@ -59,9 +61,9 @@ public class InformationDataBean{
 			String idOrdre = rs.getString("id_ordre");
 			int ordrePrix = rs.getInt("prix");	
 			int ordreNbbons = rs.getInt("nbbons");
-			String ordreDateAchat = rs.getString("date_achat");
+			String ordreDateAchat = tool.getDateFormat(rs.getString("date_achat"));
 			String ordreAcheteur = rs.getString("pseudo");			
-			mesOrdres.append("<tr><td><a href=\"market.jsp?id="+idOrdre+"\">"+idOrdre+"</td><td>"+ordrePrix+"</a></td><td>"+ordreDateAchat+"</td><td>"+ordreNbbons+"</td><td>"+ordreAcheteur+"</td></tr>");
+			mesOrdres.append("<tr class=\"success\"><td><a href=\"market.jsp?id="+idOrdre+"\">"+idOrdre+"</td><td>"+ordrePrix+"</a></td><td>"+ordreNbbons+"</td><td>"+ordreDateAchat+"</td><td>"+ordreAcheteur+"</td></tr>");
 		}
 		
 		mesOrdres.append("</tobdy></table>\n");
