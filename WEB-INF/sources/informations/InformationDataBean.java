@@ -5,6 +5,7 @@ import tools.BDDTools;
 import java.sql.*;
 import java.util.*;
 import java.net.*;
+//ALORS ?
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
