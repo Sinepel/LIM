@@ -11,6 +11,7 @@ public class Information{
 	private String dateCreation;
 	private String categorieLibelle;
 	private String mesOrdres;
+	private String mesOrdresInverses;
 	
 	public Information(){}
 	
@@ -69,4 +70,12 @@ public class Information{
 	public String getTableauOrdres(){
 		return this.mesOrdres;
 	}
+	
+	public void setTableauOrdresInverses(String mesOrdresInverses){
+		this.mesOrdresInverses = mesOrdresInverses;
+	}
+	public String getTableauOrdresInverses(){
+		return this.mesOrdresInverses;
+	}
+
 }
