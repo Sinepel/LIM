@@ -34,6 +34,9 @@
 	
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
+	<link href="css/datatable.css" rel="stylesheet">
+	
+	
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -52,6 +55,7 @@
 	<!--<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>-->
 
 	<script src="js/datatable.js"></script>
+	<script src="js/bootstrap_datatable.js"></script>
 </head>
 
 <body>
@@ -66,22 +70,14 @@ Connection con = ds.getConnection();
 
 //Préparation de la requete
 Statement stmt= con.createStatement();
-//PreparedStatement preparedStatement = con.prepareStatement("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY ? ? LIMIT 10;");
-
-
-
-
-
-
 
 %>
 <script>
 $( document ).ready(function() {
     console.log( "ready!" );
     $('#informations').dataTable( {
-            "oLanguage": {
-                "sUrl": "js/language/fr.txt"
-            }
+			"sPaginationType": "bootstrap",
+            "oLanguage": {"sUrl": "js/language/fr.txt"}
         } );
 });
 </script>

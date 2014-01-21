@@ -101,7 +101,7 @@ public class BDDTools
 		StringBuffer sb = new StringBuffer();
 		ResultSetMetaData rsmd= rs.getMetaData();
 		int nbCols=rsmd.getColumnCount();
-		sb.append("<table class=\"table\">\n");
+		sb.append("<table id=\"informations\" name=\"informations\" class=\"table\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"table table-striped table-bordered\">\n");
 		// entete des colonnes
 		if (colname)
 		{
@@ -123,8 +123,8 @@ public class BDDTools
 				nblig++;
 			}
 		sb.append("</tobdy></table>\n");
-		if (ligNb) 
-		   sb.append("<div class=\"alert alert-info\">Il y a "+(nblig-1)+" lignes</div>");
+		//if (ligNb) 
+		   //sb.append("<div class=\"alert alert-info\">Il y a "+(nblig-1)+" lignes</div>");
 		   
 		
 		
@@ -200,5 +200,29 @@ public class BDDTools
 		date = str[2]+"/"+str[1]+"/"+str[0];
 		
 		return (date);
+	}
+	
+	public int nullIntconv(String str)
+	{   
+		int conv=0;
+		if(str==null)
+		{
+			str="0";
+		}
+		else if((str.trim()).equals("null"))
+		{
+			str="0";
+		}
+		else if(str.equals(""))
+		{
+			str="0";
+		}
+		try{
+			conv=Integer.parseInt(str);
+		}
+		catch(Exception e)
+		{
+		}
+		return conv;
 	}
 }
