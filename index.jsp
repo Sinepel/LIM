@@ -8,6 +8,7 @@
     <%@ page import="java.net.*" %>    
     <%@ page import="javax.naming.*" %>
     <%@ page import="javax.sql.*" %>
+  
     
     <!-- JAVA BEAN POUR FAIRE LE TABLEAU D'INFORMATIONS -->
     <jsp:useBean id="tool" scope="application" class="tools.BDDTools" />
@@ -48,6 +49,9 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
+	<!--<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>-->
+
+	<script src="js/datatable.js"></script>
 </head>
 
 <body>
@@ -71,8 +75,16 @@ Statement stmt= con.createStatement();
 
 
 %>
-
-
+<script>
+$( document ).ready(function() {
+    console.log( "ready!" );
+    $('#informations').dataTable( {
+            "oLanguage": {
+                "sUrl": "js/language/fr.txt"
+            }
+        } );
+});
+</script>
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
@@ -98,49 +110,24 @@ Statement stmt= con.createStatement();
 			}
 			
 			%>
-			<div class="tabbable" id="tabs-919597">
-				
-				
-				<ul class="nav nav-tabs">
-					<li class="active">
-						<a href="#panel-356429" data-toggle="tab">Nouvelles informations</a>
-					</li>
-					<li>
-						<a href="#panel-216330" data-toggle="tab">Bientôt Terminées</a>
-					</li>
-					
-				</ul>
-				<div class="tab-content">
-					<div class="tab-pane active" id="panel-356429">
+			
+			
 						<%
-							ResultSet rs=stmt.executeQuery("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY id ASC LIMIT 10;");
-							out.println(tool.getHTMLSimpleTable(rs,true,true,false));
-							rs = null;
-					%>
-					</div>
-					<div class="tab-pane" id="panel-216330">
-						<%
-							rs=stmt.executeQuery("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY echeance ASC;");
-							
+							ResultSet rs=stmt.executeQuery("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY id ASC LIMIT 30;");
 							out.println(tool.getHTMLSimpleTable(rs,true,true,false));
 							
-							
-							
-							
+							request.setAttribute("results", rs);
 							
 							rs.close(); 
 							stmt.close(); 
 							con.close();
-						%>
-					</div>
-					
-					
-					
-					
-				</div>
-			</div>
-			
-			
+
+					%>
+
+
+
+		
+							
 		</div>
 		<div class="col-md-4 column">
 			
