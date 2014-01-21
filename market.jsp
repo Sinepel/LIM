@@ -61,10 +61,10 @@
 <%
 
 //Récupération du POOL (LIM_POOL)
-Context iniCtx = new InitialContext();
+/*Context iniCtx = new InitialContext();
 Context envCtx = (Context) iniCtx.lookup("java:comp/env");
 DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
-Connection con = ds.getConnection();
+Connection con = ds.getConnection();*/
 
 //Préparation de la requete
 //Statement stmt= con.createStatement();
