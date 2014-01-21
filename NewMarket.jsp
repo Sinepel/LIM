@@ -13,7 +13,7 @@
     <jsp:useBean id="tool" scope="application" class="tools.BDDTools" />
     <jsp:useBean id="recupUser" scope="request" class="users.UserDataBean" />
     <jsp:useBean id="user" scope="page" class="users.User" />
-    
+  
     
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());
@@ -52,11 +52,13 @@
   <link rel="shortcut icon" href="img/favicon.png">  
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script src="js/jqBootstrapValidation.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
+	
 </head>
 
 <body>
-	
+	 
 <%
 
 //Récupération du POOL (LIM_POOL)
@@ -99,19 +101,19 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 			<h2>Le marché d'information</h2>
 			
 			
-			<form action="servlet/CreateNewMarket" method="POST">
+			<form id="createMarket" action="servlet/CreateNewMarket" method="POST">
   
 				<label for="information">Entrez l'information</label>
-				<input type="text" class="form-control" id="information" name="information" placeholder="Entrez l'information que vous souhaitez">
+				<input type="text" class="form-control" id="information" name="information" placeholder="Entrez l'information que vous souhaitez" required data-validation-required-message="Vous devez saisir une information">
 				
 				<label for="inverse">Entrez l'inverse</label>
-				 <input type="text" class="form-control" id="inverse" name="inverse" placeholder="Entrez l'inverse">
+				 <input type="text" class="form-control" id="inverse" name="inverse" placeholder="Entrez l'inverse" required data-validation-required-message="Vous devez saisir l'inverse">
 				
 				<label for="date">Entrez la date</label>
-				<input type="date" class="form-control" name="date" id="date">
+				<input type="date" class="form-control" name="date" id="date" required data-validation-required-message="Veuillez saisir une date d'écheance de l'information">
 				
 				<label>Catégorie</label>
-				<select class="form-control" name="categorie">
+				<select class="form-control" name="categorie" required>
 					
 					<% 
 						ResultSet rs = categories.executeQuery();
@@ -123,6 +125,7 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 					
 					%>
 				</select>
+				
 			  
 			  <br>
 			  <button type="submit" class="btn btn-default">Créer</button>
