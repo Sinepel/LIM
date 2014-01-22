@@ -1,7 +1,9 @@
 <html>
   <head>
+	  	<%@ page pageEncoding="UTF-8" %>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Connexion - ServletUpload</title>
+    <title>Connexion - LIM</title>
      <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
@@ -46,6 +48,7 @@
       <input type="text" name="j_username" class="input-block-level" placeholder="Pseudo">
       <input type="password" name="j_password" class="input-block-level" placeholder="Mot de Passe">
       <input class="btn btn-large btn-primary" type="submit">
+      <a href="addUser.jsp">Créer un compte</a>
 		</div>
   </body>
 </html>

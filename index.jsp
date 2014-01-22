@@ -16,15 +16,14 @@
     <jsp:useBean id="user" scope="page" class="users.User" />
     
     <% 
-		user = recupUser.getUtilisateur(request.getRemoteUser());
-		
+		user = recupUser.getUtilisateur(request.getRemoteUser());		
 		recupUser.fermerConnexion();
 	%>	
 	
     
   <title>Lille Information Market</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Le marché d'information par la DA2I">
+  <meta name="description" content="Le marché d'information par la DA2I"> 	
   <meta name="author" content="Constantin Boulanger - Florent Pulcian">
 
 
@@ -59,9 +58,9 @@ Context iniCtx = new InitialContext();
 Context envCtx = (Context) iniCtx.lookup("java:comp/env");
 DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
 Connection con = ds.getConnection();
-
 //Préparation de la requete
 Statement stmt= con.createStatement();
+PreparedStatement apercu = con.prepareStatement("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY id ASC LIMIT 30;");
 
 %>
 <script>
@@ -97,24 +96,17 @@ $( document ).ready(function() {
 				out.println("<div class=\"alert alert-success\">L'ajout a été effectué</div>");
 			}
 			
+			
+			ResultSet rs=apercu.executeQuery();
+			out.println(tool.getHTMLSimpleTable(rs,true,true,false));
+			
+			apercu.close();
+			rs.close(); 
+			stmt.close(); 
+			con.close();
+
 			%>
-			
-			
-						<%
-							ResultSet rs=stmt.executeQuery("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY id ASC LIMIT 30;");
-							out.println(tool.getHTMLSimpleTable(rs,true,true,false));
-							
-							
-							rs.close(); 
-							stmt.close(); 
-							con.close();
-
-					%>
-
-
-
 		
-							
 		</div>
 		<div class="col-md-4 column">
 			
@@ -131,11 +123,9 @@ $( document ).ready(function() {
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-pencil fa-fw"></i>Applications</a></li>-->
                 <li><a href="profil.jsp"><i class="fa fa-cogs fa-fw"></i>Votre Profil</a></li>
 				<li><% if (user.getRole().equals("admin")){ out.print("<li><a href=\"/admin\"><i class=\"fa fa-tasks fa-fw\"></i>Administration</a></li>");} %></li>
-
             </ul>
 			
-			<div class="panel-group" id="panel-404098">
-				
+			<div class="panel-group" id="panel-404098">				
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-603060">Vos Informations</a>
