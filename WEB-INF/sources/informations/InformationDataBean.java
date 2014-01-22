@@ -76,7 +76,7 @@ public class InformationDataBean{
 		mesOrdres.append("<form action=\"servlet/NewOrder\" method=\"post\" class=\"form-inline\" role=\"form\">");
 		mesOrdres.append("<div class=\"form-group\"><input class=\"form-control\" type=\"number\" id=\"prix\" name=\"prix\" placeholder=\"Prix unique d'un bon\"></div>");
 
-		mesOrdres.append("<div class=\"form-group\"><input  class=\"form-control\" type=\"number\" min=\"1\" max=\"99\" id=\"nbBons\" name=\"nbBons\" placeholder=\"Nombre de bons désirés\"></div>");
+		mesOrdres.append("<div class=\"form-group\"><input  class=\"form-control\" type=\"number\" min=\"1\" max=\"99\" id=\"nbBons\" name=\"nbBons\" placeholder=\"Nombre de bons\"></div>");
 
 		mesOrdres.append("  <button type=\"submit\" class=\"btn btn-default\">Acheter</button>");
 		
