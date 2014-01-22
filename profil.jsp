@@ -129,7 +129,9 @@ PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNE
 				</div>
 				
 				<div class="tab-pane" id="panel-216330">						
-						<form class="form-horizontal" action='' method="POST">
+						<form class="form-horizontal" action='servlet/ModifUser' method="POST">
+						<input type="hidden" id="usernameHidden" name="usernameHidden" placeholder="" class="input-xlarge" value="<%= pseudo %>">
+
 						  <fieldset disabled>
 							 <div class="control-group">
 							  <!-- Username -->
