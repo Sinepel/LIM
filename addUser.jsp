@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Connexion - ServletUpload</title>
+    <title>Inscription - LIM</title>
      <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <%@ page pageEncoding="UTF-8" %>
