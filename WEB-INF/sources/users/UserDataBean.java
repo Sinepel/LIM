@@ -87,15 +87,13 @@ public class UserDataBean{
 		setAjouterUtilisateur.executeUpdate();
 	}
 	
-	public void modifierUtilisateur(String email, String password) throws SQLException{
-		
-		String idUser = monUser.getPseudo();
+	public void modifierUtilisateur(String pseudo, String email, String password) throws SQLException{
+		modifUser = con.createStatement();
 		if(!email.equals("")){
-			modifUser.executeUpdate("UPDATE utilisateur SET mail = "+email+" WHERE pseudo = "+idUser);
-			monUser.setMail(email);
+			modifUser.executeUpdate("UPDATE utilisateur SET mail = '"+email+"' WHERE pseudo = '"+pseudo+"'");
 		}
 		if(!password.equals("")){
-			modifUser.executeUpdate("UPDATE utilisateur SET mdp = "+password+" WHERE pseudo = "+idUser);
+			modifUser.executeUpdate("UPDATE utilisateur SET mdp = md5('"+password+"') WHERE pseudo = '"+pseudo+"'");
 		}
 	}
 	

@@ -7,6 +7,7 @@ import java.sql.*;
 import javax.sql.*;
 import javax.naming.*;
 import users.UserDataBean;
+import users.User;
 
 @WebServlet("/servlet/ModifUser")
 public class ModifUser extends HttpServlet
@@ -16,20 +17,21 @@ public class ModifUser extends HttpServlet
 	{
 		req.setCharacterEncoding("UTF-8");
 		PrintWriter out = res.getWriter();
+			String pseudo = req.getParameter("usernameHidden");
 			String mail = req.getParameter("email");
 			String mdp = req.getParameter("password");
-			UserDataBean monUserDataBean = null;
 			
 			try {
-				monUserDataBean = new UserDataBean();
-				monUserDataBean.modifierUtilisateur(mail,mdp);
+				UserDataBean monUserDataBean = new UserDataBean();
+				User monUser = monUserDataBean.getUtilisateur(pseudo);
+				monUserDataBean.modifierUtilisateur(pseudo,mail,mdp);
 				monUserDataBean.fermerConnexion();
 			}
 			catch (Exception E) {
 				out.println(E.toString());
-				}
+			}
 			
-			//res.sendRedirect(req.getContextPath());		
+			res.sendRedirect(req.getContextPath());		
 	}	
 	
 }
