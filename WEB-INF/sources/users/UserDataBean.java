@@ -88,6 +88,7 @@ public class UserDataBean{
 	}
 	
 	public void modifierUtilisateur(String email, String password) throws SQLException{
+		
 		String idUser = monUser.getPseudo();
 		if(!email.equals("")){
 			modifUser.executeUpdate("UPDATE utilisateur SET mail = "+email+" WHERE pseudo = "+idUser);

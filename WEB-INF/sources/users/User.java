@@ -8,7 +8,6 @@ public class User{
 	private int espece;
 	private int bons;
 	
-	
 	public User(){}
 	
 	public int getId(){
