@@ -17,6 +17,7 @@ public class UserDataBean{
 	private PreparedStatement setAjouterEspece;
 	private PreparedStatement setEnleverEspece;
 	private PreparedStatement setAjouterUtilisateur;
+	private Statement modifUser;
 	private User monUser;
 	
 	public UserDataBean() throws Exception{
@@ -27,7 +28,7 @@ public class UserDataBean{
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
 		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
 		setEnleverEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece - ? WHERE pseudo = ?;");
-		setAjouterUtilisateur = con.prepareStatement("INSERT into utilisateur(pseudo,mdp,mail,espece,bons,role) values(?,?,?,1000,0,'user')");
+		setAjouterUtilisateur = con.prepareStatement("INSERT into utilisateur(pseudo,mdp,mail,espece,bons,role) values(?,md5(?),?,1000,0,'user')");
 	}
 	
 	public User getUtilisateur(String pseudo) throws SQLException{
@@ -84,6 +85,17 @@ public class UserDataBean{
 		setAjouterUtilisateur.setString(2,mdp);
 		setAjouterUtilisateur.setString(3,mail);
 		setAjouterUtilisateur.executeUpdate();
+	}
+	
+	public void modifierUtilisateur(String email, String password) throws SQLException{
+		String idUser = monUser.getPseudo();
+		if(!email.equals("")){
+			modifUser.executeUpdate("UPDATE utilisateur SET mail = "+email+" WHERE pseudo = "+idUser);
+			monUser.setMail(email);
+		}
+		if(!password.equals("")){
+			modifUser.executeUpdate("UPDATE utilisateur SET mdp = "+password+" WHERE pseudo = "+idUser);
+		}
 	}
 	
 	protected void finalize() {
