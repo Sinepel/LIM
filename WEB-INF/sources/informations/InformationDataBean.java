@@ -23,8 +23,8 @@ public class InformationDataBean{
 	
 	public InformationDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
+		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?");
 		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix DESC");
 		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix ASC");
@@ -74,9 +74,9 @@ public class InformationDataBean{
 		
 		mesOrdres.append("<h3>Acheter</h3>");
 		mesOrdres.append("<form action=\"servlet/NewOrder\" method=\"post\" class=\"form-inline\" role=\"form\">");
-		mesOrdres.append("<div class=\"form-group\"><input class=\"form-control\" type=\"text\" id=\"prix\" name=\"prix\" placeholder=\"Prix unique d'un bon\"></div>");
+		mesOrdres.append("<div class=\"form-group\"><input class=\"form-control\" type=\"number\" id=\"prix\" name=\"prix\" placeholder=\"Prix unique d'un bon\"></div>");
 
-		mesOrdres.append("<div class=\"form-group\"><input class=\"form-control\" type=\"text\" id=\"nbBons\" name=\"nbBons\" placeholder=\"Nombre de bons désirés\"></div>");
+		mesOrdres.append("<div class=\"form-group\"><input  class=\"form-control\" type=\"number\" min=\"1\" max=\"99\" id=\"nbBons\" name=\"nbBons\" placeholder=\"Nombre de bons désirés\"></div>");
 
 		mesOrdres.append("  <button type=\"submit\" class=\"btn btn-default\">Acheter</button>");
 		
