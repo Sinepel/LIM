@@ -16,6 +16,7 @@ public class UserDataBean{
 	private PreparedStatement setEnleverBon;
 	private PreparedStatement setAjouterEspece;
 	private PreparedStatement setEnleverEspece;
+	private PreparedStatement setAjouterUtilisateur;
 	private User monUser;
 	
 	public UserDataBean() throws Exception{
@@ -26,6 +27,7 @@ public class UserDataBean{
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
 		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
 		setEnleverEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece - ? WHERE pseudo = ?;");
+		setAjouterUtilisateur = con.prepareStatement("INSERT into utilisateur(pseudo,mdp,mail,espece,bons,role) values(?,?,?,1000,0,'user')");
 	}
 	
 	public User getUtilisateur(String pseudo) throws SQLException{
@@ -77,10 +79,21 @@ public class UserDataBean{
 		monUser.setEspece(monUser.getEspece()-nombre);
 	}
 	
+	public void ajouterUtilisateur(String pseudo, String mdp, String mail) throws SQLException{
+		setAjouterUtilisateur.setString(1,pseudo);
+		setAjouterUtilisateur.setString(2,mdp);
+		setAjouterUtilisateur.setString(3,mail);
+		setAjouterUtilisateur.executeUpdate();
+	}
+	
 	protected void finalize() {
 	// attempt to close database connection
 	try {
 		getUser.close();
+		setAjouterBon.close();
+		setEnleverBon.close();
+		setAjouterEspece.close();
+		setEnleverEspece.close();
 		con.close();
 		}
 

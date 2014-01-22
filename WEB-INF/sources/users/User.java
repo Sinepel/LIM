@@ -4,8 +4,10 @@ public class User{
 	private int id_utilisateur;
 	private String pseudo;
 	private String role;
+	private String mail;
 	private int espece;
 	private int bons;
+	
 	
 	public User(){}
 	
@@ -38,5 +40,11 @@ public class User{
 	}
 	public void setBons(int bons){
 		this.bons = bons;
+	}
+	public String getMail(){
+		return this.mail;
+	}
+	public void setMail(String mail){
+		this.mail = mail;
 	}
 }
