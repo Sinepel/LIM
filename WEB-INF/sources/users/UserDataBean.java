@@ -22,13 +22,13 @@ public class UserDataBean{
 	
 	public UserDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
 		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
 		setAjouterBon = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
 		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
 		setEnleverEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece - ? WHERE pseudo = ?;");
-		setAjouterUtilisateur = con.prepareStatement("INSERT into utilisateur(pseudo,mdp,mail,espece,bons,role) values(?,md5(?),?,1000,0,'user')");
+		setAjouterUtilisateur = con.prepareStatement("INSERT into utilisateur(pseudo,mdp,mail,espece,bons,role) values(?,md5(?),?,10000,0,'user')");
 	}
 	
 	public User getUtilisateur(String pseudo) throws SQLException{
