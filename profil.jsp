@@ -115,10 +115,6 @@ PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNE
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane active" id="panel-356429">
-						
-						
-						
-						
 						<ul class="list-group">
 						  <li class="list-group-item">Pseudo: <%= pseudo%></li>
 						  <li class="list-group-item">Vos bons: <%= bons%></li>
@@ -129,6 +125,9 @@ PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNE
 				</div>
 				
 				<div class="tab-pane" id="panel-216330">						
+					<div class="row">	
+					<div class="col-md-6 col-md-offset-3">
+
 						<form class="form-horizontal" action='servlet/ModifUser' method="POST">
 						<input type="hidden" id="usernameHidden" name="usernameHidden" placeholder="" class="input-xlarge" value="<%= pseudo %>">
 
@@ -137,7 +136,7 @@ PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNE
 							  <!-- Username -->
 							  <label class="control-label"  for="username">Pseudo</label>
 							  <div class="controls">
-								<input type="text" id="username" name="username" placeholder="" class="input-xlarge" value="<%= pseudo %>">
+								<input class="form-control" type="text" id="username" name="username" placeholder="" class="input-xlarge" value="<%= pseudo %>">
 							  </div>
 							</div>
 							</fieldset>
@@ -146,7 +145,7 @@ PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNE
 							  <!-- E-mail -->
 							  <label class="control-label" for="email">E-mail</label>
 							  <div class="controls">
-								<input type="text" id="email" name="email" placeholder="" class="input-xlarge">
+								<input type="text" id="email" name="email" placeholder="" class="form-control">
 								<p class="help-block">Veuillez mettre votre mail pour être prévenu de la finalité de vos actions</p>
 							  </div>
 							</div>
@@ -155,7 +154,7 @@ PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNE
 							  <!-- Password-->
 							  <label class="control-label" for="password">Mot de passe</label>
 							  <div class="controls">
-								<input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+								<input class="form-control" type="password" id="password" name="password" placeholder="" class="input-xlarge">
 								
 							  </div>
 							</div>
@@ -164,19 +163,27 @@ PreparedStatement tableauOrdres = con.prepareStatement("select * from ordre INNE
 							  <!-- Password -->
 							  <label class="control-label"  for="password_confirm">Mot de passe (Confirmation)</label>
 							  <div class="controls">
-								<input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
+								<input class="form-control" type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
 								<p class="help-block">Veuillez retaper le mot de passe</p>
 							  </div>
 							</div>
 						 
 							<div class="control-group">
 							  <!-- Button -->
-							  <div class="controls">
-								<button class="btn btn-success">Modifier votre profil</button>
+							<div class="controls">
+								<div class="row">
+									<div class="col-md-6">
+										<button class="btn btn-primary btn-block btn-success">Modifier votre profil</button>
+									</div>
+									<div class="col-md-6">	
+										<INPUT class="btn btn-primary btn-block btn-danger" TYPE="reset" NAME="nom" VALUE="Annuler">
+									</div>
 							  </div>
 							</div>
 						  </fieldset>
-						</form>						
+						</form>		
+					</div>
+					</div>					
 					</div>
 					
 					
