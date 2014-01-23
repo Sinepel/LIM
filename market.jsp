@@ -57,28 +57,6 @@
 </head>
 
 <body>
-	
-<%
-
-//Récupération du POOL (LIM_POOL)
-/*Context iniCtx = new InitialContext();
-Context envCtx = (Context) iniCtx.lookup("java:comp/env");
-DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
-Connection con = ds.getConnection();*/
-
-//Préparation de la requete
-//Statement stmt= con.createStatement();
-//PreparedStatement preparedStatement = con.prepareStatement("Select * from information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie ORDER BY ? ? LIMIT 10;");
-
-
-
-
-
-
-
-%>
-
-
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
@@ -101,6 +79,7 @@ Connection con = ds.getConnection();*/
 			<p>Je veux <a href="market.jsp?id=<%=info.getIdInfoInverse()%>">l'information inverse</a></p>
 			<p>Le marché se termine le: <a href="date.jsp?date=<%= tool.getDateFormat(info.getEcheance()) %>"><%= tool.getDateFormat(info.getEcheance()) %></a></p>
 			<p>Catégorie : <a href="category.jsp?id=<%=info.getCategorie() %>"><%= info.getCategorieLibelle() %></a></p>
+			
 			<%= info.getTableauOrdresInverses() %>	
 			<%= info.getTableauOrdres() %>
 		</div>
