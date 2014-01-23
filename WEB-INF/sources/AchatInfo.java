@@ -46,13 +46,13 @@ public class AchatInfo extends HttpServlet
 			{	
 
 				InformationDataBean infoDB = new InformationDataBean();
-				infoDB.ajouterOrdre(prix,nbBons,date_achat,marketID,userID);
+				infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
 			}
 			catch (SQLException e){out.println("bonjour"+e.toString());}
 			catch (Exception e){out.println("dfdfd"+e.toString());}
 			
 			//Gestion de la redirection vers la page d'origine			
-			//res.sendRedirect(req.getHeader("Referer"));
+			res.sendRedirect(req.getHeader("Referer"));
 			
 			
 			
