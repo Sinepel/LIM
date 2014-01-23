@@ -82,6 +82,31 @@
 			
 			<%= info.getTableauOrdresInverses() %>	
 			<%= info.getTableauOrdres() %>
+			
+			
+			
+			
+		
+		<h3>Acheter</h3>
+		<form action="servlet/AchatInfo" method="post" class="form-inline" role="form">
+			
+			<input  class="form-control" type="hidden" id="userID" name="userID" value="<%= user.getId() %>">
+			<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
+			
+			<div class="form-group">
+				<input  class="form-control" type="number" id="nbBons" name="nbBons" placeholder="Nombre de bons" required>
+			</div>
+
+			<div class="form-group">
+				<input class="form-control" type="number" id="prix" min="1" max="99"  name="prix" placeholder="Prix unique d'un bon" required>
+			</div>
+
+			<button type="submit" class="btn btn-default">Acheter</button>
+			
+		</form>
+			
+			
+			
 		</div>
 		<div class="col-md-4 column">
 			
