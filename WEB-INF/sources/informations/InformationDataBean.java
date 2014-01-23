@@ -18,13 +18,14 @@ public class InformationDataBean{
 	private PreparedStatement getOrdresSql;
 	private PreparedStatement getOrdresInverseSql;
 	private Information monInformation;
+	private ArrayList<Ordre> mesOrdres;
 	BDDTools tool = new BDDTools();
 	
 	
 	public InformationDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
-		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?");
 		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix DESC");
 		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix ASC");
@@ -110,6 +111,11 @@ public class InformationDataBean{
 		mesOrdresInverses.append("</tobdy></table>\n");
 		return mesOrdresInverses.toString();
 	}
+	
+	public ArrayList<Ordre> getMesOrdresInverses(){
+		
+	}
+	
 	protected void finalize() {
 	// attempt to close database connection
 	try {
