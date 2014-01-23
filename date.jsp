@@ -163,11 +163,17 @@ String date = request.getParameter("date");
 			</div>
 		</div>
 	</div>
-<div id="footer">
-      <div class="container">
-      <p class="muted credit">Créé par Constantin Boulanger & Florent Pulcian</p>
-      </div>
-    </div>
+<hr>	
+<div class="row">
+    <div class="col-lg-12">
+      <div class="col-md-8">
+        <a href="#">FAQ</a>    
+        <a href="#">À Propos</a>    
+	</div>
+	<div class="col-md-4">
+		<p class="muted pull-right">© 2014 Lille Information Market. &copy; <br>Constantin Boulanger & Florent Pulcian</p>
+	</div>
+</div>
 
 </div>
 </body>
