@@ -90,16 +90,8 @@
 			
 			
 		<%
-		
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			String date = df.format(new Date());
-			
-			
-			
-			
-			
-			
-
 		%>
 		<h3>Acheter</h3>
 		<form action="servlet/AchatInfo" method="post" class="form-inline" role="form">
@@ -116,7 +108,8 @@
 				<input class="form-control" type="number" id="prix" min="1" max="99"  name="prix" placeholder="Prix unique d'un bon" required>
 			</div>
 
-			<button type="submit" class="btn btn-default">Acheter</button>
+			<button type="submit" class="btn btn-success">Acheter</button>
+			<button type="reset" class="btn btn-danger">Annuler</button>
 			
 		</form>
 			
