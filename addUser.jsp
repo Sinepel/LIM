@@ -32,10 +32,10 @@
       .form-signin .checkbox {
         margin-bottom: 10px;
       }
-      .form-signin input[type="text"],
-      .form-signin input[type="password"] {
+      .form input[type="text"],
+      .form input[type="password"] {
         font-size: 16px;
-        height: auto;
+        /*height: auto;*/
         margin-bottom: 15px;
         padding: 7px 9px;
       }
@@ -54,8 +54,15 @@
                     <input type="text" id="email" name="email" value="" class="form-control input-lg" placeholder="Votre mail" required />
                     <input type="password" name="password" value="" class="form-control input-lg" placeholder="Mot de passe" required />
                     <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirmation du mot de passe"   required />                    
-                    <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">Créer son Compte :)</button>
-            </form>          
+                    <div class="row">
+						<div class="col-md-6">
+							<button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">Créer son compte</button>
+						</div>
+						<div class="col-md-6">
+							<button class="btn btn-lg btn-primary btn-block signup-btn btn-danger" type="reset">Annuler</button>
+						</div>
+                    </div>
+			</form>          
           </div>
 	</div>            
 	</div>
