@@ -6,6 +6,7 @@ import javax.servlet.http.*;
 import java.sql.*;
 import javax.sql.*;
 import javax.naming.*;
+import informations.*;
 
 
 
@@ -13,7 +14,7 @@ import javax.naming.*;
 @WebServlet("/servlet/AchatInfo")
 public class AchatInfo extends HttpServlet
 {
-	public void doPost( HttpServletRequest req, HttpServletResponse res ) 
+	public void service( HttpServletRequest req, HttpServletResponse res ) 
 		throws ServletException, IOException
 	{
 		req.setCharacterEncoding("UTF-8");
@@ -29,14 +30,15 @@ public class AchatInfo extends HttpServlet
 			con = ds.getConnection();
 
 			
-			//Gestion de la redirection vers la page d'origine
 			
-			res.sendRedirect(req.getContextPath()+"?add=ok");
+			//Gestion de la redirection vers la page d'origine			
+			res.sendRedirect(req.getContextPath()+"/"+req.getHeader("Referer"));
 			
-			rs.close();
+			
 			con.close();	
 			
 		}
+		catch (NamingException e) {out.println(e.toString());} 
 		catch (SQLException e) {out.println(e.toString());}	
 		
 		
