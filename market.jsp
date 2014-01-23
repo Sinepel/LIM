@@ -105,7 +105,7 @@
 					<input  class="form-control" type="hidden" id="date" name="date" value="<%= date %>">
 					
 					<div class="form-group">
-						<input  class="form-control" type="number" id="nbBons" name="nbBons" placeholder="Nombre de bons" required>
+						<input  class="form-control" type="number" id="nbBons" min="1" name="nbBons" placeholder="Nombre de bons" required>
 					</div>
 
 					<div class="form-group">
