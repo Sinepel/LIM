@@ -43,23 +43,6 @@
     </style>
     
   </head>
-	<script>
-
-
-$( document ).ready(function() {
-	$("#form" ).submit(function( event ) {
-	  if ( $( "#email" ).val() === "correct" ) {
-		alert("YOOOOOO");
-		return;
-	  }
-	 
-	//  $( "span" ).text( "Not valid!" ).show().fadeOut( 1000 );
-	  event.preventDefault();
-	});
-
-});
-
-</script>
   <body>
 	  <div class="container" id="wrap">
 	  <div class="row">
@@ -76,6 +59,12 @@ $( document ).ready(function() {
           </div>
 	</div>            
 	</div>
+<div id="footer">
+      <div class="container">
+      <p class="muted credit">Créé par Constantin Boulanger & Florent Pulcian</p>
+      </div>
+    </div>
+
 </div>
   </body>
 </html>

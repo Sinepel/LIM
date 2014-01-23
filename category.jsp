@@ -163,6 +163,12 @@ String catID = request.getParameter("id");
 			</div>
 		</div>
 	</div>
+
+<div id="footer">
+      <div class="container">
+      <p class="muted credit">Créé par Constantin Boulanger & Florent Pulcian</p>
+      </div>
+    </div>
 </div>
 </body>
 </html>
