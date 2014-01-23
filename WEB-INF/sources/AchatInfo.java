@@ -22,6 +22,12 @@ public class AchatInfo extends HttpServlet
 		Connection con;
 		DataSource ds ;
 		
+		String userID = req.getParameter("userID");
+		int prix = Integer.parseInt(req.getParameter("prix"));
+		int nbBons = Integer.parseInt(req.getParameter("nbBons"));
+		String date_achat ; //TODO
+		String marketID = req.getParameter("marketID");
+		
 		try {
 			//Récupération du POOL (LIM_POOL)
 			Context initCtx = new InitialContext();
@@ -29,6 +35,8 @@ public class AchatInfo extends HttpServlet
 			ds = (DataSource) envCtx.lookup("LIM_POOL");
 			con = ds.getConnection();
 
+			
+			//Appel de la méthode pour rajouter un ordre
 			
 			
 			//Gestion de la redirection vers la page d'origine			
