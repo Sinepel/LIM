@@ -5,6 +5,8 @@
     <title>Inscription - LIM</title>
      <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+
     <%@ page pageEncoding="UTF-8" %>
     <style type="text/css">
       body {
@@ -39,19 +41,36 @@
       }
  
     </style>
+    
   </head>
-	
+	<script>
+
+
+$( document ).ready(function() {
+	$("#form" ).submit(function( event ) {
+	  if ( $( "#email" ).val() === "correct" ) {
+		alert("YOOOOOO");
+		return;
+	  }
+	 
+	//  $( "span" ).text( "Not valid!" ).show().fadeOut( 1000 );
+	  event.preventDefault();
+	});
+
+});
+
+</script>
   <body>
 	  <div class="container" id="wrap">
 	  <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <form action="servlet/CreateUser" method="post" accept-charset="utf-8" class="form" role="form">   <legend>Inscription</legend>
+            <form action="servlet/CreateUser" method="post" accept-charset="utf-8" class="form" role="form" id="form">   <legend>Inscription</legend>
                     <h4>It's free and always will be.</h4>
                     
-					<input type="text" name="firstname" value="" class="form-control input-lg" placeholder="Pseudo"  />
-                    <input type="text" name="email" value="" class="form-control input-lg" placeholder="Votre mail"  />
-                    <input type="password" name="password" value="" class="form-control input-lg" placeholder="Mot de passe"  />
-                    <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirmation du mot de passe"  />                    
+					<input type="text" id="firstname" name="firstname" value="" class="form-control input-lg" placeholder="Pseudo" required />
+                    <input type="text" id="email" name="email" value="" class="form-control input-lg" placeholder="Votre mail" required />
+                    <input type="password" name="password" value="" class="form-control input-lg" placeholder="Mot de passe" required />
+                    <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirmation du mot de passe"   required />                    
                     <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">Créer son Compte :)</button>
             </form>          
           </div>
