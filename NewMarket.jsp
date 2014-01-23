@@ -100,8 +100,9 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 		<div class="col-md-8 column">
 			<h2>Le marché d'information</h2>
 			
-			
-			<form id="createMarket" action="servlet/CreateNewMarket" method="POST">
+			<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<form id="createMarket" action="servlet/CreateNewMarket" method="POST">
   
 				<label for="information">Entrez l'information</label>
 				<input type="text" class="form-control" id="information" name="information" placeholder="Entrez l'information que vous souhaitez" required data-validation-required-message="Vous devez saisir une information">
@@ -130,7 +131,8 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 			  <br>
 			  <button type="submit" class="btn btn-default">Créer</button>
 			</form>
-			
+			</div>
+			</div>
 			
 		</div>
 		<div class="col-md-4 column">
