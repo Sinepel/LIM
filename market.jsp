@@ -94,27 +94,35 @@
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			String date = df.format(new Date());
 		%>
-		<h3>Acheter</h3>
-		<form action="servlet/AchatInfo" method="post" class="form-inline" role="form">
-			
-			<input  class="form-control" type="hidden" id="userID" name="userID" value="<%= user.getId() %>">
-			<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
-			<input  class="form-control" type="hidden" id="date" name="date" value="<%= date %>">
-			
-			<div class="form-group">
-				<input  class="form-control" type="number" id="nbBons" name="nbBons" placeholder="Nombre de bons" required>
-			</div>
+		
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h3>Acheter</h3>
+				<form action="servlet/AchatInfo" method="post" class="form" role="form">
+					
+					<input  class="form-control" type="hidden" id="userID" name="userID" value="<%= user.getId() %>">
+					<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
+					<input  class="form-control" type="hidden" id="date" name="date" value="<%= date %>">
+					
+					<div class="form-group">
+						<input  class="form-control" type="number" id="nbBons" name="nbBons" placeholder="Nombre de bons" required>
+					</div>
 
-			<div class="form-group">
-				<input class="form-control" type="number" id="prix" min="1" max="99"  name="prix" placeholder="Prix unique d'un bon" required>
+					<div class="form-group">
+						<input class="form-control" type="number" id="prix" min="1" max="99"  name="prix" placeholder="Prix unique d'un bon" required>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<button type="submit" class="btn btn-primary btn-block btn-success">Acheter</button>
+						</div>	
+						<div class="col-md-6">
+							<button type="reset" class="btn btn-primary btn-block btn-danger">Annuler</button>
+						</div>
+					</div>
+				</form>
+				
 			</div>
-
-			<button type="submit" class="btn btn-success">Acheter</button>
-			<button type="reset" class="btn btn-danger">Annuler</button>
-			
-		</form>
-			
-			
+		</div>
 			
 		</div>
 		<div class="col-md-4 column">
