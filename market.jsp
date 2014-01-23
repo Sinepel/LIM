@@ -93,6 +93,12 @@
 		
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			String date = df.format(new Date());
+			
+			
+			
+			
+			
+			
 
 		%>
 		<h3>Acheter</h3>
