@@ -17,8 +17,9 @@ public class InformationDataBean{
 	private PreparedStatement getInformation;
 	private PreparedStatement getOrdresSql;
 	private PreparedStatement getOrdresInverseSql;
+	private PreparedStatement ajoutOrdreSql;
 	private Information monInformation;
-	private ArrayList<Ordre> mesOrdres;
+	private ArrayList<OrdreBean> mesOrdres;
 	BDDTools tool = new BDDTools();
 	
 	
@@ -26,9 +27,10 @@ public class InformationDataBean{
 		Class.forName("org.postgresql.Driver");
 		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
 		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
-		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?");
-		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix DESC");
-		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix ASC");
+		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?;");
+		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix DESC;");
+		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix ASC;");
+		ajoutOrdreSql = con.prepareStatement("INSERT into ordre(prix,nbbons,date_achat,id,user_id) values(?,?,?,?,?);");
 	}
 	
 	public Information getInformationClick(int idInfo) throws SQLException{
@@ -70,22 +72,8 @@ public class InformationDataBean{
 			mesOrdres.append("<tr class=\"success\"><td><a href=\"market.jsp?id="+idOrdre+"\">"+idOrdre+"</td><td>"+ordrePrix+"</a></td><td>"+ordreNbbons+"</td><td>"+ordreDateAchat+"</td><td>"+ordreAcheteur+"</td></tr>");
 		}
 		mesOrdres.append("</tobdy></table>\n");
-			
-		//DEBUT DU TABLEAU FORMULAIRE POUR ACHETER UN ORDRE
-		
-		mesOrdres.append("<h3>Acheter</h3>");
-		mesOrdres.append("<form action=\"servlet/NewOrder\" method=\"post\" class=\"form-inline\" role=\"form\">");
-		mesOrdres.append("<div class=\"form-group\"><input class=\"form-control\" type=\"number\" id=\"prix\" name=\"prix\" placeholder=\"Prix unique d'un bon\"></div>");
-
-		mesOrdres.append("<div class=\"form-group\"><input  class=\"form-control\" type=\"number\" min=\"1\" max=\"99\" id=\"nbBons\" name=\"nbBons\" placeholder=\"Nombre de bons\"></div>");
-
-		mesOrdres.append("  <button type=\"submit\" class=\"btn btn-default\">Acheter</button>");
-		
-		mesOrdres.append("</form>");
-
 		
 		return mesOrdres.toString();
-		
 	}
 	
 	private String getOrdresInverse(int idInfoInverse) throws SQLException{
@@ -112,10 +100,36 @@ public class InformationDataBean{
 		return mesOrdresInverses.toString();
 	}
 	
-	public ArrayList<Ordre> getMesOrdresInverses(){
+	public ArrayList<OrdreBean> getMesOrdresInverses(int IdInfoInverse) throws SQLException{
 		
+		getOrdresInverseSql.setInt(1,IdInfoInverse);
+		ResultSet rs = getOrdresInverseSql.executeQuery();
+		
+		while(rs.next()){
+			OrdreBean monOrdre = new OrdreBean();
+			monOrdre.setIdOrdre(rs.getInt("id_ordre"));
+			monOrdre.setPrix(rs.getInt("prix"));
+			monOrdre.setNbBons(rs.getInt("nbbons"));
+			monOrdre.setIdInformation(rs.getInt("id"));
+			monOrdre.setIdUser(rs.getInt("user_id"));
+			monOrdre.setDateAchat(rs.getString("date_achat"));
+			
+			mesOrdres.add(monOrdre);
+		}
+		return mesOrdres;
 	}
 	
+	public void ajouterOrdre(int prix,int nbbons,String date_achat,int id,int user_id) throws SQLException{
+		
+		ajoutOrdreSql.setInt(1,prix);
+		ajoutOrdreSql.setInt(2,nbbons);
+		ajoutOrdreSql.setString(3,date_achat);
+		ajoutOrdreSql.setInt(4,id);
+		ajoutOrdreSql.setInt(5,user_id);
+		
+		ajoutOrdreSql.executeUpdate();
+		
+	}
 	protected void finalize() {
 	// attempt to close database connection
 	try {

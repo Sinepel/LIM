@@ -1,7 +1,7 @@
 package informations;
 import java.sql.*;
 
-public class Ordre{
+public class OrdreBean{
 	
 	private int id_ordre;
 	private int prix;
@@ -10,7 +10,7 @@ public class Ordre{
 	private int id_user;
 	private String date_achat;
 	
-	public Ordre(){} 
+	public OrdreBean(){} 
 	
 	public void setIdOrdre(int id_ordre){
 		this.id_ordre = id_ordre;
