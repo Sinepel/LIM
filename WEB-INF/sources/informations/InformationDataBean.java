@@ -5,6 +5,8 @@ import tools.BDDTools;
 import java.sql.*;
 import java.util.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 //ALORS ?
 
 import javax.naming.InitialContext;
@@ -25,12 +27,12 @@ public class InformationDataBean{
 	
 	public InformationDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
+		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?;");
 		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix DESC;");
 		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix ASC;");
-		ajoutOrdreSql = con.prepareStatement("INSERT into ordre(prix,nbbons,date_achat,id,user_id) values(?,?,?,?,?);");
+		ajoutOrdreSql = con.prepareStatement("INSERT into ordre(prix,nbbons,date_achat,id,user_id) values(?,?,?,?,?)");
 	}
 	
 	public Information getInformationClick(int idInfo) throws SQLException{
@@ -119,11 +121,20 @@ public class InformationDataBean{
 		return mesOrdres;
 	}
 	
-	public void ajouterOrdre(int prix,int nbbons,String date_achat,int id,int user_id) throws SQLException{
+	public void ajouterOrdre(int prix,int nbbons,String date_achat,int id,int user_id) throws Exception, SQLException{
 		
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+		java.util.Date date = formatter.parse(date_achat);
+		
+		
+		java.sql.Date date2 = new java.sql.Date(date.getTime());
+
+		
+		//java.sql.Date date = java.sql.Date.valueOf(date_achat);
 		ajoutOrdreSql.setInt(1,prix);
 		ajoutOrdreSql.setInt(2,nbbons);
-		ajoutOrdreSql.setString(3,date_achat);
+		ajoutOrdreSql.setDate(3,date2);
 		ajoutOrdreSql.setInt(4,id);
 		ajoutOrdreSql.setInt(5,user_id);
 		

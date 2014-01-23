@@ -8,6 +8,9 @@
     <%@ page import="java.net.*" %>    
     <%@ page import="javax.naming.*" %>
     <%@ page import="javax.sql.*" %>
+    <%@ page import="java.util.Date" %>
+    <%@ page import="java.text.DateFormat" %>
+    <%@ page import="java.text.SimpleDateFormat" %>
     
     <!-- JAVA BEAN POUR FAIRE LE TABLEAU D'INFORMATIONS -->
     <jsp:useBean id="tool" scope="application" class="tools.BDDTools" />
@@ -86,12 +89,18 @@
 			
 			
 			
+		<%
 		
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			String date = df.format(new Date());
+
+		%>
 		<h3>Acheter</h3>
 		<form action="servlet/AchatInfo" method="post" class="form-inline" role="form">
 			
 			<input  class="form-control" type="hidden" id="userID" name="userID" value="<%= user.getId() %>">
 			<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
+			<input  class="form-control" type="hidden" id="date" name="date" value="<%= date %>">
 			
 			<div class="form-group">
 				<input  class="form-control" type="number" id="nbBons" name="nbBons" placeholder="Nombre de bons" required>
