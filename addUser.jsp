@@ -59,7 +59,7 @@
 							<button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">Créer son compte</button>
 						</div>
 						<div class="col-md-6">
-							<button class="btn btn-lg btn-primary btn-block signup-btn btn-danger" type="reset">Annuler</button>
+							<button class="btn btn-lg btn-primary btn-block signup-btn btn-danger" onclick="location.href='<%= request.getContextPath() %>'" type="reset">Annuler</button>
 						</div>
                     </div>
 			</form>          
