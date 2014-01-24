@@ -27,11 +27,13 @@ public class AchatInfo extends HttpServlet
 		int nbBons = Integer.parseInt(req.getParameter("nbBons"));
 		String date_achat = req.getParameter("date");
 		int marketID = Integer.parseInt(req.getParameter("marketID"));
+		int marcheInverse = Integer.parseInt(req.getParameter("inverse"));
 		out.println(userID);
 		out.println(prix);
 		out.println(nbBons);
 		out.println(date_achat);
 		out.println(marketID);
+		out.println(marcheInverse);
 		
 		try {
 			//Récupération du POOL (LIM_POOL)
@@ -46,15 +48,24 @@ public class AchatInfo extends HttpServlet
 			{	
 
 				/* AJOUTER UNE COLONNE BONS_RESTANTS DANS LA TABLE ORDRE POUR CONNAITRE LE NB DE BONS RESTANTS
-				 * APRES UN ACHAT ET AFFICHER CEUX LA AUX LIEU DES BONS DE BASE.
+				 * APRES UN ACHAT ET AFFICHER CEUX LA AU LIEU DES BONS DE BASE.
 				 * 
 				 * Si il y a un ordre inverse qui correspond au prix, modifiez le nombre de bons et d'espece des deux joueurs.
 				 * Sinon créer l'ordre.
 				 * 
 				 * */
+				 
+				// SELECTION DES ORDRES QUI ONT UN PRIX INFERIEUR A CELUI OFFERT PAR L'UTILISATEUR
+				Statement chercherPrix = con.createStatement();
+				//ResultSet rs = chercherPrix.executeQuery("SELECT * FROM ordre WHERE (100-prix) >= "+prix+" AND id = "+marcheInverse+";"); 
+				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" ORDER BY ordre.prix ASC"); 
+				while (rs.next())
+				{
+					out.println("Le prix trouvé: "+rs.getString("prix"));
+				} 
 				
 				InformationDataBean infoDB = new InformationDataBean();
-				infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
+				//infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
 				
 				
 				
@@ -63,7 +74,7 @@ public class AchatInfo extends HttpServlet
 			catch (Exception e){out.println("dfdfd"+e.toString());}
 			
 			//Gestion de la redirection vers la page d'origine			
-			res.sendRedirect(req.getHeader("Referer"));
+			//res.sendRedirect(req.getHeader("Referer"));
 			
 			
 			
