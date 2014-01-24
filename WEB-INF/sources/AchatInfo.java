@@ -50,6 +50,8 @@ public class AchatInfo extends HttpServlet
 				/* AJOUTER UNE COLONNE BONS_RESTANTS DANS LA TABLE ORDRE POUR CONNAITRE LE NB DE BONS RESTANTS
 				 * APRES UN ACHAT ET AFFICHER CEUX LA AU LIEU DES BONS DE BASE.
 				 * 
+				 * BDD: ALTER TABLE ordre ADD COLUMN bonsRestants INT;
+				 * 
 				 * Si il y a un ordre inverse qui correspond au prix, modifiez le nombre de bons et d'espece des deux joueurs.
 				 * Sinon créer l'ordre.
 				 * 
@@ -61,7 +63,8 @@ public class AchatInfo extends HttpServlet
 				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" ORDER BY ordre.prix ASC"); 
 				while (rs.next())
 				{
-					out.println("Le prix trouvé: "+rs.getString("prix"));
+					out.println("\nLe prix trouvé: "+rs.getString("prix"));
+					out.println("\nNombre de bons à vendre: "+rs.getString("nbbons"));
 				} 
 				
 				InformationDataBean infoDB = new InformationDataBean();
