@@ -91,8 +91,7 @@
 			
 			
 		<%
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			String date = df.format(new Date());
+			int marcheInverse = info.getIdInfoInverse();
 		%>
 		
 		<div class="row">
@@ -102,7 +101,7 @@
 					
 					<input  class="form-control" type="hidden" id="userID" name="userID" value="<%= user.getId() %>">
 					<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
-					<input  class="form-control" type="hidden" id="date" name="date" value="<%= date %>">
+					<input  class="form-control" type="hidden" id="inverse" name="inverse" value="<%= marcheInverse %>">
 					
 					<div class="form-group">
 						<input  class="form-control" type="number" id="nbBons" min="1" name="nbBons" placeholder="Nombre de bons" required>
