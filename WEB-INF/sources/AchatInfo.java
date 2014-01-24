@@ -45,8 +45,19 @@ public class AchatInfo extends HttpServlet
 			try 
 			{	
 
+				/* AJOUTER UNE COLONNE BONS_RESTANTS DANS LA TABLE ORDRE POUR CONNAITRE LE NB DE BONS RESTANTS
+				 * APRES UN ACHAT ET AFFICHER CEUX LA AUX LIEU DES BONS DE BASE.
+				 * 
+				 * Si il y a un ordre inverse qui correspond au prix, modifiez le nombre de bons et d'espece des deux joueurs.
+				 * Sinon créer l'ordre.
+				 * 
+				 * */
+				
 				InformationDataBean infoDB = new InformationDataBean();
 				infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
+				
+				
+				
 			}
 			catch (SQLException e){out.println("bonjour"+e.toString());}
 			catch (Exception e){out.println("dfdfd"+e.toString());}
