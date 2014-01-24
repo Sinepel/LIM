@@ -62,10 +62,15 @@ public class AchatInfo extends HttpServlet
 				//ResultSet rs = chercherPrix.executeQuery("SELECT * FROM ordre WHERE (100-prix) >= "+prix+" AND id = "+marcheInverse+";"); 
 				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" ORDER BY ordre.prix ASC"); 
 				while (rs.next())
-				{
-					out.println("\nLe prix trouvé: "+rs.getString("prix"));
-					out.println("\nNombre de bons à vendre: "+rs.getString("nbbons"));
+				{	
+					out.println("\nOFFRE(S) TROUVÉE(S)");
+					out.println("Le prix trouvé: "+rs.getString("prix"));
+					out.println("Nombre de bons à vendre: "+rs.getString("nbbons"));
 				} 
+				
+				out.println("\nDEMANDE");
+				out.println("Prix désiré: "+prix);
+				out.println("Bons désiré: "+ nbBons);
 				
 				InformationDataBean infoDB = new InformationDataBean();
 				//infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
