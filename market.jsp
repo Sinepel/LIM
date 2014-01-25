@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
+  
 	<%@ page pageEncoding="UTF-8" %>
 	<%@ page import="java.sql.*" %>
     <%@ page import="javax.servlet.http.*" %>
