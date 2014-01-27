@@ -7,6 +7,7 @@ import java.sql.*;
 import javax.sql.*;
 import javax.naming.*;
 import informations.*;
+import users.*;
 
 
 
@@ -61,8 +62,27 @@ public class AchatInfo extends HttpServlet
 				Statement chercherPrix = con.createStatement();
 				//ResultSet rs = chercherPrix.executeQuery("SELECT * FROM ordre WHERE (100-prix) >= "+prix+" AND id = "+marcheInverse+";"); 
 				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" ORDER BY ordre.prix ASC"); 
+				
+				UserDataBean userDataBeanAcheteur = new UserDataBean();
+				User monUserAcheteur = userDataBeanAcheteur.getUtilisateurId(userID);
+				
 				while (rs.next())
 				{	
+					UserDataBean userDataBeanVendeur = new UserDataBean();
+					User monUserVendeur = userDataBeanVendeur.getUtilisateur(rs.getString("pseudo"));
+					//vérifier le nombre de bons proposés par l'ordre en vente et le nombre de bons souhaités par l'acheteur
+					if(rs.getInt("nbbons") >= nbBons){
+						//Si le nombre de bons trouvés est supérieur ou égal à celui voulu
+						//nbBons -= rs.getInt("nbbons");
+						userDataBeanVendeur.enleverBons(nbBons);
+						userDataBeanAcheteur.ajouterBons(nbBons);
+						userDataBeanAcheteur.enleverEspece(prix*nbBons);
+						userDataBeanVendeur.ajouterEspece(prix*nbBons);
+						InformationDataBean infoDB = new InformationDataBean();
+						infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
+					}	
+					//si le nombre de bons proposés est égal ou supérieur au nombre de bons souhaités alors enlever le nbre de bons, ajouter ces derniers 
+					//à l'acheteur, et gérer les espèces
 					out.println("\nOFFRE(S) TROUVÉE(S)");
 					out.println("Le prix trouvé: "+rs.getString("prix"));
 					out.println("Nombre de bons à vendre: "+rs.getString("nbbons"));
@@ -77,6 +97,11 @@ public class AchatInfo extends HttpServlet
 				{
 					InformationDataBean infoDB = new InformationDataBean();
 					infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
+					//Gestion de la redirection vers la page d'origine			
+					res.sendRedirect(req.getHeader("Referer"));
+				}
+				else
+				{
 					//Gestion de la redirection vers la page d'origine			
 					res.sendRedirect(req.getHeader("Referer"));
 				}

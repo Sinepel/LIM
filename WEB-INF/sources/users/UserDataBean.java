@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 public class UserDataBean{
 	private Connection con;
 	private PreparedStatement getUser;
+	private PreparedStatement getUserId;
 	private PreparedStatement setAjouterBon;
 	private PreparedStatement setEnleverBon;
 	private PreparedStatement setAjouterEspece;
@@ -22,8 +23,9 @@ public class UserDataBean{
 	
 	public UserDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
+		getUserId = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE user_id= ?;");
 		setAjouterBon = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
 		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
@@ -39,6 +41,23 @@ public class UserDataBean{
 		
 		while(rs.next()){
 			monUtilisateur.setId(rs.getInt("user_id"));
+			monUtilisateur.setPseudo(rs.getString("pseudo"));
+			monUtilisateur.setRole(rs.getString("role"));
+			monUtilisateur.setEspece(rs.getInt("espece"));
+			monUtilisateur.setBons(rs.getInt("bons"));
+		}
+		monUser = monUtilisateur;
+		return monUser;
+	}
+	
+	public User getUtilisateurId(int idUser) throws SQLException{
+		User monUtilisateur = new User();
+		
+		getUserId.setInt(1, idUser);
+		ResultSet rs = getUserId.executeQuery(); 
+		
+		while(rs.next()){
+			monUtilisateur.setId(idUser);
 			monUtilisateur.setPseudo(rs.getString("pseudo"));
 			monUtilisateur.setRole(rs.getString("role"));
 			monUtilisateur.setEspece(rs.getInt("espece"));
