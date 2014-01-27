@@ -61,7 +61,7 @@ public class AchatInfo extends HttpServlet
 				// SELECTION DES ORDRES QUI ONT UN PRIX INFERIEUR A CELUI OFFERT PAR L'UTILISATEUR
 				Statement chercherPrix = con.createStatement();
 				//ResultSet rs = chercherPrix.executeQuery("SELECT * FROM ordre WHERE (100-prix) >= "+prix+" AND id = "+marcheInverse+";"); 
-				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" ORDER BY ordre.prix ASC"); 
+				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.id_ordre,ordre.prix, 100 - ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" ORDER BY ordre.prix ASC"); 
 				
 				UserDataBean userDataBeanAcheteur = new UserDataBean();
 				User monUserAcheteur = userDataBeanAcheteur.getUtilisateurId(userID);
@@ -79,16 +79,19 @@ public class AchatInfo extends HttpServlet
 						userDataBeanAcheteur.ajouterBons(nbBons);
 						userDataBeanVendeur.ajouterBons(nbBons);
 						userDataBeanAcheteur.enleverEspece(prix*nbBons);
-						userDataBeanVendeur.ajouterEspece(prix*nbBons);
+						//userDataBeanVendeur.ajouterEspece(prix*nbBons);
+						userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*nbBons);
 						InformationDataBean infoDB = new InformationDataBean();
 						//Modifier le nombre de bons restants de l'ordre
 						infoDB.modifOrdre(nbBons, Integer.parseInt(rs.getString("id_ordre")));
+						
+						//FAIRE SURCHARGE AJOUTERORDRE POUR METTRE UN ORDRE AVEC O BONS RESTANT
 						//infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
 					}	
 					//si le nombre de bons proposés est égal ou supérieur au nombre de bons souhaités alors enlever le nbre de bons, ajouter ces derniers 
 					//à l'acheteur, et gérer les espèces
 					out.println("\nOFFRE(S) TROUVÉE(S)");
-					out.println("Le prix trouvé: "+rs.getString("prix"));
+					out.println("Le prix trouvé: "+rs.getString("prixInverse"));
 					out.println("Nombre de bons à vendre: "+rs.getString("nbbons"));
 					compteurOffreDispo++;
 				} 
