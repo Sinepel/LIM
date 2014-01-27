@@ -87,7 +87,13 @@ public class AchatInfo extends HttpServlet
 						
 						//FAIRE SURCHARGE AJOUTERORDRE POUR METTRE UN ORDRE AVEC O BONS RESTANT
 						//infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
+					}
+					//S'il faut plusieurs ordre pour avoir le nombre de bons nécessaire.
+					else
+					{
+							
 					}	
+					
 					//si le nombre de bons proposés est égal ou supérieur au nombre de bons souhaités alors enlever le nbre de bons, ajouter ces derniers 
 					//à l'acheteur, et gérer les espèces
 					out.println("\nOFFRE(S) TROUVÉE(S)");
@@ -100,6 +106,9 @@ public class AchatInfo extends HttpServlet
 				out.println("Prix désiré: "+prix);
 				out.println("Bons désiré: "+ nbBons);
 				
+				
+				//GERER LE FAIT QUE MEME S'IL Y A PAS ASSEZ DE BONS POUR ACHETER ENTRE DIFFERENTS ORDRE, CREER UN ORDRE AVEC LE NOMBRE DE BONS
+				//NECESSAIRE QUI RESTE A ACHETER
 				if(compteurOffreDispo == 0)
 				{
 					InformationDataBean infoDB = new InformationDataBean();
