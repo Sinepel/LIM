@@ -105,12 +105,13 @@
 					<input  class="form-control" type="hidden" id="inverse" name="inverse" value="<%= marcheInverse %>">
 					
 					<div class="form-group">
+						<input class="form-control" type="number" id="prix" min="1" max="99"  name="prix" placeholder="Prix unique d'un bon" required>
+					</div>
+					<div class="form-group">
 						<input  class="form-control" type="number" id="nbBons" min="1" name="nbBons" placeholder="Nombre de bons" required>
 					</div>
 
-					<div class="form-group">
-						<input class="form-control" type="number" id="prix" min="1" max="99"  name="prix" placeholder="Prix unique d'un bon" required>
-					</div>
+					
 					<div class="row">
 						<div class="col-md-6">
 							<button type="submit" class="btn btn-primary btn-block btn-success">Acheter</button>
