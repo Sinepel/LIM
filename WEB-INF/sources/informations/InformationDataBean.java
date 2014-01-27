@@ -27,12 +27,12 @@ public class InformationDataBean{
 	
 	public InformationDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
-		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?;");
-		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix DESC;");
-		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix ASC;");
-		ajoutOrdreSql = con.prepareStatement("INSERT into ordre(prix,nbbons,date_achat,id,user_id) values(?,?,now(),?,?)");
+		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur, ordre.bonsRestants where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix DESC;");
+		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo, ordre.bonsRestants FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? ORDER BY ordre.prix ASC;");
+		ajoutOrdreSql = con.prepareStatement("INSERT into ordre(prix,nbbons,date_achat,id,user_id,bonsRestants) values(?,?,now(),?,?,?)");
 	}
 	
 	public Information getInformationClick(int idInfo) throws SQLException{
@@ -68,7 +68,7 @@ public class InformationDataBean{
 		while(rs.next()){
 			String idOrdre = rs.getString("id_ordre");
 			int ordrePrix = rs.getInt("prix");	
-			int ordreNbbons = rs.getInt("nbbons");
+			int ordreNbbons = rs.getInt("bonsRestants");
 			String ordreDateAchat = tool.getDateFormat(rs.getString("date_achat"));
 			String ordreAcheteur = rs.getString("pseudo");			
 			mesOrdres.append("<tr class=\"success\"><td><a href=\"market.jsp?id="+idOrdre+"\">"+idOrdre+"</td><td>"+ordrePrix+"</a></td><td>"+ordreNbbons+"</td><td>"+ordreDateAchat+"</td><td>"+ordreAcheteur+"</td></tr>");
@@ -92,7 +92,7 @@ public class InformationDataBean{
 		while(rs.next()){
 			String idOrdre = rs.getString("id_ordre");
 			int ordrePrix = rs.getInt("prix");	
-			int ordreNbbons = rs.getInt("nbbons");
+			int ordreNbbons = rs.getInt("bonsRestants");
 			String ordreDateAchat = tool.getDateFormat(rs.getString("date_achat"));
 			String ordreAcheteur = rs.getString("pseudo");			
 			mesOrdresInverses.append("<tr class=\"danger\"><td><a href=\"market.jsp?id="+idOrdre+"\">"+idOrdre+"</td><td>"+ordrePrix+"</a></td><td>"+ordreNbbons+"</td><td>"+ordreDateAchat+"</td><td>"+ordreAcheteur+"</td></tr>");
@@ -128,6 +128,7 @@ public class InformationDataBean{
 		//ajoutOrdreSql.setDate(3,date2);
 		ajoutOrdreSql.setInt(3,id);
 		ajoutOrdreSql.setInt(4,user_id);
+		ajoutOrdreSql.setInt(5,nbbons);
 		
 		ajoutOrdreSql.executeUpdate();
 		
