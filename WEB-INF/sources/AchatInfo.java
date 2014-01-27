@@ -56,7 +56,7 @@ public class AchatInfo extends HttpServlet
 				 * Sinon créer l'ordre.
 				 * 
 				 * */
-				 
+				 int compteurOffreDispo=0;
 				// SELECTION DES ORDRES QUI ONT UN PRIX INFERIEUR A CELUI OFFERT PAR L'UTILISATEUR
 				Statement chercherPrix = con.createStatement();
 				//ResultSet rs = chercherPrix.executeQuery("SELECT * FROM ordre WHERE (100-prix) >= "+prix+" AND id = "+marcheInverse+";"); 
@@ -66,23 +66,27 @@ public class AchatInfo extends HttpServlet
 					out.println("\nOFFRE(S) TROUVÉE(S)");
 					out.println("Le prix trouvé: "+rs.getString("prix"));
 					out.println("Nombre de bons à vendre: "+rs.getString("nbbons"));
+					compteurOffreDispo++;
 				} 
 				
 				out.println("\nDEMANDE");
 				out.println("Prix désiré: "+prix);
 				out.println("Bons désiré: "+ nbBons);
 				
-				InformationDataBean infoDB = new InformationDataBean();
-				//infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
-				
+				if(compteurOffreDispo == 0)
+				{
+					InformationDataBean infoDB = new InformationDataBean();
+					infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
+					//Gestion de la redirection vers la page d'origine			
+					res.sendRedirect(req.getHeader("Referer"));
+				}
 				
 				
 			}
 			catch (SQLException e){out.println("bonjour"+e.toString());}
 			catch (Exception e){out.println("dfdfd"+e.toString());}
 			
-			//Gestion de la redirection vers la page d'origine			
-			//res.sendRedirect(req.getHeader("Referer"));
+			
 			
 			
 			
