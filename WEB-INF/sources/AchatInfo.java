@@ -61,29 +61,29 @@ public class AchatInfo extends HttpServlet
 				// SELECTION DES ORDRES QUI ONT UN PRIX INFERIEUR A CELUI OFFERT PAR L'UTILISATEUR
 				Statement chercherPrix = con.createStatement();
 				//ResultSet rs = chercherPrix.executeQuery("SELECT * FROM ordre WHERE (100-prix) >= "+prix+" AND id = "+marcheInverse+";"); 
-				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.id_ordre,ordre.prix, 100 - ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" ORDER BY ordre.prix ASC"); 
+				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.bonsRestants, ordre.id_ordre,ordre.prix, 100 - ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" AND bonsRestants > 0 ORDER BY ordre.prix ASC"); 
 				
 				UserDataBean userDataBeanAcheteur = new UserDataBean();
 				User monUserAcheteur = userDataBeanAcheteur.getUtilisateurId(userID);
-				
+				int nbBonsRestants = nbBons;
 				while (rs.next())
 				{	
 					UserDataBean userDataBeanVendeur = new UserDataBean();
 					User monUserVendeur = userDataBeanVendeur.getUtilisateur(rs.getString("pseudo"));
 					//vérifier le nombre de bons proposés par l'ordre en vente et le nombre de bons souhaités par l'acheteur
-					if(rs.getInt("nbbons") >= nbBons){
+					if(rs.getInt("bonsRestants") >= nbBonsRestants){
 						//Si le nombre de bons trouvés est supérieur ou égal à celui voulu
 						//nbBons -= rs.getInt("nbbons");
 						//AJOUTER MÉTHODE POUR MODIFIER LE NOMBRE DE BONS RESTANTS APRES LA MODIFICATION D'UN ORDRE
 						//userDataBeanVendeur.enleverBons(nbBons);
-						userDataBeanAcheteur.ajouterBons(nbBons);
-						userDataBeanVendeur.ajouterBons(nbBons);
-						userDataBeanAcheteur.enleverEspece(prix*nbBons);
+						userDataBeanAcheteur.ajouterBons(nbBonsRestants);
+						userDataBeanVendeur.ajouterBons(nbBonsRestants);
+						userDataBeanAcheteur.enleverEspece(prix*nbBonsRestants);
 						//userDataBeanVendeur.ajouterEspece(prix*nbBons);
-						userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*nbBons);
-						InformationDataBean infoDB = new InformationDataBean();
+						userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*nbBonsRestants);
 						//Modifier le nombre de bons restants de l'ordre
-						infoDB.modifOrdre(nbBons, Integer.parseInt(rs.getString("id_ordre")));
+						InformationDataBean infoDB = new InformationDataBean();
+						infoDB.modifOrdre(nbBonsRestants, Integer.parseInt(rs.getString("id_ordre")));
 						
 						//FAIRE SURCHARGE AJOUTERORDRE POUR METTRE UN ORDRE AVEC O BONS RESTANT
 						//infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
@@ -91,7 +91,14 @@ public class AchatInfo extends HttpServlet
 					//S'il faut plusieurs ordre pour avoir le nombre de bons nécessaire.
 					else
 					{
-							
+						userDataBeanAcheteur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
+						userDataBeanVendeur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
+						userDataBeanAcheteur.enleverEspece(prix*Integer.parseInt(rs.getString("bonsRestants")));
+						userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*Integer.parseInt(rs.getString("bonsRestants")));
+						InformationDataBean infoDB = new InformationDataBean();
+						infoDB.modifOrdre(nbBonsRestants, Integer.parseInt(rs.getString("id_ordre")));
+						nbBonsRestants -= Integer.parseInt(rs.getString("bonsRestants"));
+
 					}	
 					
 					//si le nombre de bons proposés est égal ou supérieur au nombre de bons souhaités alors enlever le nbre de bons, ajouter ces derniers 
