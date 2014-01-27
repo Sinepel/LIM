@@ -74,12 +74,16 @@ public class AchatInfo extends HttpServlet
 					if(rs.getInt("nbbons") >= nbBons){
 						//Si le nombre de bons trouvés est supérieur ou égal à celui voulu
 						//nbBons -= rs.getInt("nbbons");
-						userDataBeanVendeur.enleverBons(nbBons);
+						//AJOUTER MÉTHODE POUR MODIFIER LE NOMBRE DE BONS RESTANTS APRES LA MODIFICATION D'UN ORDRE
+						//userDataBeanVendeur.enleverBons(nbBons);
 						userDataBeanAcheteur.ajouterBons(nbBons);
+						userDataBeanVendeur.ajouterBons(nbBons);
 						userDataBeanAcheteur.enleverEspece(prix*nbBons);
 						userDataBeanVendeur.ajouterEspece(prix*nbBons);
 						InformationDataBean infoDB = new InformationDataBean();
-						infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
+						//Modifier le nombre de bons restants de l'ordre
+						infoDB.modifOrdre(nbBons, Integer.parseInt(rs.getString("id_ordre")));
+						//infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
 					}	
 					//si le nombre de bons proposés est égal ou supérieur au nombre de bons souhaités alors enlever le nbre de bons, ajouter ces derniers 
 					//à l'acheteur, et gérer les espèces
