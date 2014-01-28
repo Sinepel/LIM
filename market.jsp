@@ -29,6 +29,7 @@
 		recupUser.fermerConnexion();
 		
 	%>	
+	
     
   <title>L'information - Lille Information Market</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,10 +58,40 @@
 
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/scripts.js"></script>
+	
+		
+	<!-- SCRIPT POUR LE GRAPHIQUE -->
+	<link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+	<script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+	
 </head>
 
 <body>
+<script>
+$( document ).ready(function() {
+	
+	var id = $("input#marketID").val();
+
+	$.getJSON(
+		"Graphique", 
+		{
+			"id": id,
+		}, 
+		function(res){
+			new Morris.Line({
+		 		element: 'graph',
+				data: res,
+				xkey: 'jour',
+				ykeys: ['valeur'],
+				labels: ['Prix moyen '],
+				//dateFormat: function(x) { return $.datepicker.formatDate("dd/mm/yy", new Date(x)); }
+			});
+		}
+	)
+});
+</script>
+	
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
@@ -87,45 +118,44 @@
 			<%= info.getTableauOrdresInverses() %>	
 			<h3>Demandes</h3>
 			<%= info.getTableauOrdres() %>
-			
-			
-			
-			
-		<%
-			int marcheInverse = info.getIdInfoInverse();
-		%>
-		
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<h3>Acheter</h3>
-				<form action="servlet/AchatInfo" method="post" class="form" role="form">
-					
-					<input  class="form-control" type="hidden" id="userID" name="userID" value="<%= user.getId() %>">
-					<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
-					<input  class="form-control" type="hidden" id="inverse" name="inverse" value="<%= marcheInverse %>">
-					
-					<div class="form-group">
-						<input class="form-control" type="number" id="prix" min="1" max="99"  name="prix" placeholder="Prix unique d'un bon" required>
-					</div>
-					<div class="form-group">
-						<input  class="form-control" type="number" id="nbBons" min="1" name="nbBons" placeholder="Nombre de bons" required>
-					</div>
-
-					
-					<div class="row">
-						<div class="col-md-6">
-							<button type="submit" class="btn btn-primary btn-block btn-success">Acheter</button>
-						</div>	
-						<div class="col-md-6">
-							<button type="reset" class="btn btn-primary btn-block btn-danger">Annuler</button>
+			<% 	int marcheInverse = info.getIdInfoInverse(); %>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<h3>Acheter</h3>
+					<form action="servlet/AchatInfo" method="post" class="form" role="form">
+						
+						<input  class="form-control" type="hidden" id="userID" name="userID" value="<%= user.getId() %>">
+						<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
+						<input  class="form-control" type="hidden" id="inverse" name="inverse" value="<%= marcheInverse %>">
+						
+						<div class="form-group">
+							<input class="form-control" type="number" id="prix" min="1" max="99"  name="prix" placeholder="Prix unique d'un bon" required>
 						</div>
-					</div>
-				</form>
-				
+						<div class="form-group">
+							<input  class="form-control" type="number" id="nbBons" min="1" name="nbBons" placeholder="Nombre de bons" required>
+						</div>
+
+						
+						<div class="row">
+							<div class="col-md-6">
+								<button type="submit" class="btn btn-primary btn-block btn-success">Acheter</button>
+							</div>	
+							<div class="col-md-6">
+								<button type="reset" class="btn btn-primary btn-block btn-danger">Annuler</button>
+							</div>
+						</div>
+					</form>
+					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 column">
+					<h3>Graphique des achats</h3>
+					<div id="graph"></div>
+				</div>
 			</div>
 		</div>
-			
-		</div>
+		
 		<div class="col-md-4 column">
 			
 			<ul class="nav nav-pills nav-stacked">
