@@ -21,6 +21,7 @@ public class InformationDataBean{
 	private PreparedStatement getOrdresInverseSql;
 	private PreparedStatement ajoutOrdreSql;
 	private PreparedStatement modifOrdreSql;
+	private PreparedStatement getNbOrdres;
 	private Information monInformation;
 	private ArrayList<OrdreBean> mesOrdres;
 	BDDTools tool = new BDDTools();
@@ -35,6 +36,7 @@ public class InformationDataBean{
 		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo, ordre.bonsRestants FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? AND bonsRestants > 0 ORDER BY ordre.prix ASC;");
 		ajoutOrdreSql = con.prepareStatement("INSERT into ordre(prix,nbbons,date_achat,id,user_id,bonsRestants) values(?,?,now(),?,?,?)");
 		modifOrdreSql = con.prepareStatement("UPDATE ordre set bonsRestants = bonsRestants - ? where id_ordre = ?");
+		getNbOrdres = con.prepareStatement("SELECT count(*) AS nbOrdre FROM ordre where id = ?");
 	}
 	
 	public Information getInformationClick(int idInfo) throws SQLException{
@@ -153,6 +155,13 @@ public class InformationDataBean{
 		modifOrdreSql.setInt(1, bonsARetirer);
 		modifOrdreSql.setInt(2, ordre_id);
 		modifOrdreSql.executeUpdate();
+	}
+	
+	public int getNombreOrdres(int idInformation) throws Exception, SQLException
+	{
+		getNbOrdres.setInt(1,idInformation);
+		ResultSet rs = getInformation.executeQuery();
+		return rs.getInt("nbOrdre");
 	}
 	
 	
