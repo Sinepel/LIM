@@ -25,6 +25,7 @@
 		int idMarcheInt = Integer.parseInt(idMarche);
 		user = recupUser.getUtilisateur(request.getRemoteUser());
 		info = recupInformation.getInformationClick(idMarcheInt);
+		int nbOrdre = recupInformation.getNombreOrdres(idMarcheInt);
 		recupInformation.fermerConnexion();
 		recupUser.fermerConnexion();
 		
@@ -127,6 +128,7 @@ $( document ).ready(function() {
 						<input  class="form-control" type="hidden" id="userID" name="userID" value="<%= user.getId() %>">
 						<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
 						<input  class="form-control" type="hidden" id="inverse" name="inverse" value="<%= marcheInverse %>">
+						<input  class="form-control" type="hidden" id="nbOrdre" name="nbOrdre" value="<%= nbOrdre %>">
 						
 						<div class="form-group">
 							<input class="form-control" type="number" id="prix" min="1" max="99"  name="prix" placeholder="Prix unique d'un bon" required>
@@ -151,7 +153,7 @@ $( document ).ready(function() {
 			<div class="row">
 				<div class="col-md-12 column">
 					<h3>Graphique des achats</h3>
-					<div id="graph"></div>
+					<div id="graph"><% if(nbOrdre == 0) { %> <p>Il n'y pas encore eu d'achat pour cette information </p><% } %></div>
 				</div>
 			</div>
 		</div>
