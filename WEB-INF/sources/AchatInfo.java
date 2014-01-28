@@ -72,7 +72,7 @@ public class AchatInfo extends HttpServlet
 					UserDataBean userDataBeanVendeur = new UserDataBean();
 					User monUserVendeur = userDataBeanVendeur.getUtilisateur(rs.getString("pseudo"));
 					//vérifier le nombre de bons proposés par l'ordre en vente et le nombre de bons souhaités par l'acheteur
-					if(rs.getInt("bonsRestants") >= nbBonsRestants){
+					if((rs.getInt("bonsRestants") >= nbBonsRestants) && (monUserAcheteur.getEspece() >= (rs.getInt("prix")*nbBonsRestants))){
 						userDataBeanAcheteur.ajouterBons(nbBonsRestants);
 						userDataBeanVendeur.ajouterBons(nbBonsRestants);
 						userDataBeanAcheteur.enleverEspece(prix*nbBonsRestants);
@@ -83,19 +83,19 @@ public class AchatInfo extends HttpServlet
 						infoDB.modifOrdre(nbBonsRestants, Integer.parseInt(rs.getString("id_ordre")));
 			
 						//UTILISER LA SURCHARGE POUR METTRE LE NOMBRE DE BONS ET LE NOMBRE DE BONS RESTANTS A ACHETER
-						//infoDB.ajouterOrdre(prix,nbBons,marketID,userID,0);
+						infoDB.ajouterOrdre(prix,nbBons,marketID,userID,0);
 					}
 					//S'il faut plusieurs ordre pour avoir le nombre de bons nécessaire.
-					else 
-					{
-						userDataBeanAcheteur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
-						userDataBeanVendeur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
-						userDataBeanAcheteur.enleverEspece(prix*Integer.parseInt(rs.getString("bonsRestants")));
-						userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*Integer.parseInt(rs.getString("bonsRestants")));
-						infoDB.modifOrdre(Integer.parseInt(rs.getString("bonsRestants")), Integer.parseInt(rs.getString("id_ordre")));
-						nbBonsRestants -= Integer.parseInt(rs.getString("bonsRestants"));
+					else if((monUserAcheteur.getEspece() >= (rs.getInt("prix")*nbBonsRestants)))
+						{
+							userDataBeanAcheteur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
+							userDataBeanVendeur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
+							userDataBeanAcheteur.enleverEspece(prix*Integer.parseInt(rs.getString("bonsRestants")));
+							userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*Integer.parseInt(rs.getString("bonsRestants")));
+							infoDB.modifOrdre(Integer.parseInt(rs.getString("bonsRestants")), Integer.parseInt(rs.getString("id_ordre")));
+							nbBonsRestants -= Integer.parseInt(rs.getString("bonsRestants"));
 
-					}	
+						}	
 					
 					//si le nombre de bons proposés est égal ou supérieur au nombre de bons souhaités alors enlever le nbre de bons, ajouter ces derniers 
 					//à l'acheteur, et gérer les espèces
@@ -113,15 +113,15 @@ public class AchatInfo extends HttpServlet
 				//GERER LE FAIT QUE MEME S'IL Y A PAS ASSEZ DE BONS POUR ACHETER ENTRE DIFFERENTS ORDRE, CREER UN ORDRE AVEC LE NOMBRE DE BONS
 				//NECESSAIRE QUI RESTE A ACHETER
 				
-				if (nbBonsRestants > 0 && nbBonsRestants < nbBons && compteurOffreDispo != 0)
+				if (nbBonsRestants > 0 && nbBonsRestants < nbBons && compteurOffreDispo != 0 && (monUserAcheteur.getEspece() >= (prix*nbBonsRestants)))
 				{
 					//UTILISER LA SURCHARGE POUR METTRE LE NOMBRE DE BONS ET LE NOMBRE DE BONS RESTANTS A ACHETER
-					//infoDB.ajouterOrdre(prix,nbBons,marketID,userID,nbBonsRestants);
+					infoDB.ajouterOrdre(prix,nbBons,marketID,userID,nbBonsRestants);
 					res.sendRedirect(req.getHeader("Referer"));
 
 
 				}
-				if(compteurOffreDispo == 0)
+				if(compteurOffreDispo == 0 && (monUserAcheteur.getEspece() >= (prix*nbBonsRestants)))
 				{
 					infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
 					//Gestion de la redirection vers la page d'origine			
