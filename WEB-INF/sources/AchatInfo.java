@@ -103,6 +103,7 @@ public class AchatInfo extends HttpServlet
 					out.println("Le prix trouvé: "+rs.getString("prixInverse"));
 					out.println("Nombre de bons à vendre: "+rs.getString("nbbons"));
 					compteurOffreDispo++;
+					userDataBeanVendeur.fermerConnexion();
 				} 
 				
 				out.println("\nDEMANDE");
@@ -132,7 +133,8 @@ public class AchatInfo extends HttpServlet
 					//Gestion de la redirection vers la page d'origine			
 					res.sendRedirect(req.getHeader("Referer"));
 				}
-				
+				userDataBeanAcheteur.fermerConnexion();
+				infoDB.fermerConnexion();
 				
 			}
 			catch (SQLException e){out.println("bonjour"+e.toString());}
