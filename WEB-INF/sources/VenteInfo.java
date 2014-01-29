@@ -12,8 +12,8 @@ import users.*;
 
 
 
-@WebServlet("/servlet/AchatInfo")
-public class AchatInfo extends HttpServlet
+@WebServlet("/servlet/VenteInfo")
+public class VenteInfo extends HttpServlet
 {
 	public void service( HttpServletRequest req, HttpServletResponse res ) 
 		throws ServletException, IOException
@@ -23,15 +23,15 @@ public class AchatInfo extends HttpServlet
 		Connection con;
 		DataSource ds ;
 		
-		int userID = Integer.parseInt(req.getParameter("userID"));
-		int prix = Integer.parseInt(req.getParameter("prix"));
-		int nbBons = Integer.parseInt(req.getParameter("nbBons"));
+		int userIDVendeur = Integer.parseInt(req.getParameter("userID"));
+		int prixDeVente = Integer.parseInt(req.getParameter("prix"));
+		int nbBonsAVendre = Integer.parseInt(req.getParameter("nbBons"));
 		String date_achat = req.getParameter("date");
 		int marketID = Integer.parseInt(req.getParameter("marketID"));
 		int marcheInverse = Integer.parseInt(req.getParameter("inverse"));
-		out.println(userID);
-		out.println(prix);
-		out.println(nbBons);
+		out.println(userIDVendeur);
+		out.println(prixDeVente);
+		out.println(nbBonsAVendre);
 		out.println(date_achat);
 		out.println(marketID);
 		out.println(marcheInverse);
@@ -52,36 +52,36 @@ public class AchatInfo extends HttpServlet
 				// SELECTION DES ORDRES QUI ONT UN PRIX INFERIEUR A CELUI OFFERT PAR L'UTILISATEUR
 				Statement chercherPrix = con.createStatement();
 				//ResultSet rs = chercherPrix.executeQuery("SELECT * FROM ordre WHERE (100-prix) >= "+prix+" AND id = "+marcheInverse+";"); 
-				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.bonsRestants, ordre.id_ordre,ordre.prix, 100 - ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix >= "+prix+" AND bonsRestants > 0 ORDER BY ordre.prix ASC"); 
+				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.bonsRestants, ordre.id_ordre,ordre.prix, 100 - ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marketID+" AND 100 - prix >= "+prixDeVente+" AND bonsRestants > 0 AND etat='A' ORDER BY ordre.prix ASC"); 
 				
-				UserDataBean userDataBeanAcheteur = new UserDataBean();
+				UserDataBean userDataBeanVendeur = new UserDataBean();
 				InformationDataBean infoDB = new InformationDataBean();
-				User monUserAcheteur = userDataBeanAcheteur.getUtilisateurId(userID);
-				int nbBonsRestants = nbBons;
+				User monUserVendeur = userDataBeanVendeur.getUtilisateurId(userIDVendeur);
+				int nbBonsRestants = nbBonsAVendre;
 				while (rs.next())
 				{	
-					UserDataBean userDataBeanVendeur = new UserDataBean();
-					User monUserVendeur = userDataBeanVendeur.getUtilisateur(rs.getString("pseudo"));
+					UserDataBean userDataBeanAcheteur = new UserDataBean();
+					User monUserAcheteur = userDataBeanAcheteur.getUtilisateur(rs.getString("pseudo"));
 					//vérifier le nombre de bons proposés par l'ordre en vente et le nombre de bons souhaités par l'acheteur
 					if((rs.getInt("bonsRestants") >= nbBonsRestants) && (monUserAcheteur.getEspece() >= (rs.getInt("prix")*nbBonsRestants))){
+						userDataBeanVendeur.enleverBons(nbBonsRestants);
 						userDataBeanAcheteur.ajouterBons(nbBonsRestants);
-						userDataBeanVendeur.ajouterBons(nbBonsRestants);
-						userDataBeanAcheteur.enleverEspece(prix*nbBonsRestants);
+						userDataBeanVendeur.ajouterEspece(prixDeVente*nbBonsRestants);
 						//userDataBeanVendeur.ajouterEspece(prix*nbBons);
-						userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*nbBonsRestants);
+						userDataBeanAcheteur.enleverEspece(Integer.parseInt(rs.getString("prix"))*nbBonsRestants);
 						
 						//Modifier le nombre de bons restants de l'ordre
 						infoDB.modifOrdre(nbBonsRestants, Integer.parseInt(rs.getString("id_ordre")));
 			
 						//UTILISER LA SURCHARGE POUR METTRE LE NOMBRE DE BONS ET LE NOMBRE DE BONS RESTANTS A ACHETER
-						infoDB.ajouterOrdre(prix,nbBons,marketID,userID,0);
+						infoDB.ajouterOrdre(prixDeVente,nbBonsAVendre,marcheInverse,userIDVendeur,0,"V");
 					}
 					//S'il faut plusieurs ordre pour avoir le nombre de bons nécessaire.
 					else if((monUserAcheteur.getEspece() >= (rs.getInt("prix")*nbBonsRestants)))
 						{
 							userDataBeanAcheteur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
 							userDataBeanVendeur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
-							userDataBeanAcheteur.enleverEspece(prix*Integer.parseInt(rs.getString("bonsRestants")));
+							userDataBeanAcheteur.enleverEspece(prixDeVente*Integer.parseInt(rs.getString("bonsRestants")));
 							userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*Integer.parseInt(rs.getString("bonsRestants")));
 							infoDB.modifOrdre(Integer.parseInt(rs.getString("bonsRestants")), Integer.parseInt(rs.getString("id_ordre")));
 							nbBonsRestants -= Integer.parseInt(rs.getString("bonsRestants"));
@@ -98,24 +98,24 @@ public class AchatInfo extends HttpServlet
 				} 
 				
 				out.println("\nDEMANDE");
-				out.println("Prix désiré: "+prix);
-				out.println("Bons désiré: "+ nbBons);
+				out.println("Prix désiré: "+prixDeVente);
+				out.println("Bons désiré: "+ nbBonsAVendre);
 				
 				
 				//GERER LE FAIT QUE MEME S'IL Y A PAS ASSEZ DE BONS POUR ACHETER ENTRE DIFFERENTS ORDRE, CREER UN ORDRE AVEC LE NOMBRE DE BONS
 				//NECESSAIRE QUI RESTE A ACHETER
 				
-				if (nbBonsRestants > 0 && nbBonsRestants < nbBons && compteurOffreDispo != 0 && (monUserAcheteur.getEspece() >= (prix*nbBonsRestants)))
+				if (nbBonsRestants > 0 && nbBonsRestants < nbBonsAVendre && compteurOffreDispo != 0 && (monUserVendeur.getEspece() >= (prixDeVente*nbBonsRestants)))
 				{
 					//UTILISER LA SURCHARGE POUR METTRE LE NOMBRE DE BONS ET LE NOMBRE DE BONS RESTANTS A ACHETER
-					infoDB.ajouterOrdre(prix,nbBons,marketID,userID,nbBonsRestants);
+					infoDB.ajouterOrdre(prixDeVente,nbBonsAVendre,marcheInverse,userIDVendeur,nbBonsRestants,"V");
 					res.sendRedirect(req.getHeader("Referer"));
 
 
 				}
-				if(compteurOffreDispo == 0 && (monUserAcheteur.getEspece() >= (prix*nbBonsRestants)))
+				if(compteurOffreDispo == 0 && (monUserVendeur.getEspece() >= (prixDeVente*nbBonsRestants)))
 				{
-					infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
+					infoDB.ajouterOrdre(prixDeVente,nbBonsAVendre,marcheInverse,userIDVendeur,"V");
 					//Gestion de la redirection vers la page d'origine			
 					res.sendRedirect(req.getHeader("Referer"));
 				}
@@ -124,7 +124,7 @@ public class AchatInfo extends HttpServlet
 					//Gestion de la redirection vers la page d'origine			
 					res.sendRedirect(req.getHeader("Referer"));
 				}
-				userDataBeanAcheteur.fermerConnexion();
+				userDataBeanVendeur.fermerConnexion();
 				infoDB.fermerConnexion();
 				
 			}
