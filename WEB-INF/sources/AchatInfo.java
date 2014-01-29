@@ -67,7 +67,7 @@ public class AchatInfo extends HttpServlet
 				InformationDataBean infoDB = new InformationDataBean();
 				User monUserAcheteur = userDataBeanAcheteur.getUtilisateurId(userID);
 				int nbBonsRestants = nbBons;
-				while (rs.next())
+				while (rs.next() && nbBonsRestants != 0)
 				{	
 					UserDataBean userDataBeanVendeur = new UserDataBean();
 					User monUserVendeur = userDataBeanVendeur.getUtilisateur(rs.getString("pseudo"));
@@ -84,9 +84,10 @@ public class AchatInfo extends HttpServlet
 			
 						//UTILISER LA SURCHARGE POUR METTRE LE NOMBRE DE BONS ET LE NOMBRE DE BONS RESTANTS A ACHETER
 						infoDB.ajouterOrdre(prix,nbBons,marketID,userID,0,"A");
+						nbBonsRestants = 0;
 					}
 					//S'il faut plusieurs ordre pour avoir le nombre de bons nécessaire.
-					else if((monUserAcheteur.getEspece() >= (rs.getInt("prix")*nbBonsRestants)))
+					else if( (rs.getInt("bonsRestants")<nbBonsRestants) && (monUserAcheteur.getEspece() >= (rs.getInt("prix")*nbBonsRestants)))
 						{
 							userDataBeanAcheteur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
 							userDataBeanVendeur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));

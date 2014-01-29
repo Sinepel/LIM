@@ -27,7 +27,7 @@ public class UserDataBean{
 		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
 		getUserId = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE user_id= ?;");
-		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?);");
+		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?) AND etat='A';");
 		setAjouterBon = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
 		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
