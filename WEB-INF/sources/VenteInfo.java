@@ -48,20 +48,11 @@ public class AchatInfo extends HttpServlet
 			try 
 			{	
 
-				/* AJOUTER UNE COLONNE BONS_RESTANTS DANS LA TABLE ORDRE POUR CONNAITRE LE NB DE BONS RESTANTS
-				 * APRES UN ACHAT ET AFFICHER CEUX LA AU LIEU DES BONS DE BASE.
-				 * 
-				 * BDD: ALTER TABLE ordre ADD COLUMN bonsRestants INT;
-				 * 
-				 * Si il y a un ordre inverse qui correspond au prix, modifiez le nombre de bons et d'espece des deux joueurs.
-				 * Sinon créer l'ordre.
-				 * 
-				 * */
-				 int compteurOffreDispo=0;
+				int compteurOffreDispo=0;
 				// SELECTION DES ORDRES QUI ONT UN PRIX INFERIEUR A CELUI OFFERT PAR L'UTILISATEUR
 				Statement chercherPrix = con.createStatement();
 				//ResultSet rs = chercherPrix.executeQuery("SELECT * FROM ordre WHERE (100-prix) >= "+prix+" AND id = "+marcheInverse+";"); 
-				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.bonsRestants, ordre.id_ordre,ordre.prix, 100 - ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" AND bonsRestants > 0 ORDER BY ordre.prix ASC"); 
+				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.bonsRestants, ordre.id_ordre,ordre.prix, 100 - ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix >= "+prix+" AND bonsRestants > 0 ORDER BY ordre.prix ASC"); 
 				
 				UserDataBean userDataBeanAcheteur = new UserDataBean();
 				InformationDataBean infoDB = new InformationDataBean();
@@ -83,7 +74,7 @@ public class AchatInfo extends HttpServlet
 						infoDB.modifOrdre(nbBonsRestants, Integer.parseInt(rs.getString("id_ordre")));
 			
 						//UTILISER LA SURCHARGE POUR METTRE LE NOMBRE DE BONS ET LE NOMBRE DE BONS RESTANTS A ACHETER
-						infoDB.ajouterOrdre(prix,nbBons,marketID,userID,0,"A");
+						infoDB.ajouterOrdre(prix,nbBons,marketID,userID,0);
 					}
 					//S'il faut plusieurs ordre pour avoir le nombre de bons nécessaire.
 					else if((monUserAcheteur.getEspece() >= (rs.getInt("prix")*nbBonsRestants)))
@@ -117,14 +108,14 @@ public class AchatInfo extends HttpServlet
 				if (nbBonsRestants > 0 && nbBonsRestants < nbBons && compteurOffreDispo != 0 && (monUserAcheteur.getEspece() >= (prix*nbBonsRestants)))
 				{
 					//UTILISER LA SURCHARGE POUR METTRE LE NOMBRE DE BONS ET LE NOMBRE DE BONS RESTANTS A ACHETER
-					infoDB.ajouterOrdre(prix,nbBons,marketID,userID,nbBonsRestants,"A");
+					infoDB.ajouterOrdre(prix,nbBons,marketID,userID,nbBonsRestants);
 					res.sendRedirect(req.getHeader("Referer"));
 
 
 				}
 				if(compteurOffreDispo == 0 && (monUserAcheteur.getEspece() >= (prix*nbBonsRestants)))
 				{
-					infoDB.ajouterOrdre(prix,nbBons,marketID,userID,"A");
+					infoDB.ajouterOrdre(prix,nbBons,marketID,userID);
 					//Gestion de la redirection vers la page d'origine			
 					res.sendRedirect(req.getHeader("Referer"));
 				}

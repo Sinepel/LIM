@@ -27,7 +27,7 @@ public class UserDataBean{
 		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
 		getUserId = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE user_id= ?;");
-		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id = ?;");
+		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id = ? OR id = ?;");
 		setAjouterBon = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
 		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
@@ -69,10 +69,11 @@ public class UserDataBean{
 		return monUser;
 	}
 	
-	public int getNbOrdresInformation(int idInformation) throws SQLException{
+	public int getNbOrdresInformation(int idInformation, int idInfoInverse) throws SQLException{
 		
 		getNbOrdresInfo.setInt(1, monUser.getId());
 		getNbOrdresInfo.setInt(2, idInformation);
+		getNbOrdresInfo.setInt(3, idInfoInverse);
 		ResultSet rs = getNbOrdresInfo.executeQuery(); 
 		rs.next();
 		if(rs.getString("nbOrdresInfo") == null)

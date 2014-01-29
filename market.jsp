@@ -25,10 +25,11 @@
 		int idMarcheInt = Integer.parseInt(idMarche);
 		user = recupUser.getUtilisateur(request.getRemoteUser());
 		info = recupInformation.getInformationClick(idMarcheInt);
+		int IdInfoInverse = info.getIdInfoInverse();
 		// nbOrdres du marché
 		int nbOrdre = recupInformation.getNombreOrdres(idMarcheInt);
 		// nb ordre de l'utilisateur pour ce marché
-		int nbOrdresMarche = recupUser.getNbOrdresInformation(idMarcheInt);
+		int nbOrdresMarche = recupUser.getNbOrdresInformation(idMarcheInt,IdInfoInverse);
 		recupInformation.fermerConnexion();
 		recupUser.fermerConnexion();
 		
