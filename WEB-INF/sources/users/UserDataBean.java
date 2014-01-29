@@ -14,6 +14,7 @@ public class UserDataBean{
 	private PreparedStatement getUser;
 	private PreparedStatement getUserId;
 	private PreparedStatement getNbOrdresInfo;
+	private PreparedStatement getNbOrdresInfo2;
 	private PreparedStatement setAjouterBon;
 	private PreparedStatement setEnleverBon;
 	private PreparedStatement setAjouterEspece;
@@ -24,10 +25,11 @@ public class UserDataBean{
 	
 	public UserDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
 		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
 		getUserId = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE user_id= ?;");
 		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?) AND etat='A';");
+		getNbOrdresInfo2 = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?) AND etat='V';");
 		setAjouterBon = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
 		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
@@ -70,15 +72,30 @@ public class UserDataBean{
 	}
 	
 	public int getNbOrdresInformation(int idInformation, int idInfoInverse) throws SQLException{
-		
+		int A = 0;
+		int V = 0;
+		int retour; 
 		getNbOrdresInfo.setInt(1, monUser.getId());
+		getNbOrdresInfo2.setInt(1, monUser.getId());
 		getNbOrdresInfo.setInt(2, idInformation);
+		getNbOrdresInfo2.setInt(2, idInformation);
 		getNbOrdresInfo.setInt(3, idInfoInverse);
+		getNbOrdresInfo2.setInt(3, idInfoInverse);
 		ResultSet rs = getNbOrdresInfo.executeQuery(); 
 		rs.next();
 		if(rs.getString("nbOrdresInfo") == null)
-			return 0;
-		return Integer.parseInt(rs.getString("nbOrdresInfo"));
+			A = 0;
+		else
+			A = Integer.parseInt(rs.getString("nbOrdresInfo"));
+		rs=getNbOrdresInfo2.executeQuery();
+		rs.next();
+		if(rs.getString("nbOrdresInfo") == null)
+			V = 0;
+		else
+			V = Integer.parseInt(rs.getString("nbOrdresInfo"));
+		
+		retour = A - V;
+		return retour;
 		
 	}
 	
