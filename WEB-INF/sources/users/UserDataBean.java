@@ -75,6 +75,8 @@ public class UserDataBean{
 		getNbOrdresInfo.setInt(2, idInformation);
 		ResultSet rs = getNbOrdresInfo.executeQuery(); 
 		rs.next();
+		if(rs.getString("nbOrdresInfo") == null)
+			return 0;
 		return Integer.parseInt(rs.getString("nbOrdresInfo"));
 		
 	}
