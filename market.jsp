@@ -25,7 +25,10 @@
 		int idMarcheInt = Integer.parseInt(idMarche);
 		user = recupUser.getUtilisateur(request.getRemoteUser());
 		info = recupInformation.getInformationClick(idMarcheInt);
+		// nbOrdres du marché
 		int nbOrdre = recupInformation.getNombreOrdres(idMarcheInt);
+		// nb ordre de l'utilisateur pour ce marché
+		int nbOrdresMarche = recupUser.getNbOrdresInformation(idMarcheInt);
 		recupInformation.fermerConnexion();
 		recupUser.fermerConnexion();
 		
@@ -182,10 +185,10 @@ $( document ).ready(function() {
 					<div class="panel-heading">
 						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-603060">Vos Informations</a>
 					</div>
-					<div id="panel-element-603060" class="panel-collapse collapse">
+					<div id="panel-element-603060" class="panel-collapse collapse in">
 						<div class="panel-body">
 							<p>Pseudo: <%= user.getPseudo()%></p>
-							<p>Vos bons: <%= user.getBons()%></p>
+							<p>Titres acquis pour ce marché: <%= nbOrdresMarche%></p>
 							<p>Votre argent: <%= user.getEspece()%></p>
 							<p>Votre rôle: <%= user.getRole()%></p>
 							<p>Taux de réussite: 41%</p>

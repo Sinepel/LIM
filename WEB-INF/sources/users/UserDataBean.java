@@ -13,6 +13,7 @@ public class UserDataBean{
 	private Connection con;
 	private PreparedStatement getUser;
 	private PreparedStatement getUserId;
+	private PreparedStatement getNbOrdresInfo;
 	private PreparedStatement setAjouterBon;
 	private PreparedStatement setEnleverBon;
 	private PreparedStatement setAjouterEspece;
@@ -26,6 +27,7 @@ public class UserDataBean{
 		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
 		getUserId = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE user_id= ?;");
+		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id = ?;");
 		setAjouterBon = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
 		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
@@ -65,6 +67,16 @@ public class UserDataBean{
 		}
 		monUser = monUtilisateur;
 		return monUser;
+	}
+	
+	public int getNbOrdresInformation(int idInformation) throws SQLException{
+		
+		getNbOrdresInfo.setInt(1, monUser.getId());
+		getNbOrdresInfo.setInt(2, idInformation);
+		ResultSet rs = getNbOrdresInfo.executeQuery(); 
+		rs.next();
+		return Integer.parseInt(rs.getString("nbOrdresInfo"));
+		
 	}
 	
 	public void ajouterBons(int nombre) throws SQLException{
