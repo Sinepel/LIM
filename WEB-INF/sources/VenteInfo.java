@@ -132,7 +132,7 @@ public class VenteInfo extends HttpServlet
 			}
 			catch (SQLException e){out.println("bonjour"+e.toString());}
 			catch (Exception e){out.println("dfdfd"+e.toString());}
-			
+			finally { con.close();}
 			
 			
 			
