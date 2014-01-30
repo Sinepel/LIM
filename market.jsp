@@ -29,9 +29,10 @@
 		// nbOrdres du marché
 		int nbOrdre = recupInformation.getNombreOrdres(idMarcheInt);
 		// nb ordre de l'utilisateur pour ce marché
-		int nbOrdresMarche = recupUser.getNbOrdresInformation(idMarcheInt,IdInfoInverse);
+		int nbOrdresMarche = recupUser.getNbOrdresInformation(idMarcheInt,info.getIdInfoInverse());
 		recupInformation.fermerConnexion();
 		recupUser.fermerConnexion();
+		
 		
 	%>	
 	
@@ -155,7 +156,7 @@ $( document ).ready(function() {
 					</form>
 					
 				</div>
-				<% if (nbOrdresMarche > 0) { %>
+				<% if (nbOrdresMarche != 0) { %>
 					<div class="col-md-4">
 					<h3>Vendre</h3>
 					<form action="servlet/VenteInfo" method="post" class="form" role="form">
@@ -169,7 +170,7 @@ $( document ).ready(function() {
 							<input class="form-control" type="number" id="prix" min="1" max="99"  name="prix" placeholder="Prix unique d'un bon" required>
 						</div>
 						<div class="form-group">
-							<input  class="form-control" type="number" id="nbBons" min="1" name="nbBons" placeholder="Nombre de bons" required>
+							<input  class="form-control" type="number" id="nbBons" min="1" max="<%= nbOrdresMarche %>"name="nbBons" placeholder="Nombre de bons" required>
 						</div>
 
 						

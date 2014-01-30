@@ -53,7 +53,7 @@ public class VenteInfo extends HttpServlet
 				// SELECTION DES ORDRES QUI ONT UN PRIX INFERIEUR A CELUI OFFERT PAR L'UTILISATEUR
 				Statement chercherPrix = con.createStatement();
 				//ResultSet rs = chercherPrix.executeQuery("SELECT * FROM ordre WHERE (100-prix) >= "+prix+" AND id = "+marcheInverse+";"); 
-				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.bonsRestants, ordre.id_ordre,ordre.prix, ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marketID+" AND prix >= "+prixDeVente+" AND bonsRestants > 0 AND etat='A' ORDER BY ordre.prix DESC"); 
+				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.bonsRestants, ordre.id_ordre,ordre.prix, ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marketID+" AND prix >= "+prixDeVente+" AND bonsRestants > 0 AND etat='A' AND ordre.user_id <> '"+userIDVendeur+"' ORDER BY ordre.prix DESC"); 
 				
 				UserDataBean userDataBeanVendeur = new UserDataBean();
 				InformationDataBean infoDB = new InformationDataBean();
