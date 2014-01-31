@@ -6,6 +6,7 @@ public class Information{
 	private int id_categorie;
 	private int id_question_inverse;
 	private int id_userCreation;
+	private String etat;
 	private String question;
 	private String echeance;
 	private String dateCreation;
@@ -76,6 +77,13 @@ public class Information{
 	}
 	public String getTableauOrdresInverses(){
 		return this.mesOrdresInverses;
+	}
+
+	public void setEtat(String etat){
+		this.etat = etat;
+	}
+	public String getEtat(){
+		return this.etat;
 	}
 
 }

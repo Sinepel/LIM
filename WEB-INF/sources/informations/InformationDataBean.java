@@ -29,9 +29,9 @@ public class InformationDataBean{
 	
 	public InformationDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
-		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
-		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?;");
+		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, etat, date_creation, createur, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?;");
 		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo, ordre.bonsRestants FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? AND bonsRestants > 0 AND etat='A' ORDER BY ordre.prix DESC;");
 		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo, ordre.bonsRestants FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? AND bonsRestants > 0 ORDER BY ordre.prix ASC;");
 		ajoutOrdreSql = con.prepareStatement("INSERT into ordre(prix,nbbons,date_achat,id,user_id,bonsRestants,etat) values(?,?,now(),?,?,?,?)");
@@ -52,7 +52,10 @@ public class InformationDataBean{
 			monInformation.setEcheance(rs.getString("echeance"));
 			monInformation.setCategorie(rs.getInt("id_categorie"));
 			monInformation.setIdInfoInverse(rs.getInt("id_1"));
+			monInformation.setUserCreation(rs.getInt("createur"));
 			monInformation.setCategorieLibellle(rs.getString("libelle"));
+			monInformation.setEtat(rs.getString("etat"));
+			monInformation.setDateCreation(rs.getString("date_creation"));
 			monInformation.setTableauOrdres(this.getOrdres(idInfo));
 			monInformation.setTableauOrdresInverses(this.getOrdresInverse(rs.getInt("id_1")));	
 		}
