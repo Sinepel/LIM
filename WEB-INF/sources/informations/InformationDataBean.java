@@ -172,7 +172,8 @@ public class InformationDataBean{
 		return Integer.parseInt(rs.getString("nbOrdre"));
 	}
 	
-	public void finalisationInformation(int idGagnant, int idPerdant){
+	public void finalisationInformation(int idGagnant, int idPerdant)throws Exception, SQLException
+	{
 		
 		//modif info gagnante
 		defEtatInfo.setString(1, "G");
