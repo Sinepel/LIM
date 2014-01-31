@@ -132,7 +132,7 @@ Connection conn = ds.getConnection();
     
 
     
-    String sqlPagination="SELECT * FROM information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie OFFSET "+iPageNo+" LIMIT "+iShowRows+"";
+    String sqlPagination="SELECT * FROM information INNER JOIN categorie ON information.id_categorie = categorie.id_categorie WHERE etat='N' OFFSET "+iPageNo+" LIMIT "+iShowRows+"";
 
     psPagination=conn.prepareStatement(sqlPagination);
     rsPagination=psPagination.executeQuery();
