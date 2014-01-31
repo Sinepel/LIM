@@ -17,10 +17,18 @@
         <session-timeout>30</session-timeout>
     </session-config>
     
-    <error-page>
+<error-page>
   <error-code>404</error-code>
   <location>/error/404.jsp</location>
-</error-page>   
+</error-page>  
+<error-page>
+<error-code>403</error-code>
+<location>/error/erreur.jsp?message=Vous n'avez pas l'autorisation pour accéder à cette page</location>
+</error-page>
+<error-page>
+<error-code>500</error-code>
+<location>/error/erreur.jsp?message=BDD ou Beans inaccessibles</location>
+</error-page> 
 
     <!--  Lien entre les pages et les roles -->
     <security-constraint>
