@@ -55,6 +55,9 @@
 			<h2>Le marché d'information</h2>
 			Utilisateur <%= request.getRemoteUser() %> a été déconnecté.
 			<% session.invalidate(); 
+			response.setHeader("Cache-Control", "no-cache, no-store");
+			response.setHeader("Pragma", "no-cache");
+			request.logout();
 			response.sendRedirect(request.getContextPath()+"?logout=ok");%>
 			
 			

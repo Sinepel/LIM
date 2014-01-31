@@ -130,7 +130,7 @@ $( document ).ready(function() {
 					<div class="panel-heading">
 						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-603060">Vos Informations</a>
 					</div>
-					<div id="panel-element-603060" class="panel-collapse collapse">
+					<div id="panel-element-603060" class="panel-collapse collapse in">
 						<div class="panel-body">
 							<p>Pseudo: <%= user.getPseudo()%></p>
 							<p>Vos bons: <%= user.getBons()%></p>

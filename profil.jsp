@@ -8,6 +8,10 @@
     <%@ page import="java.net.*" %>    
     <%@ page import="javax.naming.*" %>
     <%@ page import="javax.sql.*" %>
+    <%@ page import="javax.sql.*" %>
+    <%@ page import="javax.mail.internet.*" %>
+    <%@ page import="javax.mail.Authenticator" %>
+    <%@ page import="javax.mail.PasswordAuthentication" %>
     
     <!-- JAVA BEAN POUR FAIRE LE TABLEAU D'INFORMATIONS -->
     <jsp:useBean id="tool" scope="application" class="tools.BDDTools" />
@@ -16,7 +20,6 @@
     
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());
-		//recupUser.ajouterBons(2);
 		recupUser.fermerConnexion();
 		int id = user.getId();
 		String pseudo = user.getPseudo();
@@ -64,6 +67,7 @@ Context iniCtx = new InitialContext();
 Context envCtx = (Context) iniCtx.lookup("java:comp/env");
 DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
 Connection con = ds.getConnection();
+
 
 //Préparation de la requete
 Statement stmt= con.createStatement();

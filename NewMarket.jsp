@@ -103,7 +103,7 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 			<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<form id="createMarket" action="servlet/CreateNewMarket" method="POST">
-  
+				<input type="hidden" name="createur" id="createur" value="<%= user.getId() %>">
 				<label for="information">Entrez l'information</label>
 				<input type="text" class="form-control" id="information" name="information" placeholder="Entrez l'information que vous souhaitez" required data-validation-required-message="Vous devez saisir une information">
 				
@@ -155,7 +155,7 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 					<div class="panel-heading">
 						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-603060">Vos Informations</a>
 					</div>
-					<div id="panel-element-603060" class="panel-collapse collapse">
+					<div id="panel-element-603060" class="panel-collapse collapse in">
 						<div class="panel-body">
 							<p>Pseudo: <%= user.getPseudo()%></p>
 							<p>Vos bons: <%= user.getBons()%></p>

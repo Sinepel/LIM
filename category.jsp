@@ -16,7 +16,6 @@
     
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());
-		//recupUser.ajouterBons(2);
 		recupUser.fermerConnexion();
 		int id = user.getId();
 		String pseudo = user.getPseudo();
@@ -122,7 +121,7 @@ String catID = request.getParameter("id");
 					<div class="panel-heading">
 						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-807612">Liste des catégories</a>
 					</div>
-					<div id="panel-element-807612" class="panel-collapse collapse">
+					<div id="panel-element-807612" class="panel-collapse collapse in">
 						<div class="panel-body">
 							<%
 								rs = stmt.executeQuery("Select id_categorie,libelle from categorie;");
@@ -149,7 +148,7 @@ String catID = request.getParameter("id");
 					<div class="panel-heading">
 						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-603060">Vos Informations</a>
 					</div>
-					<div id="panel-element-603060" class="panel-collapse collapse">
+					<div id="panel-element-603060" class="panel-collapse collapse in">
 						<div class="panel-body">
 							<p>Pseudo: <%= user.getPseudo()%></p>
 							<p>Vos bons: <%= user.getBons()%></p>

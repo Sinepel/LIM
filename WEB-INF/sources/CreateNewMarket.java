@@ -33,8 +33,8 @@ public class CreateNewMarket extends HttpServlet
 
 			//Préparation de la requete
 			
-			String sql = "INSERT INTO information (question,echeance,id_categorie) VALUES (?,?,?);";
-			String sqlInverse = "INSERT INTO information (question,echeance,id_1,id_categorie) VALUES (?,?,?,?);";
+			String sql = "INSERT INTO information (question,echeance,id_categorie,etat,date_creation,createur) VALUES (?,?,?,'N',now(),?);";
+			String sqlInverse = "INSERT INTO information (question,echeance,id_1,id_categorie, etat, date_creation,createur) VALUES (?,?,?,?,'N',now(),?);";
 			String sqlUpdate = "UPDATE information SET id_1 = ? WHERE id= ?";
 			preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementInverse = con.prepareStatement(sqlInverse, Statement.RETURN_GENERATED_KEYS);
@@ -44,6 +44,7 @@ public class CreateNewMarket extends HttpServlet
 			String inverse = req.getParameter("inverse");
 			String dateString = req.getParameter("date");
 			int categorie = Integer.parseInt(req.getParameter("categorie"));
+			int userID = Integer.parseInt(req.getParameter("createur"));
 
 			
 			out.println(information + inverse + dateString);
@@ -53,6 +54,7 @@ public class CreateNewMarket extends HttpServlet
 			java.sql.Date date = java.sql.Date.valueOf(dateString);
 			preparedStatement.setDate(2, date);
 			preparedStatement.setInt(3, categorie);
+			preparedStatement.setInt(4, userID);
 			
 			out.println(preparedStatement.toString());
 			preparedStatement.executeUpdate();
@@ -70,6 +72,7 @@ public class CreateNewMarket extends HttpServlet
 			preparedStatementInverse.setDate(2, date);
 			preparedStatementInverse.setInt(4, categorie);
 			preparedStatementInverse.setInt(3,key);
+			preparedStatementInverse.setInt(5,userID);
 			out.println(preparedStatementInverse.toString());
 			preparedStatementInverse.executeUpdate();
 			rs = preparedStatementInverse.getGeneratedKeys();
