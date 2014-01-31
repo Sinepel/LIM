@@ -22,6 +22,7 @@ public class InformationDataBean{
 	private PreparedStatement ajoutOrdreSql;
 	private PreparedStatement modifOrdreSql;
 	private PreparedStatement getNbOrdres;
+	private PreparedStatement defEtatInfo;
 	private Information monInformation;
 	private ArrayList<OrdreBean> mesOrdres;
 	BDDTools tool = new BDDTools();
@@ -37,6 +38,7 @@ public class InformationDataBean{
 		ajoutOrdreSql = con.prepareStatement("INSERT into ordre(prix,nbbons,date_achat,id,user_id,bonsRestants,etat) values(?,?,now(),?,?,?,?)");
 		modifOrdreSql = con.prepareStatement("UPDATE ordre set bonsRestants = bonsRestants - ? where id_ordre = ?");
 		getNbOrdres = con.prepareStatement("SELECT count(*) AS nbOrdre FROM ordre where id = ?");
+		defEtatInfo = con.prepareStatement("UPDATE information SET etat = ? WHERE id = ?");
 	}
 	
 	public Information getInformationClick(int idInfo) throws SQLException{
@@ -170,6 +172,18 @@ public class InformationDataBean{
 		return Integer.parseInt(rs.getString("nbOrdre"));
 	}
 	
+	public void finalisationInformation(int idGagnant, int idPerdant){
+		
+		//modif info gagnante
+		defEtatInfo.setString(1, "G");
+		defEtatInfo.setInt(2, idGagnant);
+		defEtatInfo.executeUpdate();
+		
+		//modif info perdante
+		defEtatInfo.setString(1, "P");
+		defEtatInfo.setInt(2, idPerdant);
+		defEtatInfo.executeUpdate();
+	}
 	
 	protected void finalize() {
 	// attempt to close database connection
