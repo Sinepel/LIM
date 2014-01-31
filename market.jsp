@@ -34,9 +34,9 @@
 		recupUser.fermerConnexion();
 		
 		
+		
 	%>	
-	
-    
+   
   <title>L'information - Lille Information Market</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Le marché d'information par la DA2I">
@@ -66,6 +66,7 @@
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/morris.js"></script>
 	<script type="text/javascript" src="js/raphael.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.datepicker.min.js"></script>
 	<link href="css/morris.css" rel="stylesheet">
 
 	
@@ -93,7 +94,7 @@ $( document ).ready(function() {
 				xkey: 'jour',
 				ykeys: ['valeur'],
 				labels: ['Prix moyen '],
-				//dateFormat: function(x) { return $.datepicker.formatDate("dd/mm/yy", new Date(x)); }
+				dateFormat: function(x) { return $.datepicker.formatDate("dd/mm/yy", new Date(x)); }
 			});
 		}
 	)
@@ -118,7 +119,23 @@ $( document ).ready(function() {
 	</div>
 	<div class="row clearfix">
 		<div class="col-md-8 column">
+			<%
+				SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+				Date now = new Date();
+				String strDate = sdfDate.format(now);
+			%>
+			
 			<h2><%= info.getQuestion()%></h2>
+			
+			<% //FORMULAIRE DE FINALISATION
+			 if ((info.getEtat().equals("N") && info.getEcheance().equals(strDate)) && ((user.getRole().equals("admin")) || user.getId() ==  info.getUserCreation())){%> 
+				<form action="servlet/Final" method="post" class="form" role="form">
+					<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
+					<input  class="form-control" type="hidden" id="inverse" name="inverse" value="<%= info.getIdInfoInverse() %>">
+					<button type="submit" class="btn btn-danger">Finaliser l'information</button>				
+				</form>
+				
+			<%}%>
 			<p>Je veux <a href="market.jsp?id=<%=info.getIdInfoInverse()%>">l'information inverse</a></p>
 			<p>Le marché se termine le: <a href="date.jsp?date=<%= tool.getDateFormat(info.getEcheance()) %>"><%= tool.getDateFormat(info.getEcheance()) %></a></p>
 			<p>Catégorie : <a href="category.jsp?id=<%=info.getCategorie() %>"><%= info.getCategorieLibelle() %></a></p>
@@ -127,6 +144,9 @@ $( document ).ready(function() {
 			<h3>Demandes</h3>
 			<%= info.getTableauOrdres() %>
 			<% 	int marcheInverse = info.getIdInfoInverse(); %>
+			<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
+
+			<% if (info.getEtat().equals("N")) { %>
 			<div class="row">
 				<% if (nbOrdresMarche == 0) { %><div class="col-md-6 col-md-offset-3"> <% } else { %>
 				<div class="col-md-4 col-md-offset-2">
@@ -189,6 +209,7 @@ $( document ).ready(function() {
 				</div>
 				<% } %>	
 			</div>
+			<% } %>
 			<div class="row">
 				<div class="col-md-12 column">
 					<h3>Graphique des achats</h3>
