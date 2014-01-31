@@ -23,6 +23,8 @@ public class InformationDataBean{
 	private PreparedStatement modifOrdreSql;
 	private PreparedStatement getNbOrdres;
 	private PreparedStatement defEtatInfo;
+	private PreparedStatement recupIdUsers;
+	private PreparedStatement upEspeceGagnant;
 	private Information monInformation;
 	private ArrayList<OrdreBean> mesOrdres;
 	BDDTools tool = new BDDTools();
@@ -39,6 +41,8 @@ public class InformationDataBean{
 		modifOrdreSql = con.prepareStatement("UPDATE ordre set bonsRestants = bonsRestants - ? where id_ordre = ?");
 		getNbOrdres = con.prepareStatement("SELECT count(*) AS nbOrdre FROM ordre where id = ?");
 		defEtatInfo = con.prepareStatement("UPDATE information SET etat = ? WHERE id = ?");
+		recupIdUsers = con.prepareStatement("SELECT user_id,SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre where id = ? GROUP BY user_id;");
+		upEspeceGagnant = con.prepareStatement("UPDATE utilisateur set espece = espece + ? WHERE user_id = ?");
 	}
 	
 	public Information getInformationClick(int idInfo) throws SQLException{
@@ -184,6 +188,17 @@ public class InformationDataBean{
 		defEtatInfo.setString(1, "P");
 		defEtatInfo.setInt(2, idPerdant);
 		defEtatInfo.executeUpdate();
+		
+		//Mise à jour des especes des gagnants
+		recupIdUsers.setInt(1,idGagnant);
+		ResultSet rs = recupIdUsers.executeQuery();
+		
+		while(rs.next()){
+			int especes = (rs.getInt("nbOrdresInfo")) * 100;
+			upEspeceGagnant.setInt(1, especes);
+			upEspeceGagnant.setInt(2, rs.getInt("user_id"));			
+			upEspeceGagnant.executeUpdate();
+		}
 	}
 	
 	protected void finalize() {
