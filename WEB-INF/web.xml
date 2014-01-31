@@ -31,7 +31,6 @@
          <url-pattern>/all.jsp</url-pattern>
          <url-pattern>/date.jsp</url-pattern>
          <url-pattern>/category.jsp</url-pattern>
-         <url-pattern>/NewMarket.jsp</url-pattern>
          <url-pattern>/profil.jsp</url-pattern>
          <url-pattern>/market.jsp</url-pattern>
      </web-resource-collection>
@@ -39,6 +38,17 @@
          <role-name>user</role-name>
          <role-name>admin</role-name>
          <role-name>market-maker</role-name>
+      </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+     <web-resource-collection>
+       <web-resource-name>Créer un marché</web-resource-name>
+         <url-pattern>/NewMarket.jsp</url-pattern>
+	 </web-resource-collection>
+      <auth-constraint>
+		<role-name>admin</role-name>
+        <role-name>market-maker</role-name>
       </auth-constraint>
     </security-constraint>
 	
@@ -50,8 +60,7 @@
         </web-resource-collection>
       <auth-constraint>
 		<role-name>admin</role-name>
-		<role-name>market-maker</role-name>
-	  </auth-constraint>
+		</auth-constraint>
     </security-constraint>
 
     
