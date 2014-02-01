@@ -13,6 +13,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import javax.mail.internet.InternetAddress;
+
 public class InformationDataBean{
 	
 	private Connection con;
@@ -27,6 +29,7 @@ public class InformationDataBean{
 	private PreparedStatement upEspeceGagnant;
 	private Information monInformation;
 	private ArrayList<OrdreBean> mesOrdres;
+	private HashMap<InternetAddress,Integer> dicoMailEspece;
 	BDDTools tool = new BDDTools();
 	
 	
@@ -41,7 +44,7 @@ public class InformationDataBean{
 		modifOrdreSql = con.prepareStatement("UPDATE ordre set bonsRestants = bonsRestants - ? where id_ordre = ?");
 		getNbOrdres = con.prepareStatement("SELECT count(*) AS nbOrdre FROM ordre where id = ?");
 		defEtatInfo = con.prepareStatement("UPDATE information SET etat = ? WHERE id = ?");
-		recupIdUsers = con.prepareStatement("SELECT user_id,SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre where id = ? GROUP BY user_id;");
+		recupIdUsers = con.prepareStatement("SELECT ordre.user_id,utilisateur.mail,SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre LEFT JOIN utilisateur ON ordre.user_id = utilisateur.user_id where id = ? GROUP BY ordre.user_id, utilisateur.mail;");
 		upEspeceGagnant = con.prepareStatement("UPDATE utilisateur set espece = espece + ? WHERE user_id = ?");
 	}
 	
@@ -176,7 +179,7 @@ public class InformationDataBean{
 		return Integer.parseInt(rs.getString("nbOrdre"));
 	}
 	
-	public void finalisationInformation(int idGagnant, int idPerdant)throws Exception, SQLException
+	public HashMap finalisationInformation(int idGagnant, int idPerdant)throws Exception, SQLException
 	{
 		
 		//modif info gagnante
@@ -192,13 +195,16 @@ public class InformationDataBean{
 		//Mise à jour des especes des gagnants
 		recupIdUsers.setInt(1,idGagnant);
 		ResultSet rs = recupIdUsers.executeQuery();
+		dicoMailEspece = new HashMap<InternetAddress,Integer>();
 		
 		while(rs.next()){
 			int especes = (rs.getInt("nbOrdresInfo")) * 100;
 			upEspeceGagnant.setInt(1, especes);
-			upEspeceGagnant.setInt(2, rs.getInt("user_id"));			
+			upEspeceGagnant.setInt(2, rs.getInt("user_id"));
+			dicoMailEspece.put(new InternetAddress(rs.getString("mail")),especes);			
 			upEspeceGagnant.executeUpdate();
 		}
+		return dicoMailEspece;
 	}
 	
 	protected void finalize() {

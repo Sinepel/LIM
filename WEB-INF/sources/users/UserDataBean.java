@@ -25,8 +25,8 @@ public class UserDataBean{
 	
 	public UserDataBean() throws Exception{
 		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
-		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role FROM utilisateur WHERE pseudo = ?;");
+		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role, mail FROM utilisateur WHERE pseudo = ?;");
 		getUserId = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE user_id= ?;");
 		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?) AND etat='A';");
 		getNbOrdresInfo2 = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?) AND etat='V';");
@@ -49,6 +49,7 @@ public class UserDataBean{
 			monUtilisateur.setRole(rs.getString("role"));
 			monUtilisateur.setEspece(rs.getInt("espece"));
 			monUtilisateur.setBons(rs.getInt("bons"));
+			monUtilisateur.setMail(rs.getString("mail"));
 		}
 		monUser = monUtilisateur;
 		return monUser;
