@@ -28,20 +28,15 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand"><a href="<%= request.getContextPath() %>" title="Retour au site">Lille Information Market</a>
                 </li>
-                <li><a href="#">Index</a>
+                <li><a href="index.jsp">Index</a>
                 </li>
-                <li><a href="#">Marchés</a>
+                <li><a href="manageMarket.jsp">Marchés</a>
                 </li>
-                <li><a href="#">Catégories</a>
+                <li><a href="manageCat.jsp">Catégories</a>
                 </li>
-                <li><a href="#">Membres</a>
+                <li><a href="manageMembers.jsp">Membres</a>
                 </li>
-                <li><a href="#">About</a>
-                </li>
-                <li><a href="#">Services</a>
-                </li>
-                <li><a href="#">Contact</a>
-                </li>
+                
             </ul>
         </div>
 
