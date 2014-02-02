@@ -91,10 +91,7 @@ $( document ).ready(function() {
 	<div class="row clearfix">
 		<div class="col-md-8 column">
 			<h2>Historique des marchés gagnants</h2>
-			<% if (request.getParameterMap().containsKey("add"))
-			{				
-				out.println("<div class=\"alert alert-success\">L'ajout a été effectué</div>");
-			}
+			<%
 			
 			
 			ResultSet rs=apercu.executeQuery();
