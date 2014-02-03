@@ -129,12 +129,21 @@ $( document ).ready(function() {
 			
 			<% //FORMULAIRE DE FINALISATION
 			 if ((info.getEtat().equals("N") && info.getEcheance().equals(strDate)) && ((user.getRole().equals("admin")) || user.getId() ==  info.getUserCreation())){%> 
+				 <div class="panel panel-danger">
+					 <div class="panel-heading">La fin de ce marché doit être déterminée</div>
+					 <div class="panel-body"><p>Merci de décider si cette information a été vérifiée ou non</p>					 
 				<form action="servlet/Final" method="post" class="form" role="form">
 					<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= idMarcheInt %>">
 					<input  class="form-control" type="hidden" id="inverse" name="inverse" value="<%= info.getIdInfoInverse() %>">
-					<button type="submit" class="btn btn-danger">Finaliser l'information</button>				
+					<button type="submit" class="btn btn-danger">Elle a gagnée</button>				
 				</form>
-				
+				<form action="servlet/Final" method="post" class="form" role="form">
+					<input  class="form-control" type="hidden" id="marketID" name="marketID" value="<%= info.getIdInfoInverse() %>">
+					<input  class="form-control" type="hidden" id="inverse" name="inverse" value="<%= idMarcheInt %>">
+					<button type="submit" class="btn btn-danger">Elle a perdu</button>				
+				</form>
+					</div>
+				</div>
 			<%}%>
 			<p>Je veux <a href="market.jsp?id=<%=info.getIdInfoInverse()%>">l'information inverse</a></p>
 			<p>Le marché se termine le: <a href="date.jsp?date=<%= tool.getDateFormat(info.getEcheance()) %>"><%= tool.getDateFormat(info.getEcheance()) %></a></p>
