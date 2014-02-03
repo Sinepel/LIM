@@ -16,10 +16,13 @@
     
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());
+				String informationsEnCours = recupUser.getInformationEnCours(user.getId());
+
 		recupUser.fermerConnexion();
 		int id = user.getId();
 		String pseudo = user.getPseudo();
 		int bons = user.getBons();
+		
 		int espece = user.getEspece();
 		String role = user.getRole();
 	%>	
@@ -158,6 +161,20 @@ String catID = request.getParameter("id");
 						</div>
 					</div>
 				</div>
+				<div class="panel-group" id="panel-123456">
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-123456" href="#panel-element-123456">Opérations en cours</a>
+					</div>
+					<div id="panel-element-123456" class="panel-collapse collapse in">
+						<div class="panel-body">
+						<%= informationsEnCours %>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			</div>
 		</div>
 	</div>

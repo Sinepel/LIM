@@ -17,9 +17,9 @@
     
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());
-		//session.setAttribute("referer",request.getHeader("Referer")); 
-		//out.println((String)session.getAttribute("referer"));
-		
+		String informationsEnCours = recupUser.getInformationEnCours(user.getId());
+		recupUser.fermerConnexion();
+
 					
 
 		
@@ -137,12 +137,12 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 		</div>
 		<div class="col-md-4 column">
 			<ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="index.jsp"><i class="fa fa-home fa-fw"></i>Accueil</a></li>
+                <li ><a href="index.jsp"><i class="fa fa-home fa-fw"></i>Accueil</a></li>
                 <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-list-alt fa-fw"></i>Widgets</a></li>
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-file-o fa-fw"></i>Pages</a></li>-->
                 <li><a href="all.jsp"><i class="fa fa-bar-chart-o fa-fw"></i>Tous les marchés</a></li>
                 <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-table fa-fw"></i>Table</a></li>-->
-                <li><% if (user.getRole().equals("market-maker") || user.getRole().equals("admin")){ out.print("<li><a href=\"NewMarket.jsp\"><i class=\"fa fa-tasks fa-fw\"></i>Créer un marché</a></li>");} %></li>
+                <li><% if (user.getRole().equals("market-maker") || user.getRole().equals("admin")){ out.print("<li  class=\"active\"><a href=\"NewMarket.jsp\"><i class=\"fa fa-tasks fa-fw\"></i>Créer un marché</a></li>");} %></li>
                 <!--<li><a href="http://www.jquery2dotnet.com"><i class="fa fa-tasks fa-fw"></i>Créer un marché</a></li>-->
                 <li><a href="history.jsp"><i class="fa fa-calendar fa-fw"></i>Historique des marchés</a></li><!--
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-book fa-fw"></i>Library</a></li>
@@ -164,8 +164,23 @@ PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle
 						</div>	
 						</div>
 					</div>
+					<div class="panel-group" id="panel-123456">
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-123456" href="#panel-element-123456">Opérations en cours</a>
+					</div>
+					<div id="panel-element-123456" class="panel-collapse collapse in">
+						<div class="panel-body">
+						<%= informationsEnCours %>
+						</div>
+						</div>
+					</div>
 				</div>
+				</div>
+				
 			</div>
+			
 		</div>
 	</div>
 

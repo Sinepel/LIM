@@ -17,6 +17,8 @@
     
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());		
+				String informationsEnCours = recupUser.getInformationEnCours(user.getId());
+
 		recupUser.fermerConnexion();
 	%>	
 	
@@ -141,6 +143,20 @@ $( document ).ready(function() {
 						</div>
 					</div>
 				</div>
+				<div class="panel-group" id="panel-123456">
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-123456" href="#panel-element-123456">Opérations en cours</a>
+					</div>
+					<div id="panel-element-123456" class="panel-collapse collapse in">
+						<div class="panel-body">
+						<%= informationsEnCours %>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			</div>
 		</div>
 	</div>

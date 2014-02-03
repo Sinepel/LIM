@@ -16,6 +16,8 @@
     
     <% 
 		user = recupUser.getUtilisateur(request.getRemoteUser());
+		String informationsEnCours = recupUser.getInformationEnCours(user.getId());
+		
 		recupUser.fermerConnexion();
 		int id = user.getId();
 		String pseudo = user.getPseudo();
@@ -147,7 +149,7 @@ String date = request.getParameter("date");
 					<div class="panel-heading">
 						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-404098" href="#panel-element-603060">Vos Informations</a>
 					</div>
-					<div id="panel-element-603060" class="panel-collapse collapse">
+					<div id="panel-element-603060" class="panel-collapse collapse in">
 						<div class="panel-body">
 							<p>Pseudo: <%= user.getPseudo()%></p>
 							<p>Vos bons: <%= user.getBons()%></p>
@@ -158,6 +160,20 @@ String date = request.getParameter("date");
 						</div>
 					</div>
 				</div>
+				<div class="panel-group" id="panel-123456">
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-123456" href="#panel-element-123456">Opérations en cours</a>
+					</div>
+					<div id="panel-element-123456" class="panel-collapse collapse in">
+						<div class="panel-body">
+						<%= informationsEnCours %>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			</div>
 		</div>
 	</div>
