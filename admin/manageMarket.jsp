@@ -76,11 +76,11 @@
 							PreparedStatement categories = con.prepareStatement("Select id_categorie,libelle FROM categorie;");
 
 							PreparedStatement membres = con.prepareStatement("Select * from information;");
-							%><table id="membres" class="table"><%
+							%><table id="membres" class="table"><thead><th>Information</th><th>Échéance</th></thead><%
 							ResultSet rs=membres.executeQuery();
 							while (rs.next())
 							{
-								out.println("<tr><td>"+rs.getString("question")+"</td><td>"+rs.getString("echeance")+"</td></tr>");
+								out.println("<tr><td>"+rs.getString("question")+"</td><td>"+tool.getDateFormat(rs.getString("echeance"))+"</td></tr>");
 							}
 						
 							membres.close();
