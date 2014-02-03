@@ -116,7 +116,7 @@ $( document ).ready(function() {
                         </div>
                     </div>
                     <div class="col-md-12">
-						<h3>Nombre d'ordre passé par jour</h3>
+						<h3>Nombre d'ordre passé par jour (7 derniers jours)</h3>
                         
                         <div id="ordresJour"></div>
                         
