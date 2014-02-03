@@ -5,7 +5,7 @@
 	
 	<% String path = request.getContextPath(); %>
 	
-  <title>Erreur 404 - Lille Information Market</title>
+  <title>Erreur - Lille Information Market</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Le marché d'information par la DA2I">
   <meta name="author" content="Constantin Boulanger - Florent Pulcian">
@@ -47,7 +47,7 @@ body { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAA
             <div class="error-template">
                 <h1>
                     Oops!</h1>
-                <h2> <%= request.getParameter("message") %></h2>
+                <h2> <% request.setCharacterEncoding("UTF-8");%><%= request.getParameter("message") %></h2>
                 
                 <div class="error-actions">
                     <a href="<%=path%>" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
