@@ -138,7 +138,7 @@ Connection conn = ds.getConnection();
     rsPagination=psPagination.executeQuery();
     
     //// this will count total number of rows
-     String sqlRowCnt="SELECT count(*) as cnt from information;";
+     String sqlRowCnt="SELECT count(*) as cnt from information where etat='N';";
      psRowCnt=conn.prepareStatement(sqlRowCnt);
      rsRowCnt=psRowCnt.executeQuery();
      
