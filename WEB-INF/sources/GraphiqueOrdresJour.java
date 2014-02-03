@@ -25,7 +25,7 @@ public class GraphiqueOrdresJour extends HttpServlet
 
 				Statement st 	= 	con.createStatement();
 				Statement upST 	= 	con.createStatement();
-				ResultSet rs 	= 	st.executeQuery("select count(*) as total, to_char(date_achat, 'YYYY-MM-DD') AS date from ordre group by date ORDER BY date ASC LIMIT 200");
+				ResultSet rs 	= 	st.executeQuery("select count(*) as total, to_char(date_achat, 'YYYY-MM-DD') AS date from ordre WHERE date(now()) - date(date_achat) <= 7 group by date ORDER BY date ASC;");
 				
 				retour 			+= 	"[";
 				while(rs.next()) {
