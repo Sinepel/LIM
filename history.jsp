@@ -60,7 +60,7 @@ DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
 Connection con = ds.getConnection();
 //Préparation de la requete
 Statement stmt= con.createStatement();
-PreparedStatement apercu = con.prepareStatement("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie WHERE etat='P' ORDER BY id ASC;");
+PreparedStatement apercu = con.prepareStatement("Select * from information LEFT JOIN categorie ON information.id_categorie = categorie.id_categorie WHERE etat='G' ORDER BY id ASC;");
 
 %>
 <script>
