@@ -15,6 +15,7 @@ public class UserDataBean{
 	private PreparedStatement getUserId;
 	private PreparedStatement getNbOrdresInfo;
 	private PreparedStatement getNbOrdresInfo2;
+	private PreparedStatement getMarchesEnCours;
 	private PreparedStatement setAjouterBon;
 	private PreparedStatement setEnleverBon;
 	private PreparedStatement setAjouterEspece;
@@ -30,6 +31,7 @@ public class UserDataBean{
 		getUserId = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE user_id= ?;");
 		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?) AND etat='A';");
 		getNbOrdresInfo2 = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?) AND etat='V';");
+		getMarchesEnCours = con.prepareStatement("SELECT DISTINCT information.id,information.question FROM information INNER JOIN ordre ON information.id = ordre.id WHERE bonsrestants > 0 AND user_id = ?;");
 		setAjouterBon = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
 		setAjouterEspece = con.prepareStatement("UPDATE utilisateur SET espece = espece + ? WHERE pseudo = ?;");
@@ -149,6 +151,25 @@ public class UserDataBean{
 		}
 	}
 	
+	public String getInformationEnCours(int id_user) throws SQLException{
+		getMarchesEnCours.setInt(1,id_user);
+		ResultSet rs = getMarchesEnCours.executeQuery();
+		
+		StringBuffer mesInfos = new StringBuffer();
+		mesInfos.append("<table class=\"table\">\n");
+		mesInfos.append("<thead><tr><th>Question</th></thead><tbody>");
+		
+		int nblig = 0;
+		
+		while(rs.next()){
+			String question = rs.getString("question");
+			int idInfo = rs.getInt("id");			
+			mesInfos.append("<tr><td><a href=\"market.jsp?id="+idInfo+"\">"+question+"</td></tr>");
+		}
+		
+		mesInfos.append("</tbody></table>\n");
+		return mesInfos.toString();
+	}
 	protected void finalize() {
 	// attempt to close database connection
 	try {
