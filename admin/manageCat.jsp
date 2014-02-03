@@ -68,7 +68,7 @@
 							//Préparation de la requete
 							Statement stmt= con.createStatement();
 							PreparedStatement membres = con.prepareStatement("Select * from categorie;");
-							%><table id="membres" class="table"><thead><th>Libellé</th></thead><%
+							%><table id="membres" class="table"><thead><th>ID</th><th>Libellé</th></thead><%
 							ResultSet rs=membres.executeQuery();
 							while (rs.next())
 							{
