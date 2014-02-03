@@ -27,6 +27,7 @@ public class InformationDataBean{
 	private PreparedStatement defEtatInfo;
 	private PreparedStatement recupIdUsers;
 	private PreparedStatement upEspeceGagnant;
+	private PreparedStatement miseAjourStatutUser;
 	private Information monInformation;
 	private ArrayList<OrdreBean> mesOrdres;
 	private HashMap<InternetAddress,Integer> dicoMailEspece;
@@ -44,8 +45,9 @@ public class InformationDataBean{
 		modifOrdreSql = con.prepareStatement("UPDATE ordre set bonsRestants = bonsRestants - ? where id_ordre = ?");
 		getNbOrdres = con.prepareStatement("SELECT count(*) AS nbOrdre FROM ordre where id = ?");
 		defEtatInfo = con.prepareStatement("UPDATE information SET etat = ? WHERE id = ?");
-		recupIdUsers = con.prepareStatement("SELECT ordre.user_id,utilisateur.mail,SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre LEFT JOIN utilisateur ON ordre.user_id = utilisateur.user_id where id = ? GROUP BY ordre.user_id, utilisateur.mail;");
+		recupIdUsers = con.prepareStatement("SELECT ordre.user_id,utilisateur.mail,SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre LEFT JOIN utilisateur ON ordre.user_id = utilisateur.user_id where id = ? GROUP BY ordre.user_id, utilisateur.mail ORDER BY nbOrdresInfo DESC;");
 		upEspeceGagnant = con.prepareStatement("UPDATE utilisateur set espece = espece + ? WHERE user_id = ?");
+		miseAjourStatutUser = con.prepareStatement("UPDATE utilisateur set role = 'market-maker' WHERE user_id = ?");
 	}
 	
 	public Information getInformationClick(int idInfo) throws SQLException{
@@ -196,13 +198,19 @@ public class InformationDataBean{
 		recupIdUsers.setInt(1,idGagnant);
 		ResultSet rs = recupIdUsers.executeQuery();
 		dicoMailEspece = new HashMap<InternetAddress,Integer>();
-		
+		int i = 0;
 		while(rs.next()){
+			//mettre à jour le role de l'utilisateur en market-maker ( les deux premiers)
+			if(i < 2){
+				miseAjourStatutUser.setInt(1, rs.getInt("user_id"));
+				miseAjourStatutUser.executeUpdate();
+			}
 			int especes = (rs.getInt("nbOrdresInfo")) * 100;
 			upEspeceGagnant.setInt(1, especes);
 			upEspeceGagnant.setInt(2, rs.getInt("user_id"));
 			dicoMailEspece.put(new InternetAddress(rs.getString("mail")),especes);			
 			upEspeceGagnant.executeUpdate();
+			i++;
 		}
 		return dicoMailEspece;
 	}
