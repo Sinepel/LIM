@@ -14,9 +14,13 @@
     <meta name="author" content="">
 
     <title>Administration - Lille Information Market</title>
-
+    <!-- JavaScript -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
+
+
 
     <!-- Add custom CSS here -->
     <link href="css/simple-sidebar.css" rel="stylesheet">
@@ -25,7 +29,6 @@
 </head>
 
 <body>
-
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -54,9 +57,9 @@
             <!-- Keep all page content within the page-content inset div! -->
             <div class="page-content inset">
                 <div class="row">
-                    
+                   
                     <div class="col-md-6"><h3>Listes des membres</h3>
-                        <p class="well">
+                       
 							<%//Récupération du POOL (LIM_POOL)
 							Context iniCtx = new InitialContext();
 							Context envCtx = (Context) iniCtx.lookup("java:comp/env");
@@ -65,18 +68,18 @@
 							//Préparation de la requete
 							Statement stmt= con.createStatement();
 							PreparedStatement membres = con.prepareStatement("Select * from utilisateur;");
-
+							%><table id="membres" class="table"><%
 							ResultSet rs=membres.executeQuery();
 							while (rs.next())
 							{
-								out.println(rs.getString("pseudo"));
+								out.println("<tr><td>"+rs.getString("pseudo")+"</td><td>"+rs.getString("mail")+"</td></tr>");
 							}
 						
 							membres.close();
 							rs.close(); 
 							stmt.close(); 
-							con.close();%>
-                        </p>
+							con.close();%></table>
+                        
                     </div>
                     <div class="col-md-6"><h3>Ajouter un membre</h3>
                         <form action="../servlet/CreateUser" method="post" accept-charset="utf-8" class="form well" role="form" id="form">
@@ -87,10 +90,10 @@
                     <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirmation du mot de passe"   required />                    
                     <div class="row">
 						<div class="col-md-6">
-							<button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">Créer son compte</button>
+							<button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">Créer le compte</button>
 						</div>
 						<div class="col-md-6">
-							<button class="btn btn-lg btn-primary btn-block signup-btn btn-danger" onclick="location.href='<%= request.getContextPath() %>'" type="reset">Annuler</button>
+							<button class="btn btn-lg btn-primary btn-block signup-btn btn-danger" type="reset">Annuler</button>
 						</div>
                     </div>
 			</form>
@@ -102,9 +105,8 @@
 
     </div>
 
-    <!-- JavaScript -->
-    <script src="js/jquery-1.10.2.js"></script>
-    <script src="js/bootstrap.js"></script>
+
+
 
     <!-- Custom JavaScript for the Menu Toggle -->
     <script>
