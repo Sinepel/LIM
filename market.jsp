@@ -122,14 +122,19 @@ $( document ).ready(function() {
 		<div class="col-md-8 column">
 			<%
 				SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
-				Date now = new Date();
-				String strDate = sdfDate.format(now);
+				Date now = new Date();	
+				
+				Date echeance = new SimpleDateFormat("yyyy-MM-dd").parse(info.getEcheance());
+				int num = echeance.compareTo(now);
+				//out.println(num);
+				
+				//String strDate = sdfDate.format(now);
 			%>
 			
 			<h2><%= info.getQuestion()%></h2>
 			
 			<% //FORMULAIRE DE FINALISATION
-			 if ((info.getEtat().equals("N") && info.getEcheance().equals(strDate)) && ((user.getRole().equals("admin")) || user.getId() ==  info.getUserCreation())){%> 
+			 if ((info.getEtat().equals("N") && num <= 0) && ((user.getRole().equals("admin")) || user.getId() ==  info.getUserCreation())){%> 
 				 <div class="panel panel-danger">
 					 <div class="panel-heading">La fin de ce marché doit être déterminée</div>
 					 <div class="panel-body"><p>Merci de décider si cette information a été vérifiée ou non</p>					 

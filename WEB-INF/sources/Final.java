@@ -71,8 +71,8 @@ public class Final extends HttpServlet
 					message.setRecipients(Message.RecipientType.TO,to);
 					message.setSubject("Vous avez gagné - Lille Information Market");
 					message.setText("Cher utilisateur,"
-						+ "\n\n Vous venez de gagner un des marché auxquels vous avez participé."
-						+" \nNous vous avons donc crédité vos espèces en conséquence (100 x le nombre de bons acquis pour cette information"
+						+ "\n\nVous venez de gagner un des marché auxquels vous avez participé."
+						+" \nNous vous avons donc crédité vos espèces en conséquence (100 x le nombre de bons acquis pour cette information)"
 						+" \n\nVous pouvez voir le récapitulatif du marché à cette adresse : http://localhost:8080/LIM/market.jsp?id="+marketId+"");
 		 
 					Transport.send(message);
