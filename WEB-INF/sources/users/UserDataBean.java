@@ -8,6 +8,7 @@ import java.net.*;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import javax.naming.*;
 
 public class UserDataBean{
 	private Connection con;
@@ -25,8 +26,13 @@ public class UserDataBean{
 	private User monUser;
 	
 	public UserDataBean() throws Exception{
-		Class.forName("org.postgresql.Driver");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
+		//Récupération du POOL (LIM_POOL)
+		Context iniCtx = new InitialContext();
+		Context envCtx = (Context) iniCtx.lookup("java:comp/env");
+		DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
+		con = ds.getConnection();
+		//Class.forName("org.postgresql.Driver");
+		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
 		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role, mail FROM utilisateur WHERE pseudo = ?;");
 		getUserId = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE user_id= ?;");
 		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?) AND etat='A';");

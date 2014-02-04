@@ -11,13 +11,14 @@ import java.text.DateFormat;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
+import javax.sql.*;
+import javax.naming.*;
 
 import javax.mail.internet.InternetAddress;
 
 public class InformationDataBean{
 	
-	private Connection con;
+	private Connection con = null;
 	private PreparedStatement getInformation;
 	private PreparedStatement getOrdresSql;
 	private PreparedStatement getOrdresInverseSql;
@@ -35,9 +36,14 @@ public class InformationDataBean{
 	
 	
 	public InformationDataBean() throws Exception{
-		Class.forName("org.postgresql.Driver");
+		//Récupération du POOL (LIM_POOL)
+		Context iniCtx = new InitialContext();
+		Context envCtx = (Context) iniCtx.lookup("java:comp/env");
+		DataSource ds = (DataSource) envCtx.lookup("LIM_POOL");
+		con = ds.getConnection();
+		//Class.forName("org.postgresql.Driver");
 		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
-		con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
+		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","postgres","postgres");
 		getInformation = con.prepareStatement("SELECT id, question, echeance, information.id_categorie, id_1, etat, date_creation, createur, categorie.libelle FROM information,categorie WHERE information.id_categorie = categorie.id_categorie AND id = ?;");
 		getOrdresSql = con.prepareStatement("SELECT ordre.id_ordre, ordre.prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo, ordre.bonsRestants FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? AND bonsRestants > 0 AND etat='A' ORDER BY ordre.prix DESC;");
 		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo, ordre.bonsRestants FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? AND bonsRestants > 0 ORDER BY ordre.prix ASC;");
@@ -220,7 +226,7 @@ public class InformationDataBean{
 	try {
 		getInformation.close();
 		
-		con.close();
+			con.close();
 		}
 
 	// process SQLException on close operation
