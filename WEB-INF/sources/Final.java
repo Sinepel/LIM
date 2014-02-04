@@ -92,7 +92,7 @@ public class Final extends HttpServlet
 				out.println(E.toString());
 			}
 			
-			res.sendRedirect(req.getContextPath());		
+			res.sendRedirect(req.getHeader("referer"));	
 	}	
 	
 }
