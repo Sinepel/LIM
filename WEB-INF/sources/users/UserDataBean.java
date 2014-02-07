@@ -35,8 +35,8 @@ public class UserDataBean{
 		//con = DriverManager.getConnection("jdbc:postgresql://localhost/lim","constantin","moi");
 		getUser = con.prepareStatement("SELECT user_id, pseudo, espece, bons, role, mail FROM utilisateur WHERE pseudo = ?;");
 		getUserId = con.prepareStatement("SELECT pseudo, espece, bons, role FROM utilisateur WHERE user_id= ?;");
-		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?) AND etat='A';");
-		getNbOrdresInfo2 = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id IN(?,?) AND etat='V';");
+		getNbOrdresInfo = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id= ? AND etat='A';");
+		getNbOrdresInfo2 = con.prepareStatement("SELECT SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre WHERE user_id = ? AND id= ? AND etat='V';");
 		getMarchesEnCours = con.prepareStatement("SELECT DISTINCT information.id,information.question FROM information INNER JOIN ordre ON information.id = ordre.id WHERE bonsrestants > 0 AND user_id = ? AND information.etat='N';");
 		setAjouterBon = con.prepareStatement("UPDATE utilisateur SET bons = bons + ? WHERE pseudo = ?;");
 		setEnleverBon = con.prepareStatement("UPDATE utilisateur SET bons = bons - ? WHERE pseudo = ?;");
@@ -88,8 +88,8 @@ public class UserDataBean{
 		getNbOrdresInfo2.setInt(1, monUser.getId());
 		getNbOrdresInfo.setInt(2, idInformation);
 		getNbOrdresInfo2.setInt(2, idInformation);
-		getNbOrdresInfo.setInt(3, idInfoInverse);
-		getNbOrdresInfo2.setInt(3, idInfoInverse);
+		//getNbOrdresInfo.setInt(3, idInfoInverse);
+		//getNbOrdresInfo2.setInt(3, idInfoInverse);
 		ResultSet rs = getNbOrdresInfo.executeQuery(); 
 		rs.next();
 		if(rs.getString("nbOrdresInfo") == null)
