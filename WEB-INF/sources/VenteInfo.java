@@ -107,7 +107,7 @@ public class VenteInfo extends HttpServlet
 				//GERER LE FAIT QUE MEME S'IL Y A PAS ASSEZ DE BONS POUR ACHETER ENTRE DIFFERENTS ORDRE, CREER UN ORDRE AVEC LE NOMBRE DE BONS
 				//NECESSAIRE QUI RESTE A ACHETER
 				
-				if (nbBonsRestants > 0 && nbBonsRestants < nbBonsAVendre && compteurOffreDispo != 0 && (monUserVendeur.getEspece() >= (prixDeVente*nbBonsRestants)))
+				if (nbBonsRestants > 0 && nbBonsRestants < nbBonsAVendre && compteurOffreDispo != 0 )
 				{
 					//UTILISER LA SURCHARGE POUR METTRE LE NOMBRE DE BONS ET LE NOMBRE DE BONS RESTANTS A ACHETER
 					infoDB.ajouterOrdre((prixDeVente-100)*(-1),nbBonsAVendre,marcheInverse,userIDVendeur,nbBonsRestants,"V");
@@ -115,7 +115,7 @@ public class VenteInfo extends HttpServlet
 
 
 				}
-				if(compteurOffreDispo == 0 && (monUserVendeur.getEspece() >= (prixDeVente*nbBonsRestants)))
+				if(compteurOffreDispo == 0)
 				{
 					infoDB.ajouterOrdre((prixDeVente-100)*(-1),nbBonsAVendre,marcheInverse,userIDVendeur,"V");
 					//Gestion de la redirection vers la page d'origine			

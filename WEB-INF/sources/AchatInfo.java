@@ -61,7 +61,7 @@ public class AchatInfo extends HttpServlet
 				// SELECTION DES ORDRES QUI ONT UN PRIX INFERIEUR A CELUI OFFERT PAR L'UTILISATEUR
 				Statement chercherPrix = con.createStatement();
 				//ResultSet rs = chercherPrix.executeQuery("SELECT * FROM ordre WHERE (100-prix) >= "+prix+" AND id = "+marcheInverse+";"); 
-				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.bonsRestants, ordre.id_ordre,ordre.prix, 100 - ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" AND bonsRestants > 0 and ordre.user_id <> "+userID+" ORDER BY ordre.prix ASC"); 
+				ResultSet rs = chercherPrix.executeQuery("SELECT ordre.bonsRestants, ordre.id_ordre,ordre.prix, 100 - ordre.prix as prixInverse, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo, ordre.etat FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = "+marcheInverse+" AND 100 - prix <= "+prix+" AND bonsRestants > 0 and ordre.user_id <> "+userID+" ORDER BY ordre.prix DESC"); 
 				
 				UserDataBean userDataBeanAcheteur = new UserDataBean();
 				InformationDataBean infoDB = new InformationDataBean();
@@ -74,10 +74,20 @@ public class AchatInfo extends HttpServlet
 					//vérifier le nombre de bons proposés par l'ordre en vente et le nombre de bons souhaités par l'acheteur
 					if((rs.getInt("bonsRestants") >= nbBonsRestants) && (monUserAcheteur.getEspece() >= (rs.getInt("prix")*nbBonsRestants))){
 						userDataBeanAcheteur.ajouterBons(nbBonsRestants);
-						userDataBeanVendeur.ajouterBons(nbBonsRestants);
-						userDataBeanAcheteur.enleverEspece(prix*nbBonsRestants);
+												
+						if(!rs.getString("etat").equals("V"))
+						{
+							userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*nbBonsRestants);
+							userDataBeanVendeur.ajouterBons(nbBonsRestants);
+
+						}
+						else
+						{
+							userDataBeanVendeur.ajouterEspece(Integer.parseInt(rs.getString("prixInverse"))*nbBonsRestants);
+							userDataBeanVendeur.enleverBons(nbBonsRestants);
+						}
+						userDataBeanAcheteur.enleverEspece(Integer.parseInt(rs.getString("prixInverse"))*nbBonsRestants);
 						//userDataBeanVendeur.ajouterEspece(prix*nbBons);
-						userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*nbBonsRestants);
 						
 						//Modifier le nombre de bons restants de l'ordre
 						infoDB.modifOrdre(nbBonsRestants, Integer.parseInt(rs.getString("id_ordre")));
@@ -90,9 +100,18 @@ public class AchatInfo extends HttpServlet
 					else if( (rs.getInt("bonsRestants")<nbBonsRestants) && (monUserAcheteur.getEspece() >= (rs.getInt("prix")*nbBonsRestants)))
 						{
 							userDataBeanAcheteur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
-							userDataBeanVendeur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
-							userDataBeanAcheteur.enleverEspece(prix*Integer.parseInt(rs.getString("bonsRestants")));
-							userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*Integer.parseInt(rs.getString("bonsRestants")));
+							if(!rs.getString("etat").equals("V"))
+							{
+								userDataBeanVendeur.ajouterBons(Integer.parseInt(rs.getString("bonsRestants")));
+								userDataBeanVendeur.enleverEspece(Integer.parseInt(rs.getString("prix"))*Integer.parseInt(rs.getString("bonsRestants")));
+
+							}
+							else
+							{
+								userDataBeanVendeur.ajouterEspece(Integer.parseInt(rs.getString("prixInverse"))*Integer.parseInt(rs.getString("bonsRestants")));
+								userDataBeanVendeur.enleverBons(Integer.parseInt(rs.getString("bonsRestants")));
+							}
+							userDataBeanAcheteur.enleverEspece(Integer.parseInt(rs.getString("prixInverse"))*Integer.parseInt(rs.getString("bonsRestants")));
 							infoDB.modifOrdre(Integer.parseInt(rs.getString("bonsRestants")), Integer.parseInt(rs.getString("id_ordre")));
 							nbBonsRestants -= Integer.parseInt(rs.getString("bonsRestants"));
 
