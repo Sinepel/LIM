@@ -24,6 +24,7 @@ public class InformationDataBean{
 	private PreparedStatement getOrdresInverseSql;
 	private PreparedStatement ajoutOrdreSql;
 	private PreparedStatement modifOrdreSql;
+	private PreparedStatement modifOrdreSqlVente;
 	private PreparedStatement getNbOrdres;
 	private PreparedStatement defEtatInfo;
 	private PreparedStatement recupIdUsers;
@@ -49,6 +50,7 @@ public class InformationDataBean{
 		getOrdresInverseSql = con.prepareStatement("SELECT ordre.id_ordre, 100 - ordre.prix as prix, ordre.nbbons, ordre.date_achat, ordre.id, ordre.user_id, utilisateur.pseudo, ordre.bonsRestants FROM ordre, utilisateur where ordre.user_id = utilisateur.user_id AND id = ? AND bonsRestants > 0 ORDER BY ordre.prix ASC;");
 		ajoutOrdreSql = con.prepareStatement("INSERT into ordre(prix,nbbons,date_achat,id,user_id,bonsRestants,etat) values(?,?,now(),?,?,?,?)");
 		modifOrdreSql = con.prepareStatement("UPDATE ordre set bonsRestants = bonsRestants - ? where id_ordre = ?");
+		modifOrdreSqlVente = con.prepareStatement("UPDATE ordre set bonsRestants = bonsRestants - ? ,id = ? where id_ordre = ?");
 		getNbOrdres = con.prepareStatement("SELECT count(*) AS nbOrdre FROM ordre where id = ?");
 		defEtatInfo = con.prepareStatement("UPDATE information SET etat = ? WHERE id = ?");
 		recupIdUsers = con.prepareStatement("SELECT ordre.user_id,utilisateur.mail,SUM(nbbons - bonsrestants) AS nbOrdresInfo FROM ordre LEFT JOIN utilisateur ON ordre.user_id = utilisateur.user_id where id = ? GROUP BY ordre.user_id, utilisateur.mail ORDER BY nbOrdresInfo DESC;");
@@ -177,6 +179,13 @@ public class InformationDataBean{
 		modifOrdreSql.setInt(1, bonsARetirer);
 		modifOrdreSql.setInt(2, ordre_id);
 		modifOrdreSql.executeUpdate();
+	}
+	public void modifOrdreVente(int marcheInverse, int bonsARetirer, int ordre_id) throws Exception, SQLException
+	{
+		modifOrdreSqlVente.setInt(1, bonsARetirer);
+		modifOrdreSqlVente.setInt(3, ordre_id);
+		modifOrdreSqlVente.setInt(2, marcheInverse);
+		modifOrdreSqlVente.executeUpdate();
 	}
 	
 	public int getNombreOrdres(int idInformation) throws Exception, SQLException

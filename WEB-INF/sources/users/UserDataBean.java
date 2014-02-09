@@ -87,7 +87,7 @@ public class UserDataBean{
 		getNbOrdresInfo.setInt(1, monUser.getId());
 		getNbOrdresInfo2.setInt(1, monUser.getId());
 		getNbOrdresInfo.setInt(2, idInformation);
-		getNbOrdresInfo2.setInt(2, idInformation);
+		getNbOrdresInfo2.setInt(2, idInfoInverse);
 		//getNbOrdresInfo.setInt(3, idInfoInverse);
 		//getNbOrdresInfo2.setInt(3, idInfoInverse);
 		ResultSet rs = getNbOrdresInfo.executeQuery(); 
